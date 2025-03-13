@@ -1,0 +1,48 @@
+.wrapper {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translate(-50%);
+  background-repeat: no-repeat;
+  background-position: top;
+  background-size: cover;
+  z-index: -1;
+}
+
+.wrapper::before {
+  content: "";
+  display: block;
+  position: absolute;
+  z-index: 0;
+  pointer-events: none;
+  top: 0;
+  left: 50%;
+  transform: translate(-50%);
+  width: 101%;
+  height: 101%;
+
+  background-repeat: no-repeat;
+  background-image:
+    linear-gradient(
+      to right,
+      #131314 5%,
+      #131314de 10%,
+      #13131483 20%,
+      #13131400 40%,
+      #13131400 60%,
+      #13131483 80%,
+      #131314de 90%,
+      #131314 95%
+    ),
+    linear-gradient(
+      to top,
+      #131314 5%,
+      #131314ea 10%,
+      #13131479 20%,
+      #13131400 40%,
+      #13131400 60%,
+      #13131483 80%,
+      #131314c0 90%,
+      #131314 100%
+    );
+}
