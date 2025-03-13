@@ -17,8 +17,8 @@ function PersonInfo() {
   const [credits, setCredits] = useState();
   const width = useWindowWidth();
 
-  console.log(person);
-  console.log(credits);
+  // console.log(person);
+  // console.log(credits);
 
   useEffect(() => {
     async function fetchData() {
