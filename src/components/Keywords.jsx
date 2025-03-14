@@ -3,20 +3,20 @@ import api from "../axios/axiosInstance";
 import Title from "../ui/Title";
 import _ from "lodash";
 
-function Keywords({ movieID }) {
+function Keywords({ movieID, type = "movie" }) {
   const [keywords, setKeywords] = useState();
-
   useEffect(() => {
     async function fetchData() {
+      if (!movieID) return;
       try {
-        const res2 = await api.get(`/movie/${Number(movieID)}/keywords`);
+        const res2 = await api.get(`/${type}/${Number(movieID)}/keywords`);
         setKeywords(res2.data.keywords);
       } catch (error) {
         console.error(error);
       }
     }
     fetchData();
-  }, [movieID]);
+  }, [movieID, type]);
 
   return (
     <div className="flex flex-col gap-2">

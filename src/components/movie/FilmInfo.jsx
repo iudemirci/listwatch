@@ -7,7 +7,7 @@ import Poster from "../Poster";
 import Rating from "../Rating";
 import TitleOverview from "../TitleOverview";
 import CastOverview from "../CastOverview";
-import Highlight from "../Highlight";
+import Highlight from "./MovieHighlight";
 import Videos from "../Videos";
 import ImageGrid from "../ImageGrid";
 import useWindowWidth from "../../hooks/useWindowWidth";

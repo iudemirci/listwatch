@@ -6,16 +6,18 @@ import Poster from "../Poster";
 import PersonImageGrid from "./PersonImageGrid";
 import Imdb from "../../ui/Imdb";
 import Paragraph from "../../ui/Paragraph";
-import Flex from "../../ui/Flex";
-import { mdiStar } from "@mdi/js";
-import Icon from "@mdi/react";
+
 import useWindowWidth from "../../hooks/useWindowWidth";
+import ListItem from "../ListItem";
+import Button from "../../ui/Button";
+import Flex from "../../ui/Flex";
 
 function PersonInfo() {
   const { id } = useParams("id");
   const [person, setPerson] = useState();
   const [credits, setCredits] = useState();
   const width = useWindowWidth();
+  const isNative = width <= 1024;
 
   // console.log(person);
   console.log(credits);
@@ -59,7 +61,7 @@ function PersonInfo() {
             </div>
           </div>
 
-          {width >= 1024 && person?.biography ? (
+          {!isNative && person?.biography ? (
             <section className="col-span-full flex flex-col gap-2">
               <Title level={3}>Biography</Title>
               <Paragraph type={"secondary"}>{person?.biography}</Paragraph>
@@ -70,10 +72,12 @@ function PersonInfo() {
         </div>
       </section>
 
-      {width <= 1024 && person?.biography ? (
+      {isNative && person?.biography ? (
         <section className="col-span-full flex flex-col gap-2">
           <Title level={3}>Biography</Title>
-          <Paragraph type={"secondary"}>{person?.biography}</Paragraph>
+          <Paragraph type={"secondary"} className={isNative && "line-clamp-10"}>
+            {person?.biography}
+          </Paragraph>
         </section>
       ) : null}
 
@@ -82,46 +86,14 @@ function PersonInfo() {
       </section>
 
       <section className="col-span-full flex flex-col gap-2">
-        <Title level={3}>Credits</Title>
+        <Flex>
+          <Button type="primary">Actor</Button>
+          <Button type="secondary">Director</Button>
+          <Button type="secondary">Producer</Button>
+        </Flex>
         <ul className="divide-grey-primary flex flex-col divide-y-2">
           {credits?.slice(0, 20)?.map((credit, i) => (
-            <li
-              key={i}
-              className="bg-grey-tertiary hover:bg-grey-secondary grid grid-cols-4 gap-x-4 rounded-2xl p-2 duration-300 sm:grid-cols-5 lg:grid-cols-7 2xl:grid-cols-10"
-            >
-              <div className="bg-grey-primary aspect-auto">
-                <Poster path={credit?.poster_path} />
-              </div>
-              <div className="col-span-3 flex flex-col gap-1 sm:col-span-4 lg:col-span-6 2xl:col-span-9">
-                <div>
-                  <Flex>
-                    <Title level={4}>{credit?.title || credit?.name}</Title>
-                    {credit?.vote_average ? (
-                      <Flex className={"items-center gap-0"}>
-                        <Icon
-                          path={mdiStar}
-                          size={0.7}
-                          className="text-primary"
-                        />
-                        <Title level={5}>
-                          {credit?.vote_average.toFixed(1)}
-                        </Title>
-                      </Flex>
-                    ) : null}
-                  </Flex>
-
-                  <Flex className={"hidden sm:flex"}>
-                    <Paragraph type={"primary"}>{credit?.character}</Paragraph>
-                    <Paragraph type={"secondary"}>
-                      {credit?.release_date || credit?.first_air_date}
-                    </Paragraph>
-                  </Flex>
-                </div>
-                <Paragraph type={"secondary"} className={"line-clamp-4"}>
-                  {credit?.overview}
-                </Paragraph>
-              </div>
-            </li>
+            <ListItem key={i} item={credit} />
           ))}
         </ul>
       </section>

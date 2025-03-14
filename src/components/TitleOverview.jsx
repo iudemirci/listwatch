@@ -6,7 +6,7 @@ function TitleOverview({ movie }) {
   return (
     <div className={"flex flex-col gap-4"}>
       <Title level={2} className={"text-zinc-500"}>
-        {movie?.title}
+        {movie?.title || movie?.name}
       </Title>
 
       <div className="flex flex-col gap-3">
