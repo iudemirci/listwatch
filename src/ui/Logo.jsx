@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import Title from "./Title";
+import Title from "../ui/Title";
 import Icon from "@mdi/react";
 import { mdiMovieOpen } from "@mdi/js";
 

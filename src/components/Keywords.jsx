@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import api from "../axios/axiosInstance";
-import Title from "./Title";
+import Title from "../ui/Title";
 import _ from "lodash";
 
-function MovieKeywords({ movieID }) {
+function Keywords({ movieID }) {
   const [keywords, setKeywords] = useState();
 
   useEffect(() => {
@@ -36,4 +36,4 @@ function MovieKeywords({ movieID }) {
   );
 }
 
-export default MovieKeywords;
+export default Keywords;

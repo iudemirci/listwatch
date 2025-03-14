@@ -1,4 +1,4 @@
-import FilmInfo from "../components/FilmInfo";
+import FilmInfo from "../components/movie/FilmInfo";
 
 function FilmDetailsPage() {
   return <FilmInfo />;

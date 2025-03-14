@@ -1,7 +1,7 @@
-import Title from "./Title";
+import Title from "../ui/Title";
 import LiteYouTubeEmbed from "react-lite-youtube-embed";
 
-function MovieVideos({ movie }) {
+function Videos({ movie }) {
   return (
     <div className="flex flex-col gap-2">
       <Title level={3}>Videos</Title>
@@ -15,4 +15,4 @@ function MovieVideos({ movie }) {
   );
 }
 
-export default MovieVideos;
+export default Videos;

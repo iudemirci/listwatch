@@ -1,7 +1,7 @@
 import { useContext } from "react";
 import { MoviesContext } from "../contexts/MoviesContext";
 
-function MovieGenreButton({ id }) {
+function GenreButton({ id }) {
   const { movieGenres } = useContext(MoviesContext);
 
   return (
@@ -11,4 +11,4 @@ function MovieGenreButton({ id }) {
   );
 }
 
-export default MovieGenreButton;
+export default GenreButton;

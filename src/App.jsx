@@ -1,10 +1,7 @@
 import {
-  BrowserRouter,
   createBrowserRouter,
   Navigate,
-  Route,
   RouterProvider,
-  Routes,
 } from "react-router-dom";
 import Homepage from "./pages/Homepage";
 import Account from "./pages/Account";
@@ -12,10 +9,10 @@ import Films from "./pages/Films";
 import Lists from "./pages/Lists";
 import News from "./pages/News";
 import { MoviesProvider } from "./contexts/MoviesContext.jsx";
-import NoMatch from "./pages/NoMatch.jsx";
 import FilmDetailsPage from "./pages/FilmDetailsPage.jsx";
 import AppLayout from "./pages/AppLayout.jsx";
 import PersonDetailsPage from "./pages/PersonDetailsPage.jsx";
+import TvDetailsPage from "./pages/TvDetailsPage.jsx";
 
 const router = createBrowserRouter([
   {
@@ -44,6 +41,10 @@ const router = createBrowserRouter([
       {
         path: "person/:id",
         element: <PersonDetailsPage />,
+      },
+      {
+        path: "tv/:id",
+        element: <TvDetailsPage />,
       },
       {
         path: "lists",

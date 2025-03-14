@@ -1,6 +1,6 @@
-import MovieGenreButton from "./MovieGenreButton";
+import MovieGenreButton from "../components/GenreButton";
 
-function MovieGenreList({ genresArr }) {
+function GenreList({ genresArr }) {
   return (
     <ul className="flex flex-wrap gap-1 lg:gap-1.5">
       {genresArr?.map((genre) => (
@@ -12,4 +12,4 @@ function MovieGenreList({ genresArr }) {
   );
 }
 
-export default MovieGenreList;
+export default GenreList;

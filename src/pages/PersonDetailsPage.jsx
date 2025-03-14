@@ -1,4 +1,4 @@
-import PersonInfo from "../components/PersonInfo";
+import PersonInfo from "../components/person/PersonInfo";
 
 function PersonDetailsPage() {
   return <PersonInfo />;

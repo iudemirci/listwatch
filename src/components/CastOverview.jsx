@@ -1,7 +1,7 @@
-import Paragraph from "./Paragraph";
-import Title from "./Title";
+import Paragraph from "../ui/Paragraph";
+import Title from "../ui/Title";
 
-function MovieCastOverview() {
+function CastOverview() {
   const writers = ["J.R.R. Tolkien", "Fran Walsh", "Philippa Boyens"];
   const stars = ["Elijah Wood", "Ian McKellen", "Viggo Mortensen"];
 
@@ -31,4 +31,4 @@ function MovieCastOverview() {
   );
 }
 
-export default MovieCastOverview;
+export default CastOverview;

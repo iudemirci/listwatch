@@ -1,12 +1,12 @@
 import { useContext } from "react";
-import AllFilmsList from "../components/AllFilmsList";
+import TopList from "../components/TopList";
 import { MoviesContext } from "../contexts/MoviesContext";
 
 function Films() {
   const { popularMovies } = useContext(MoviesContext);
   return (
     <>
-      <AllFilmsList movies={popularMovies} />
+      <TopList movies={popularMovies} />
     </>
   );
 }

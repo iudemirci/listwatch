@@ -1,7 +1,7 @@
 import { Image } from "antd";
-import Title from "./Title";
+import Title from "../ui/Title";
 
-function MovieImageGrid() {
+function ImageGrid() {
   return (
     <div className="flex flex-col gap-2">
       <Title level={3}>Photos</Title>
@@ -44,4 +44,4 @@ function MovieImageGrid() {
   );
 }
 
-export default MovieImageGrid;
+export default ImageGrid;

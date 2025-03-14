@@ -1,10 +1,10 @@
 import { useState } from "react";
 import { Popover } from "react-tiny-popover";
-import Paragraph from "./Paragraph";
-import profile from "../assets/profile.png";
-import useWindowWidth from "../hooks/useWindowWidth";
-import Title from "./Title";
-import { cn } from "../hooks/cn";
+import Paragraph from "../../ui/Paragraph";
+import profile from "../../assets/profile.png";
+import useWindowWidth from "../../hooks/useWindowWidth";
+import Title from "../../ui/Title";
+import { cn } from "../../utilities/cn";
 import { Link } from "react-router-dom";
 
 function PeopleList({ people, title, className }) {

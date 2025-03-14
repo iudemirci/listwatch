@@ -1,7 +1,7 @@
-import Button from "./Button";
-import Github from "./Github";
-import PaddingBottom from "./PaddingBottom";
-import Title from "./Title";
+import Button from "../ui/Button";
+import Github from "../ui/Github";
+import PaddingBottom from "../ui/PaddingBottom";
+import Title from "../ui/Title";
 
 export default function GreetingText() {
   return (

@@ -1,5 +1,4 @@
 function Imdb({ id, type }) {
-  console.log(type);
   const link = type === "person" ? "name" : "title";
 
   return (

@@ -1,4 +1,4 @@
-import { cn } from "../hooks/cn";
+import { cn } from "../utilities/cn";
 
 function Flex({ children, className, ...props }) {
   return (

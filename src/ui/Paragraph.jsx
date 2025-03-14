@@ -1,4 +1,4 @@
-import { cn } from "../hooks/cn";
+import { cn } from "../utilities/cn";
 
 function Paragraph({ children, type, className, ...props }) {
   function textStyle(type) {

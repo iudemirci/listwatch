@@ -1,7 +1,7 @@
-import Paragraph from "./Paragraph";
-import Title from "./Title";
+import Paragraph from "../ui/Paragraph";
+import Title from "../ui/Title";
 
-function MovieLanguages({ movieLanguages }) {
+function Languages({ movieLanguages }) {
   return (
     <div className="flex flex-col gap-2">
       <Title level={3}>Spoken Languages</Title>
@@ -16,4 +16,4 @@ function MovieLanguages({ movieLanguages }) {
   );
 }
 
-export default MovieLanguages;
+export default Languages;

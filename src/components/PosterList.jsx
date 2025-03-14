@@ -1,11 +1,11 @@
 import Slider from "react-slick";
-import PaddingBottom from "./PaddingBottom";
-import Paragraph from "./Paragraph";
-import Title from "./Title";
-import MoviePoster from "./MoviePoster";
-import LinkToMovie from "./LinkToMovie";
+import PaddingBottom from "../ui/PaddingBottom";
+import Paragraph from "../ui/Paragraph";
+import Title from "../ui/Title";
+import MoviePoster from "./Poster";
+import LinkToId from "../ui/LinkToId";
 
-function MoviesList({ movies, title, autoPlay = 11000 }) {
+function PosterList({ movies, title, type, autoPlay = 11000 }) {
   var settings = {
     infinite: true,
     speed: 800,
@@ -67,9 +67,9 @@ function MoviesList({ movies, title, autoPlay = 11000 }) {
               key={movie.id}
               className="border-grey-secondary aspect-[2/3] cursor-grab border-1"
             >
-              <LinkToMovie movieID={movie?.id}>
+              <LinkToId movieID={movie?.id} type={type}>
                 <MoviePoster path={movie?.poster_path} />
-              </LinkToMovie>
+              </LinkToId>
             </li>
           ))}
         </Slider>
@@ -78,4 +78,4 @@ function MoviesList({ movies, title, autoPlay = 11000 }) {
   );
 }
 
-export default MoviesList;
+export default PosterList;

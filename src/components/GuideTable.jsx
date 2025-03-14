@@ -1,6 +1,6 @@
-import PaddingBottom from "./PaddingBottom";
-import Paragraph from "./Paragraph";
-import Title from "./Title";
+import PaddingBottom from "../ui/PaddingBottom";
+import Paragraph from "../ui/Paragraph";
+import Title from "../ui/Title";
 
 function GuideTable() {
   const content = [

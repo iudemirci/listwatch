@@ -1,12 +1,12 @@
 import { Outlet } from "react-router-dom";
-import MainContainer from "../components/mainContainer";
-import Header from "../components/Header";
-import Content from "../components/Content";
-import Footer from "../components/Footer";
+import MainContainer from "../ui/MainContainer";
+import Header from "../ui/Header";
+import Content from "../ui/Content";
+import Footer from "../ui/Footer";
 
 function AppLayout() {
   return (
-    <div>
+    <div className="flex h-screen flex-col justify-between">
       <MainContainer>
         <Header />
         <Content>

@@ -1,4 +1,4 @@
-import { cn } from "../hooks/cn";
+import { cn } from "../utilities/cn";
 
 function Title({ level, children, className, ...props }) {
   if (level === 1)

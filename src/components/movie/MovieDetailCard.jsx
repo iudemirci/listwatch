@@ -1,10 +1,10 @@
-import Paragraph from "./Paragraph";
-import PaddingBottom from "./PaddingBottom";
-import Title from "./Title";
-import MovieRating from "./MovieRating";
-import MovieGenreButton from "./MovieGenreButton";
-import MoviePoster from "./MoviePoster";
-import LinkToMovie from "./LinkToMovie";
+import Paragraph from "../../ui/Paragraph";
+import PaddingBottom from "../../ui/PaddingBottom";
+import Title from "../../ui/Title";
+import MovieRating from "../Rating";
+import GenreButton from "../GenreButton";
+import MoviePoster from "../Poster";
+import LinkToMovie from "../../ui/LinkToId";
 
 function MovieDetailCard({ movies }) {
   return (
@@ -30,7 +30,7 @@ function MovieDetailCard({ movies }) {
 
               <div className="flex gap-1 lg:gap-1.5">
                 {movie?.genre_ids.map((id) => (
-                  <MovieGenreButton key={id} id={id} />
+                  <GenreButton key={id} id={id} />
                 ))}
               </div>
 

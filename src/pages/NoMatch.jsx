@@ -1,7 +1,7 @@
-import Content from "../components/Content";
-import Footer from "../components/Footer";
-import Header from "../components/Header";
-import MainContainer from "../components/mainContainer";
+import Content from "../ui/Content";
+import Footer from "../ui/Footer";
+import Header from "../ui/Header";
+import MainContainer from "../ui/MainContainer";
 import NoMatchContent from "../components/NoMatchContent";
 
 function NoMatch() {

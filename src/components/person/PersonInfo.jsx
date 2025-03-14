@@ -1,15 +1,15 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import api from "../axios/axiosInstance";
-import Title from "./Title";
-import MoviePoster from "./MoviePoster";
+import api from "../../axios/axiosInstance";
+import Title from "../../ui/Title";
+import Poster from "../Poster";
 import PersonImageGrid from "./PersonImageGrid";
-import Imdb from "./Imdb";
-import Paragraph from "./Paragraph";
-import Flex from "./Flex";
+import Imdb from "../../ui/Imdb";
+import Paragraph from "../../ui/Paragraph";
+import Flex from "../../ui/Flex";
 import { mdiStar } from "@mdi/js";
 import Icon from "@mdi/react";
-import useWindowWidth from "../hooks/useWindowWidth";
+import useWindowWidth from "../../hooks/useWindowWidth";
 
 function PersonInfo() {
   const { id } = useParams("id");
@@ -18,7 +18,7 @@ function PersonInfo() {
   const width = useWindowWidth();
 
   // console.log(person);
-  // console.log(credits);
+  console.log(credits);
 
   useEffect(() => {
     async function fetchData() {
@@ -40,7 +40,7 @@ function PersonInfo() {
   return (
     <div className="grid grid-cols-3 items-start gap-x-3 gap-y-6 pt-4 sm:grid-cols-4 md:grid-cols-3 md:gap-x-4 md:pt-8 lg:gap-x-6 lg:gap-y-8 2xl:grid-cols-4">
       <div>
-        <MoviePoster path={person?.profile_path} preview={true} />
+        <Poster path={person?.profile_path} preview={true} />
       </div>
 
       <section className="col-span-2 2xl:col-span-3">
@@ -58,12 +58,14 @@ function PersonInfo() {
               )}
             </div>
           </div>
+
           {width >= 1024 && person?.biography ? (
             <section className="col-span-full flex flex-col gap-2">
               <Title level={3}>Biography</Title>
               <Paragraph type={"secondary"}>{person?.biography}</Paragraph>
             </section>
           ) : null}
+
           <Imdb id={person?.imdb_id} type={"person"} />
         </div>
       </section>
@@ -75,13 +77,20 @@ function PersonInfo() {
         </section>
       ) : null}
 
+      <section className="col-span-full">
+        <PersonImageGrid />
+      </section>
+
       <section className="col-span-full flex flex-col gap-2">
         <Title level={3}>Credits</Title>
         <ul className="divide-grey-primary flex flex-col divide-y-2">
-          {credits?.slice(0, 20)?.map((credit) => (
-            <li className="bg-grey-tertiary hover:bg-grey-secondary grid grid-cols-4 gap-x-4 rounded-2xl p-2 duration-300 sm:grid-cols-5 lg:grid-cols-7 2xl:grid-cols-10">
+          {credits?.slice(0, 20)?.map((credit, i) => (
+            <li
+              key={i}
+              className="bg-grey-tertiary hover:bg-grey-secondary grid grid-cols-4 gap-x-4 rounded-2xl p-2 duration-300 sm:grid-cols-5 lg:grid-cols-7 2xl:grid-cols-10"
+            >
               <div className="bg-grey-primary aspect-auto">
-                <MoviePoster path={credit?.poster_path} />
+                <Poster path={credit?.poster_path} />
               </div>
               <div className="col-span-3 flex flex-col gap-1 sm:col-span-4 lg:col-span-6 2xl:col-span-9">
                 <div>
@@ -115,10 +124,6 @@ function PersonInfo() {
             </li>
           ))}
         </ul>
-      </section>
-
-      <section className="col-span-full">
-        <PersonImageGrid />
       </section>
     </div>
   );

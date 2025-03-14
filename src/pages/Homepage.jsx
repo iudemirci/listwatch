@@ -4,9 +4,9 @@ import { MoviesContext } from "../contexts/MoviesContext";
 import HomePoster from "../components/HomePoster";
 import GreetingText from "../components/GreetingText";
 import GuideTable from "../components/GuideTable";
-import MoviesList from "../components/MoviesList";
-import PeopleList from "../components/PeopleList";
-import MovieDetailCard from "../components/MovieDetailCard";
+import MoviesList from "../components/PosterList";
+import PeopleList from "../components/person/PeopleList";
+import MovieDetailCard from "../components/movie/MovieDetailCard";
 
 function Homepage() {
   const { popularMovies, popularPeople, popularSeries, inTheaters } =
@@ -24,6 +24,7 @@ function Homepage() {
         className={"pb-8"}
       />
       <MoviesList
+        type="tv"
         movies={popularSeries}
         title={"Trending Series"}
         autoPlay={9000}

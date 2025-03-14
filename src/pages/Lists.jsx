@@ -1,6 +1,6 @@
-import Footer from "../components/Footer";
-import Header from "../components/Header";
-import MainContainer from "../components/mainContainer";
+import Footer from "../ui/Footer";
+import Header from "../ui/Header";
+import MainContainer from "../ui/MainContainer";
 
 function Lists() {
   return (

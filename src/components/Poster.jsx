@@ -1,7 +1,7 @@
 import { Image } from "antd";
-import { cn } from "../hooks/cn";
+import { cn } from "../utilities/cn";
 
-export default function MoviePoster({ path, preview = false, className }) {
+export default function Poster({ path, preview = false, className }) {
   if (preview)
     return (
       <Image

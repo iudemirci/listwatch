@@ -1,6 +1,5 @@
-import { createContext, useEffect, useState } from "react";
+import { createContext } from "react";
 import useFetch from "../hooks/useFetch";
-import api from "../axios/axiosInstance";
 import useFetchGenres from "../hooks/useFetchGenres";
 
 const MoviesContext = createContext();

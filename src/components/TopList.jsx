@@ -2,14 +2,14 @@ import { useContext, useEffect, useState } from "react";
 import { MoviesContext } from "../contexts/MoviesContext";
 import api from "../axios/axiosInstance";
 
-import Button from "./Button";
-import PaddingBottom from "./PaddingBottom";
-import Title from "./Title";
-import Paragraph from "./Paragraph";
-import MoviePoster from "./MoviePoster";
-import LinkToMovie from "./LinkToMovie";
+import Button from "../ui/Button";
+import PaddingBottom from "../ui/PaddingBottom";
+import Title from "../ui/Title";
+import Paragraph from "../ui/Paragraph";
+import Poster from "./Poster";
+import LinkToId from "../ui/LinkToId";
 
-function AllFilmsList() {
+function TopList() {
   const [offset, setOffset] = useState(1);
   const [movies, setMovies] = useState([]);
   const { movieGenres } = useContext(MoviesContext);
@@ -49,12 +49,15 @@ function AllFilmsList() {
         </select>
       </div>
       <div className="flex flex-col items-center gap-4">
-        <ul className="grid grid-cols-4 gap-1.5 lg:grid-cols-5">
+        <ul className="grid w-[100%] grid-cols-4 gap-1.5 lg:grid-cols-5">
           {movies.map((movie) => (
-            <li key={movie.id} className="rounded-xs border-2 border-zinc-800">
-              <LinkToMovie movieID={movie?.id}>
-                <MoviePoster path={movie?.poster_path} />
-              </LinkToMovie>
+            <li
+              key={movie.id}
+              className="aspect-[2/3] rounded-xs border-2 border-zinc-800"
+            >
+              <LinkToId movieID={movie?.id}>
+                <Poster path={movie?.poster_path} />
+              </LinkToId>
             </li>
           ))}
         </ul>
@@ -77,4 +80,4 @@ function AllFilmsList() {
   );
 }
 
-export default AllFilmsList;
+export default TopList;

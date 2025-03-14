@@ -1,8 +1,8 @@
 import { mdiStar } from "@mdi/js";
 import Icon from "@mdi/react";
-import Title from "./Title";
+import Title from "../ui/Title";
 
-function MovieRating({ rating }) {
+function Rating({ rating }) {
   return (
     <div className="flex items-center">
       <Icon path={mdiStar} size={0.7} className="text-primary" />
@@ -14,4 +14,4 @@ function MovieRating({ rating }) {
   );
 }
 
-export default MovieRating;
+export default Rating;

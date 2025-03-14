@@ -1,5 +1,5 @@
 import { Image } from "antd";
-import Title from "./Title";
+import Title from "../../ui/Title";
 
 function PersonImageGrid() {
   return (
