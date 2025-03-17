@@ -2,7 +2,6 @@ import Imdb from "../../ui/Imdb";
 import Paragraph from "../../ui/Paragraph";
 
 function MovieHighlight({ movie }) {
-  console.log(movie);
   return (
     // <div className="flex flex-col gap-1 md:flex-row md:flex-wrap md:gap-1.5 lg:gap-y-0">
     <div className="flex flex-col justify-between md:flex-wrap md:gap-1.5 lg:gap-y-0">

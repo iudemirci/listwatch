@@ -51,10 +51,7 @@ function TopList() {
       <div className="flex flex-col items-center gap-4">
         <ul className="grid w-[100%] grid-cols-4 gap-1.5 lg:grid-cols-5">
           {movies.map((movie) => (
-            <li
-              key={movie.id}
-              className="aspect-[2/3] rounded-xs border-2 border-zinc-800"
-            >
+            <li key={movie.id} className="aspect-[2/3] rounded-xs">
               <LinkToId movieID={movie?.id}>
                 <Poster path={movie?.poster_path} />
               </LinkToId>

@@ -12,6 +12,7 @@
   "dependencies": {
     "@mdi/js": "^7.4.47",
     "@mdi/react": "^1.6.1",
+    "@reduxjs/toolkit": "^2.6.1",
     "@tailwindcss/vite": "^4.0.12",
     "@vidstack/react": "^1.12.13",
     "antd": "^5.24.3",
@@ -21,8 +22,10 @@
     "media-icons": "^1.1.5",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
+    "react-hook-form": "^7.54.2",
     "react-lite-youtube-embed": "^2.4.0",
     "react-modern-drawer": "^1.4.0",
+    "react-redux": "^9.2.0",
     "react-router-dom": "^7.2.0",
     "react-slick": "^0.30.3",
     "react-tiny-popover": "^8.1.6",

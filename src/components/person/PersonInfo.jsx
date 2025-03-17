@@ -81,10 +81,6 @@ function PersonInfo() {
         </section>
       ) : null}
 
-      <section className="col-span-full">
-        <PersonImageGrid />
-      </section>
-
       <section className="col-span-full flex flex-col gap-2">
         <Flex>
           <Button type="primary">Actor</Button>
@@ -96,6 +92,10 @@ function PersonInfo() {
             <ListItem key={i} item={credit} />
           ))}
         </ul>
+      </section>
+
+      <section className="col-span-full">
+        <PersonImageGrid />
       </section>
     </div>
   );

@@ -8,7 +8,7 @@ import Paragraph from "../ui/Paragraph";
 function ListItem({ item, isTv = false }) {
   return (
     <li className="bg-grey-tertiary hover:bg-grey-secondary border-grey-primary grid grid-cols-4 gap-x-4 rounded-2xl border-b-2 p-2 duration-300 sm:grid-cols-5 lg:grid-cols-7 2xl:grid-cols-10">
-      <div className="bg-grey-primary aspect-auto">
+      <div className="aspect-auto">
         <Poster path={item?.poster_path} />
       </div>
       <div className="col-span-3 flex flex-col gap-1 sm:col-span-4 lg:col-span-6 2xl:col-span-9">

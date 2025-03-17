@@ -50,16 +50,24 @@ function PageNavList() {
           <nav>
             <ul className="flex flex-col items-center gap-2 text-[16px] font-extrabold uppercase lg:text-[9px] 2xl:gap-4 2xl:text-xs">
               <li>
-                <NavLink to="/account">Account</NavLink>
+                <NavLink to="/account" onClick={toggleDrawer}>
+                  Account
+                </NavLink>
               </li>
               <li>
-                <NavLink to="/films">Films</NavLink>
+                <NavLink to="/films" onClick={toggleDrawer}>
+                  Films
+                </NavLink>
               </li>
               <li>
-                <NavLink to="/lists">Lists</NavLink>
+                <NavLink to="/lists" onClick={toggleDrawer}>
+                  Lists
+                </NavLink>
               </li>
               <li>
-                <NavLink to="/news">News</NavLink>
+                <NavLink to="/news" onClick={toggleDrawer}>
+                  News
+                </NavLink>
               </li>
             </ul>
           </nav>

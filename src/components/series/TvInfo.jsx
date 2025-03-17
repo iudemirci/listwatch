@@ -40,7 +40,11 @@ function TvInfo() {
 
   return (
     <div className="grid grid-cols-3 items-start gap-x-3 gap-y-6 pt-4 sm:grid-cols-4 md:grid-cols-3 md:gap-x-4 md:pt-8 lg:gap-x-6 lg:gap-y-8 2xl:grid-cols-4">
-      <Poster path={series?.poster_path} preview="true" />
+      <div className="flex flex-col items-center gap-2">
+        <Poster path={series?.poster_path} preview="true" />
+        <Button type="primary">Add to list</Button>
+      </div>
+
       <section className="col-span-2 flex flex-col gap-4 sm:col-span-3 md:col-span-2 2xl:col-span-3">
         <TitleOverview movie={series} />
         {width >= 1024 && <CastOverview />}

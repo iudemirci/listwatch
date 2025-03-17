@@ -63,10 +63,7 @@ function PosterList({ movies, title, type, autoPlay = 11000 }) {
       <ul className="pt-2 2xl:pt-4">
         <Slider {...settings}>
           {movies.map((movie) => (
-            <li
-              key={movie.id}
-              className="border-grey-secondary aspect-[2/3] cursor-grab border-1"
-            >
+            <li key={movie.id} className="aspect-[2/3] cursor-grab">
               <LinkToId movieID={movie?.id} type={type}>
                 <MoviePoster path={movie?.poster_path} />
               </LinkToId>
