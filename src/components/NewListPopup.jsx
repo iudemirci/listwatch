@@ -5,7 +5,7 @@ import { useForm } from "react-hook-form";
 import Title from "../ui/Title";
 import { useDispatch, useSelector } from "react-redux";
 import { createList, getLists } from "./user/userSlice";
-import PopupBlur from "../pages/PopupBlur";
+import PopupBlur from "../ui/PopupBlur";
 import { useState } from "react";
 
 function NewListPopup({ handlePopup }) {

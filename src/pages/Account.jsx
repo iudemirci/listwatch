@@ -5,14 +5,14 @@ import { useSelector } from "react-redux";
 
 function Account() {
   const lists = useSelector(getLists);
-  const [name] = useSelector(getUsername);
+  const username = useSelector(getUsername);
 
   return (
-    <div className="flex flex-col items-start gap-8 py-4">
-      <Title level={2}>Hello, {name}</Title>
+    <div className="flex flex-col gap-8 py-4">
+      <Title level={2}>Hello, {username}</Title>
       <section className="flex flex-col gap-4">
         {lists.map((list) => (
-          <AccountList list={list} />
+          <AccountList key={list.list_id} list={list} />
         ))}
       </section>
     </div>

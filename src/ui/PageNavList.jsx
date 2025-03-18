@@ -20,6 +20,9 @@ function PageNavList() {
     <nav>
       <ul className="flex gap-2 text-xs font-extrabold uppercase 2xl:gap-4">
         <li>
+          <NavLink to="/login">Login</NavLink>
+        </li>
+        <li>
           <NavLink to="/account">Account</NavLink>
         </li>
         <li>
@@ -49,6 +52,9 @@ function PageNavList() {
           <Icon path={mdiBackburger} size={1.4} onClick={toggleDrawer} />
           <nav>
             <ul className="flex flex-col items-center gap-2 text-[16px] font-extrabold uppercase lg:text-[9px] 2xl:gap-4 2xl:text-xs">
+              <li>
+                <NavLink to="/login">Login</NavLink>
+              </li>
               <li>
                 <NavLink to="/account" onClick={toggleDrawer}>
                   Account

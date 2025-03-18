@@ -24,8 +24,6 @@ function MovieDetailCard({ movies }) {
                 <LinkToMovie movieID={movie?.id}>
                   <Title level={4}>{movie?.title}</Title>
                 </LinkToMovie>
-
-                <MovieRating rating={movie?.vote_average} />
               </div>
 
               <div className="flex gap-1 lg:gap-1.5">

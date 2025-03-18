@@ -38,7 +38,7 @@ function PosterList({ movies, title, type, autoPlay = 11000 }) {
   function NextArrow({ onClick }) {
     return (
       <button
-        className="bg-primary absolute top-[50%] right-0 block translate-x-[50%] translate-y-[-50%] cursor-pointer rounded-md px-0.5 py-1.5 text-[12px] 2xl:px-1.5 2xl:py-3"
+        className="bg-primary absolute top-[50%] right-0 block translate-x-[50%] translate-y-[-50%] cursor-pointer rounded-md px-1.5 py-2.5 text-[12px] 2xl:px-1.5 2xl:py-3"
         onClick={onClick}
       >
         <Paragraph>&rarr;</Paragraph>
@@ -49,7 +49,7 @@ function PosterList({ movies, title, type, autoPlay = 11000 }) {
   function PrevArrow({ onClick }) {
     return (
       <button
-        className="bg-primary absolute top-[50%] left-0 z-1 block translate-x-[-50%] translate-y-[-50%] cursor-pointer rounded-md px-0.5 py-1.5 text-[12px] 2xl:px-1.5 2xl:py-3"
+        className="bg-primary absolute top-[50%] left-0 z-1 block translate-x-[-50%] translate-y-[-50%] cursor-pointer rounded-md px-1.5 py-2.5 text-sm"
         onClick={onClick}
       >
         <Paragraph>&larr;</Paragraph>

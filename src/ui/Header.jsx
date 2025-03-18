@@ -9,7 +9,7 @@ function Header() {
   return (
     <header className="flex items-center justify-between py-2">
       <Logo />
-      <div className="flex items-center gap-2 2xl:gap-4">
+      <div className="flex items-center gap-2 transition 2xl:gap-4">
         {width <= 640 && <Search />}
         <PageNavList />
         {width > 640 && <Search />}

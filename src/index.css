@@ -12,6 +12,16 @@
   --font-exo: "Exo 2";
 }
 
+@layer base {
+  select:focus,
+  input:focus,
+  button:focus {
+    outline: none;
+    outline: 2px solid;
+    outline-color: var(--color-primary);
+  }
+}
+
 :root {
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;

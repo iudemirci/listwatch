@@ -3,7 +3,7 @@ import Icon from "@mdi/react";
 import Poster from "../Poster";
 import { Link } from "react-router-dom";
 import { useState } from "react";
-import PopupBlur from "../../pages/PopupBlur";
+import PopupBlur from "../../ui/PopupBlur";
 import StarRating from "../StarRating";
 import Button from "../../ui/Button";
 import { useDispatch } from "react-redux";
@@ -27,7 +27,7 @@ function AccountListItem({ item, edit, setEdit, onListOpen, listName }) {
   return (
     <li className="outline-grey-primary/50 hover:outline-primary relative flex flex-col gap-1 rounded-lg outline-2 duration-50 hover:outline-2">
       <Link to={`/films/${item.id}`}>
-        <Poster key={item.createdAt} path={item.posterPath} />
+        <Poster path={item.posterPath} />
       </Link>
       {!edit && (
         <span className="bg-primary/80 text-grey-secondary absolute top-1 right-1 flex size-5 items-center justify-center rounded-md text-sm font-black">

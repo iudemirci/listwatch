@@ -3,7 +3,7 @@ import Icon from "@mdi/react";
 import Button from "../ui/Button";
 import Title from "../ui/Title";
 import { useDispatch, useSelector } from "react-redux";
-import PopupBlur from "../pages/PopupBlur";
+import PopupBlur from "../ui/PopupBlur";
 import { addToList, getCurrentListIds } from "./user/userSlice";
 import Poster from "./Poster";
 import StarRating from "./StarRating";
@@ -11,7 +11,6 @@ import { useState } from "react";
 
 function AddItemPopup({ handlePopup, item, listName }) {
   const currList = useSelector(getCurrentListIds(listName, item.id));
-  console.log(currList);
   const [rating, setRating] = useState();
   const [error, setError] = useState("");
 

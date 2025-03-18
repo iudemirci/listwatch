@@ -8,12 +8,13 @@ import {
 import { Link } from "react-router-dom";
 import Title from "../../ui/Title";
 import { useState } from "react";
-import PopupBlur from "../../pages/PopupBlur";
+import PopupBlur from "../../ui/PopupBlur";
 import AccountListItem from "./AccountListItem";
 import { ConfigProvider, Pagination } from "antd";
 import { useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
 import { updateListName } from "../user/userSlice";
+import Input from "../../ui/Input";
 
 function AccountList({ list }) {
   const { list_name: listName, items } = list;
@@ -56,9 +57,9 @@ function AccountList({ list }) {
           ))}
           {items.length < 3 && (
             <Link to={"/films"}>
-              <div className="text-grey-primary outline-grey-primary/50 hover:outline-primary flex aspect-2/3 items-center justify-center rounded-lg outline-2">
+              <li className="text-grey-primary outline-grey-primary/50 hover:outline-primary flex aspect-2/3 items-center justify-center rounded-lg outline-2">
                 <Icon path={mdiPlusBoxOutline} size={1.3} />
-              </div>
+              </li>
             </Link>
           )}
         </ul>
@@ -86,11 +87,12 @@ function AccountList({ list }) {
                     <Title level={3}>{listName}</Title>
                   ) : (
                     <form onSubmit={handleSubmit(onSubmit)}>
-                      <input
+                      {/* <input
                         placeholder={listName}
                         className="bg-text-default text-background-default w-50 rounded-lg px-2 py-1 text-sm"
                         {...register("listName")}
-                      />
+                      /> */}
+                      <Input placeholder={listName} {...register("listName")} />
                     </form>
                   )}
                   <div className="flex items-center gap-2">

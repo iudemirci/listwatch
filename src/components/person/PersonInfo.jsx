@@ -19,9 +19,6 @@ function PersonInfo() {
   const width = useWindowWidth();
   const isNative = width <= 1024;
 
-  // console.log(person);
-  console.log(credits);
-
   useEffect(() => {
     async function fetchData() {
       try {

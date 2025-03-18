@@ -124,7 +124,7 @@ export const {
 
 export default userSlice.reducer;
 
-export const getUsername = (state) => [state.user.name, state.user.surname];
+export const getUsername = (state) => state.user.name;
 export const getLists = (state) => state.user.lists;
 export const getCurrentListIds = (list, id) => (state) =>
   state.user.lists
