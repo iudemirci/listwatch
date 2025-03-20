@@ -1,10 +1,7 @@
-import { useContext } from "react";
-import { MoviesContext } from "../contexts/MoviesContext";
 import styles from "./HomePoster.module.css";
 
-function HomePoster() {
-  const { popularMovies } = useContext(MoviesContext);
-  const filteredPaths = popularMovies
+function HomePoster({ movies }) {
+  const filteredPaths = movies
     .map((movie) => movie.backdrop_path)
     .filter((path) => path !== null);
   const randomPath =

@@ -1,29 +1,34 @@
-import { mdiCloseBox } from "@mdi/js";
+import toast from "react-hot-toast";
 import Icon from "@mdi/react";
-import Button from "../ui/Button";
+import { mdiCloseBox } from "@mdi/js";
 import { useForm } from "react-hook-form";
-import Title from "../ui/Title";
-import { useDispatch, useSelector } from "react-redux";
-import { createList, getLists } from "./user/userSlice";
-import PopupBlur from "../ui/PopupBlur";
 import { useState } from "react";
+import { useCreateList } from "../hooks/lists/useCreateList";
+import { useGetLists } from "../hooks/lists/useGetLists";
+
+import Button from "../ui/Button";
+import Title from "../ui/Title";
+import PopupBlur from "../ui/PopupBlur";
 
 function NewListPopup({ handlePopup }) {
   const { register, handleSubmit } = useForm();
   const [error, setError] = useState("");
-  const lists = useSelector(getLists);
-  const dispatch = useDispatch();
+  const { createList, isPending: isCreatingPending } = useCreateList();
+  const { data: lists, isPending: isListsPending } = useGetLists();
 
-  function onSubmit(e) {
-    if (e.listName === "")
-      return setError("You need to give a name to your list.");
+  function onSubmit(list) {
+    if (!list.listName) return setError("You need to give a name to your list");
 
-    if (lists.find((list) => list.list_name === e.listName))
-      return setError("You already have a list with the same name.");
+    if (lists.filter((l) => l.listName === list.listName).length)
+      return setError("You already have a list with the same name");
 
-    dispatch(createList(e.listName));
-    setError("");
-    handlePopup();
+    createList(list, {
+      onSuccess: () => {
+        toast.success("List created successfully");
+        handlePopup();
+      },
+      onError: () => toast.error("Something went wrong creating the list"),
+    });
   }
 
   return (
@@ -38,7 +43,10 @@ function NewListPopup({ handlePopup }) {
             onClick={() => handlePopup()}
           />
         </div>
-        <form className="flex flex-col gap-3" onSubmit={handleSubmit(onSubmit)}>
+        <form
+          className="flex flex-col items-start gap-3"
+          onSubmit={handleSubmit(onSubmit)}
+        >
           <input
             placeholder="My Custom List"
             className="bg-text-default text-background-default w-50 rounded-lg px-2 py-1 text-sm"

@@ -2,35 +2,61 @@ import { mdiCloseBox } from "@mdi/js";
 import Icon from "@mdi/react";
 import Button from "../ui/Button";
 import Title from "../ui/Title";
-import { useDispatch, useSelector } from "react-redux";
 import PopupBlur from "../ui/PopupBlur";
-import { addToList, getCurrentListIds } from "./user/userSlice";
 import Poster from "./Poster";
 import StarRating from "./StarRating";
 import { useState } from "react";
+import { useAddItemToList } from "../hooks/lists/useAddItemToList";
+import { useSelector } from "react-redux";
+import toast from "react-hot-toast";
+import { useGetListItems } from "../hooks/lists/useGetListItems";
 
-function AddItemPopup({ handlePopup, item, listName }) {
-  const currList = useSelector(getCurrentListIds(listName, item.id));
+function AddItemPopup({ handlePopup, item }) {
   const [rating, setRating] = useState();
   const [error, setError] = useState("");
 
-  const dispatch = useDispatch();
+  const selectedList = useSelector((state) => state.user.selectedList);
+  const { addItem, isPending: isAddingPending } = useAddItemToList();
+  const { data: listItems, isPending: isListItemsPending } = useGetListItems(
+    selectedList.id,
+  );
 
   function onSubmit() {
-    if (currList.length > 0)
-      return setError("You already have this item in this list.");
+    if (!rating) return setError("You need to give a rating");
 
-    dispatch(
-      addToList(listName, item.id, item.poster_path, rating, item.title),
+    if (listItems.filter((i) => Number(i.itemID) === item.id).length)
+      return setError(
+        `You already have ${item.title} in ${selectedList.listName}`,
+      );
+
+    addItem(
+      {
+        itemID: item.id,
+        listID: selectedList.id,
+        title: item.title,
+        userRating: rating,
+        posterPath: item.poster_path,
+        type: "movie",
+      },
+      {
+        onSuccess: () => {
+          toast.success(`${item.title} added to ${selectedList.listName}`);
+          handlePopup();
+        },
+
+        onError: () =>
+          toast.error(
+            `${item.title} could not be added to ${selectedList.listName}`,
+          ),
+      },
     );
-    handlePopup("");
   }
 
   return (
     <PopupBlur>
       <div className="bg-grey-secondary/90 flex w-[90%] flex-col gap-2 rounded-lg px-3 py-4">
         <div className="flex items-center justify-between">
-          <Title level={3}>To {listName}</Title>
+          <Title level={3}>To {selectedList.listName}</Title>
           <Icon
             path={mdiCloseBox}
             size={1.3}
@@ -44,7 +70,7 @@ function AddItemPopup({ handlePopup, item, listName }) {
             <Poster path={item.poster_path} />
             <Button onClick={() => onSubmit()}>Add to list</Button>
           </div>
-          <div className="col-span-2 flex flex-col gap-4">
+          <div className="col-span-2 flex flex-col items-start gap-4">
             <Title level={2}>{item.title}</Title>
             <StarRating onSetRating={setRating} />
             {error && (

@@ -16,11 +16,13 @@ import Keywords from "../Keywords";
 import Tagline from "../Tagline";
 import Languages from "../Languages";
 import ListDropdownButton from "../ListDropdownButton";
+import { useSelector } from "react-redux";
 
 function FilmInfo() {
   const { id } = useParams("id");
   const [movie, setMovie] = useState({});
   const { popularPeople } = useContext(MoviesContext);
+  const token = useSelector((state) => state.auth.token);
   const width = useWindowWidth();
 
   useEffect(() => {
@@ -40,7 +42,7 @@ function FilmInfo() {
     <div className="grid grid-cols-3 items-start gap-x-3 gap-y-6 pt-4 sm:grid-cols-4 md:grid-cols-3 md:gap-x-4 md:pt-8 lg:gap-x-6 lg:gap-y-8 2xl:grid-cols-4">
       <section className="flex flex-col items-center gap-2">
         <Poster path={movie?.poster_path} preview={true} />
-        <ListDropdownButton item={movie} />
+        {token && <ListDropdownButton item={movie} />}
       </section>
 
       <section className="col-span-2 flex flex-col gap-4 sm:col-span-3 md:col-span-2 2xl:col-span-3">

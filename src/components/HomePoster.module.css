@@ -25,7 +25,7 @@
   background-image:
     linear-gradient(
       to right,
-      #131314 5%,
+      var(--color-background-default) 5%,
       #131314de 10%,
       #13131483 20%,
       #13131400 40%,
@@ -43,6 +43,6 @@
       #13131400 60%,
       #13131483 80%,
       #131314c0 90%,
-      #131314 100%
+      var(--color-background-default) 100%
     );
 }

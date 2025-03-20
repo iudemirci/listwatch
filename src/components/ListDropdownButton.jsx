@@ -6,15 +6,21 @@ import { useState } from "react";
 import { Dropdown } from "antd";
 import NewListPopup from "./NewListPopup";
 import AddItemPopup from "./AddItemPopup";
-import { useSelector } from "react-redux";
-import { getLists } from "./user/userSlice";
+import { useGetLists } from "../hooks/lists/useGetLists";
+import { useDispatch } from "react-redux";
+import { setSelectedList } from "../store/userSlice";
 
 function ListDropdownButton({ item }) {
-  const [popupType, setPopupType] = useState("");
-  const lists = useSelector(getLists);
+  const [popupType, setPopupType] = useState(null);
+  const { data: lists, isPending: isListsPending } = useGetLists();
+  const dispatch = useDispatch();
 
-  function handlePopup(type) {
+  function handlePopup(type, list) {
+    if (!type) setPopupType("");
     setPopupType(type);
+
+    if (type === "list") dispatch(setSelectedList(list));
+
     if (document.body.style.overflow === "hidden")
       return (document.body.style.overflow = "auto");
     document.body.style.overflow = "hidden";
@@ -31,11 +37,11 @@ function ListDropdownButton({ item }) {
 
             {lists.map((list) => (
               <ListButton
-                key={list.list_name}
+                key={list.id}
                 type={"list"}
-                onClick={() => handlePopup(list.list_name)}
+                onClick={() => handlePopup("list", list)}
               >
-                {list.list_name}
+                {list.listName}
               </ListButton>
             ))}
           </div>
@@ -48,7 +54,7 @@ function ListDropdownButton({ item }) {
 
       {popupType === "create" && <NewListPopup handlePopup={handlePopup} />}
 
-      {lists.find((list) => list.list_name === popupType) && (
+      {popupType === "list" && (
         <AddItemPopup
           item={item}
           listName={popupType}

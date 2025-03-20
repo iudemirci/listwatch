@@ -15,6 +15,7 @@ function PosterList({ movies, title, type, autoPlay = 11000 }) {
     autoplaySpeed: autoPlay,
     pauseOnHover: true,
     buttons: true,
+    draggable: false,
     nextArrow: <NextArrow onClick={() => slickNext} />,
     prevArrow: <PrevArrow onClick={() => slickPrev} />,
     responsive: [

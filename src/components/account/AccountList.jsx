@@ -2,70 +2,99 @@ import Icon from "@mdi/react";
 import {
   mdiCog,
   mdiCloseBox,
-  mdiTextBoxEdit,
+  mdiPencil,
   mdiPlusBoxOutline,
+  mdiTrashCan,
 } from "@mdi/js";
 import { Link } from "react-router-dom";
-import Title from "../../ui/Title";
+import { ConfigProvider, Pagination } from "antd";
+import toast from "react-hot-toast";
 import { useState } from "react";
+
 import PopupBlur from "../../ui/PopupBlur";
 import AccountListItem from "./AccountListItem";
-import { ConfigProvider, Pagination } from "antd";
-import { useForm } from "react-hook-form";
-import { useDispatch } from "react-redux";
-import { updateListName } from "../user/userSlice";
-import Input from "../../ui/Input";
+import Title from "../../ui/Title";
 
-function AccountList({ list }) {
-  const { list_name: listName, items } = list;
-  const defaultOffset = 12;
-  const [offset, setOffset] = useState(12);
-  const itemsInListCount = 3;
-  const [currentPage, setCurrentPage] = useState(1);
-  const [isListOpen, setIsListOpen] = useState(false);
+import { useDeleteList } from "../../hooks/lists/useDeleteList";
+import { useQueryClient } from "@tanstack/react-query";
+import { useGetListItems } from "../../hooks/lists/useGetListItems";
+
+function AccountList({ currentList }) {
+  const [settings, setSettings] = useState(false);
   const [edit, setEdit] = useState(false);
-  const { register, handleSubmit } = useForm();
-  const dispatch = useDispatch();
+  const [currentPage, setCurrentPage] = useState(1);
+  const [offset, setOffset] = useState(12);
+  const defaultOffset = 12;
+  const itemsInListCount = 3;
 
-  function handleListOpen() {
-    setIsListOpen(!isListOpen);
-    setEdit(false);
-  }
+  const queryClient = useQueryClient();
+  const { deleteList, isPending: isDeleting } = useDeleteList();
+  const { data: listItems, isPending: isItemsPending } = useGetListItems(
+    currentList.id,
+  );
 
-  function onSubmit(e) {
-    dispatch(updateListName(listName, e.listName));
-  }
+  if (isItemsPending) return <div>loading...</div>;
 
-  return (
-    <section className="w-[100%]">
-      <div className="flex flex-col gap-2">
-        <div className="flex items-center justify-between">
-          <Title level={3}>{listName}</Title>
-
-          {items.length ? (
+  return !isDeleting ? (
+    <>
+      <div className="flex items-center justify-between gap-2">
+        <Title level={3}>{currentList.listName}</Title>
+        <div className="flex gap-2">
+          {listItems && listItems.length ? (
             <Icon
               path={mdiCog}
-              size={1}
-              className="text-grey-primary"
-              onClick={() => handleListOpen()}
+              size={1.2}
+              className="text-grey-primary cursor-pointer"
+              onClick={() => setSettings((s) => !s)}
             />
           ) : null}
+          {/* <Popconfirm
+          autoAdjustOverflow={true}
+          title={"Are you sure?"}
+          okText={"Confirm"}
+          onConfirm={() => {
+            deleteList(currentList.id, {
+              onSuccess: () => {
+                queryClient.invalidateQueries(["lists"]);
+                },
+                });
+                }}
+                > */}
+          <Icon
+            size={1.2}
+            path={mdiTrashCan}
+            className="text-primary cursor-pointer"
+            onClick={() => {
+              deleteList(currentList.id, {
+                onSuccess: () => {
+                  queryClient.invalidateQueries(["lists"]);
+                  toast.success(`${currentList.listName} deleted`);
+                },
+                onError: () =>
+                  toast.error(`${currentList.listName} could not be deleted`),
+              });
+            }}
+          />
+          {/* </Popconfirm> */}
         </div>
-        <ul className="grid grid-cols-3 gap-x-2">
-          {items.slice(0, itemsInListCount).map((item) => (
-            <AccountListItem key={item.id} item={item} />
-          ))}
-          {items.length < 3 && (
-            <Link to={"/films"}>
-              <li className="text-grey-primary outline-grey-primary/50 hover:outline-primary flex aspect-2/3 items-center justify-center rounded-lg outline-2">
-                <Icon path={mdiPlusBoxOutline} size={1.3} />
-              </li>
-            </Link>
-          )}
-        </ul>
       </div>
 
-      {isListOpen && (
+      <ul className="grid grid-cols-3 gap-x-2">
+        {listItems.slice(0, itemsInListCount).map((item) => (
+          <AccountListItem key={item.id} item={item} />
+        ))}
+
+        {listItems.length < itemsInListCount && (
+          <Link to={"/films"}>
+            <li className="text-grey-primary outline-grey-primary/50 hover:outline-primary flex aspect-2/3 items-center justify-center rounded-lg outline-2">
+              <Icon path={mdiPlusBoxOutline} size={1.3} />
+            </li>
+          </Link>
+        )}
+      </ul>
+
+      {/* LIST OPEN */}
+      {settings && (
         <ConfigProvider
           theme={{
             token: {
@@ -83,35 +112,32 @@ function AccountList({ list }) {
             <div className="bg-grey-secondary/90 flex h-111 w-[90%] flex-col justify-between gap-2 rounded-lg p-3">
               <div className="flex flex-col gap-2">
                 <div className="flex items-center justify-between">
-                  {!edit ? (
-                    <Title level={3}>{listName}</Title>
-                  ) : (
-                    <form onSubmit={handleSubmit(onSubmit)}>
-                      {/* <input
-                        placeholder={listName}
-                        className="bg-text-default text-background-default w-50 rounded-lg px-2 py-1 text-sm"
-                        {...register("listName")}
-                      /> */}
-                      <Input placeholder={listName} {...register("listName")} />
-                    </form>
-                  )}
+                  <Title level={3}>{currentList.listName}</Title>
+
                   <div className="flex items-center gap-2">
                     <Icon
-                      path={mdiTextBoxEdit}
+                      path={mdiPencil}
                       size={1.3}
-                      className={!edit ? "text-grey-primary" : "text-primary"}
-                      onClick={() => setEdit(!edit)}
+                      className={
+                        !edit
+                          ? "text-grey-primary cursor-pointer"
+                          : "text-primary cursor-pointer"
+                      }
+                      onClick={() => setEdit((s) => !s)}
                     />
                     <Icon
                       path={mdiCloseBox}
                       size={1.3}
                       className="text-primary cursor-pointer"
-                      onClick={() => handleListOpen()}
+                      onClick={() => {
+                        setSettings((s) => !s);
+                        setEdit(false);
+                      }}
                     />
                   </div>
                 </div>
                 <ul className="grid grid-cols-4 gap-1.5">
-                  {items
+                  {listItems
                     .slice(offset - defaultOffset, offset)
                     .map((item, i) => (
                       <AccountListItem
@@ -119,8 +145,6 @@ function AccountList({ list }) {
                         item={item}
                         edit={edit}
                         setEdit={setEdit}
-                        listName={listName}
-                        onListOpen={handleListOpen}
                       />
                     ))}
                 </ul>
@@ -131,7 +155,7 @@ function AccountList({ list }) {
                   simple={{ readOnly: true }}
                   defaultCurrent={currentPage}
                   pageSize={defaultOffset}
-                  total={items.length}
+                  total={listItems.length}
                   onChange={(page) => {
                     setCurrentPage(page);
                     setOffset(defaultOffset * page);
@@ -142,7 +166,9 @@ function AccountList({ list }) {
           </PopupBlur>
         </ConfigProvider>
       )}
-    </section>
+    </>
+  ) : (
+    <div>deleting...</div>
   );
 }
 
