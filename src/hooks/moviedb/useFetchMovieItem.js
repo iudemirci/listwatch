@@ -1,10 +1,10 @@
 import { useQuery } from "@tanstack/react-query";
-import { getMovieDB } from "../../services/apiMoviedb";
+import { getMovieItem } from "../../services/apiMoviedb";
 
-export function useFetchMovieDB(url, id) {
+export function useFetchMovieItem(url, id) {
   const { data, isPending } = useQuery({
     queryKey: ["movieDB", id],
-    queryFn: () => getMovieDB(url),
+    queryFn: () => getMovieItem(url),
   });
 
   return { data, isPending };

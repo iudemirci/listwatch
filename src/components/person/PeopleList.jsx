@@ -23,14 +23,15 @@ function PeopleList({ people, title, className }) {
             key={person.id}
             isOpen={isPopoverOpen === i}
             content={
-              <div className="border-grey-primary bg-background-default mx-1 rounded-xs border-1 p-1 text-center 2xl:p-2">
-                <Paragraph>
-                  <span>{person.name}</span>
-                  <br />
-                  <span className="text-zinc-500">
-                    Popularity: {person.popularity}
-                  </span>
-                </Paragraph>
+              <div className="border-grey-primary bg-background-default mx-1 rounded-lg border-1 px-2 py-1 text-center">
+                <div className={"flex flex-col"}>
+                  <Paragraph type="primary">{person.name}</Paragraph>
+                  {person.character && (
+                    <Paragraph type="secondary">
+                      as {person.character}
+                    </Paragraph>
+                  )}
+                </div>
               </div>
             }
             positions={"bottom"}

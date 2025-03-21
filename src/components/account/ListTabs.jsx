@@ -22,6 +22,14 @@ function ListTabs() {
 
   if (isListsPending) return <Spin size="large" />;
 
+  function handlePopup() {
+    setIsPopup((s) => !s);
+
+    if (document.body.style.overflow === "hidden")
+      return (document.body.style.overflow = "auto");
+    document.body.style.overflow = "hidden";
+  }
+
   return (
     <>
       <div className="flex gap-2">
@@ -30,7 +38,7 @@ function ListTabs() {
           path={mdiPlusBoxMultiple}
           size={1.2}
           className="text-grey-primary hover:text-primary cursor-pointer duration-300"
-          onClick={() => setIsPopup((s) => !s)}
+          onClick={() => handlePopup()}
         />
       </div>
       <ul className="flex flex-wrap gap-2">
@@ -58,9 +66,11 @@ function ListTabs() {
           </Paragraph>
         )}
       </ul>
-      {currentList && <AccountList currentList={currentList} />}
+      {currentList && (
+        <AccountList currentList={currentList} handlePopup={handlePopup} />
+      )}
 
-      {isPopup && <NewListPopup handlePopup={setIsPopup} />}
+      {isPopup && <NewListPopup handlePopup={handlePopup} />}
     </>
   );
 }

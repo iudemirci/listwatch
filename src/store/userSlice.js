@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
   selectedList: {},
+  favouriteItem: {},
 };
 
 const userSlice = createSlice({
@@ -11,8 +12,11 @@ const userSlice = createSlice({
     setSelectedList(state, action) {
       state.selectedList = action.payload;
     },
+    SetFavouriteItem(state, action) {
+      state.favouriteItem = action.payload;
+    },
   },
 });
 
-export const { setSelectedList } = userSlice.actions;
+export const { setSelectedList, SetFavouriteItem } = userSlice.actions;
 export default userSlice.reducer;

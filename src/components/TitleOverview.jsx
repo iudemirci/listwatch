@@ -3,6 +3,8 @@ import Title from "../ui/Title";
 import GenreList from "./GenreList";
 
 function TitleOverview({ movie }) {
+  const genres = movie.genres.map((genre) => genre.name);
+
   return (
     <div className={"flex flex-col gap-4"}>
       <Title level={2} className={"text-zinc-500"}>
@@ -10,7 +12,7 @@ function TitleOverview({ movie }) {
       </Title>
 
       <div className="flex flex-col gap-3">
-        <GenreList genresArr={movie?.genres} />
+        <GenreList genres={genres} />
 
         <div className="flex flex-col gap-2">
           <Paragraph type={"secondary"}>{movie?.overview}</Paragraph>

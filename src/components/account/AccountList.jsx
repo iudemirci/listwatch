@@ -33,10 +33,19 @@ function AccountList({ currentList }) {
     currentList.id,
   );
 
+  function handlePopup() {
+    setSettings((s) => !s);
+    setEdit(false);
+
+    if (document.body.style.overflow === "hidden")
+      return (document.body.style.overflow = "auto");
+    document.body.style.overflow = "hidden";
+  }
+
   if (isItemsPending) return <div>loading...</div>;
 
   return !isDeleting ? (
-    <>
+    <div className="flex flex-col gap-2">
       <div className="flex items-center justify-between gap-2">
         <Title level={3}>{currentList.listName}</Title>
         <div className="flex gap-2">
@@ -45,7 +54,7 @@ function AccountList({ currentList }) {
               path={mdiCog}
               size={1.2}
               className="text-grey-primary cursor-pointer"
-              onClick={() => setSettings((s) => !s)}
+              onClick={() => handlePopup()}
             />
           ) : null}
           {/* <Popconfirm
@@ -130,8 +139,7 @@ function AccountList({ currentList }) {
                       size={1.3}
                       className="text-primary cursor-pointer"
                       onClick={() => {
-                        setSettings((s) => !s);
-                        setEdit(false);
+                        handlePopup();
                       }}
                     />
                   </div>
@@ -166,7 +174,7 @@ function AccountList({ currentList }) {
           </PopupBlur>
         </ConfigProvider>
       )}
-    </>
+    </div>
   ) : (
     <div>deleting...</div>
   );

@@ -56,12 +56,7 @@
   display: none;
 }
 
-a,
-a:hover {
-  color: inherit;
-}
-
-.active {
+.active span {
   color: var(--color-primary);
 }
 

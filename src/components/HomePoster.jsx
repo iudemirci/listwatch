@@ -9,7 +9,7 @@ function HomePoster({ movies }) {
 
   return (
     <div
-      className={`${styles.wrapper} w-[100%] pt-[35rem] sm:w-[120%] md:w-[130%] lg:w-[135%] lg:pt-[40rem] 2xl:w-[140%] 2xl:pt-[50rem]`}
+      className={`${styles.wrapper} w-[100%] pt-[35rem] sm:w-[120%] md:w-[130%] lg:w-[135%] lg:pt-[30rem] 2xl:w-[140%] 2xl:pt-[50rem]`}
       style={{
         backgroundImage: `url(https://image.tmdb.org/t/p/w1280${randomPath})`,
       }}

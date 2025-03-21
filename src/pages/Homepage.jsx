@@ -1,5 +1,4 @@
-import { useContext } from "react";
-import { MoviesContext } from "../contexts/MoviesContext";
+import { Spin } from "antd";
 
 import HomePoster from "../components/HomePoster";
 import GreetingText from "../components/GreetingText";
@@ -7,12 +6,12 @@ import GuideTable from "../components/GuideTable";
 import MoviesList from "../components/PosterList";
 import PeopleList from "../components/person/PeopleList";
 import MovieDetailCard from "../components/movie/MovieDetailCard";
-import { useFetchMovieDB } from "../hooks/moviedb/usePopularMovies";
-import { Spin } from "antd";
+import { useFetchMovieDB } from "../hooks/moviedb/useFetchMovieDB.js";
 
 function Homepage() {
   const { data: popularMovies, isPending: isPopularMoviesPending } =
     useFetchMovieDB("/trending/movie/day?language=en-US", "popularMovies");
+
   const { data: popularPeople, isPending: isPeoplePending } = useFetchMovieDB(
     "/trending/person/day?language=en-US",
     "popularPeople",

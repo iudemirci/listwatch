@@ -36,6 +36,8 @@ function PersonInfo() {
     fetchData();
   }, [id]);
 
+  console.log(person);
+
   return (
     <div className="grid grid-cols-3 items-start gap-x-3 gap-y-6 pt-4 sm:grid-cols-4 md:grid-cols-3 md:gap-x-4 md:pt-8 lg:gap-x-6 lg:gap-y-8 2xl:grid-cols-4">
       <div>

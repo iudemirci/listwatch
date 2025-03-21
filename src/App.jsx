@@ -1,12 +1,7 @@
-import { MoviesProvider } from "./contexts/MoviesContext.jsx";
 import Router from "./routes/Router.jsx";
 
 function App() {
-  return (
-    <MoviesProvider>
-      <Router />
-    </MoviesProvider>
-  );
+  return <Router />;
 }
 
 export default App;

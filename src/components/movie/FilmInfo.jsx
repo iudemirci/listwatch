@@ -1,48 +1,55 @@
-import { useContext, useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
-import api from "../../axios/axiosInstance";
 import "react-lite-youtube-embed/dist/LiteYouTubeEmbed.css";
-import { MoviesContext } from "../../contexts/MoviesContext";
+import { useSelector } from "react-redux";
+import Icon from "@mdi/react";
+import { mdiStar } from "@mdi/js";
+
 import Poster from "../Poster";
 import TitleOverview from "../TitleOverview";
 import CastOverview from "../CastOverview";
 import Highlight from "./MovieHighlight";
 import Videos from "../Videos";
 import ImageGrid from "../ImageGrid";
-import useWindowWidth from "../../hooks/useWindowWidth";
 import Title from "../../ui/Title";
 import PeopleList from "../person/PeopleList";
-import Keywords from "../Keywords";
 import Tagline from "../Tagline";
 import Languages from "../Languages";
 import ListDropdownButton from "../ListDropdownButton";
-import { useSelector } from "react-redux";
+import Keywords from "../Keywords";
 
-function FilmInfo() {
-  const { id } = useParams("id");
-  const [movie, setMovie] = useState({});
-  const { popularPeople } = useContext(MoviesContext);
+import useWindowWidth from "../../hooks/useWindowWidth";
+import { useFetchMovieItem } from "../../hooks/moviedb/useFetchMovieItem";
+import SetFavourite from "../SetFavourite";
+
+function FilmInfo({ movie }) {
   const token = useSelector((state) => state.auth.token);
+  const id = movie.id;
+
   const width = useWindowWidth();
+  const { data: movieImages, isPending: isImagesPending } = useFetchMovieItem(
+    `/movie/${id}/images`,
+    `${id}_images`,
+  );
 
-  useEffect(() => {
-    async function fetchData() {
-      try {
-        const res = await api.get(`/movie/${Number(id)}?language=en-US`);
+  const { data: movieVideo, isPending: isVideoPending } = useFetchMovieItem(
+    `/movie/${id}/videos?language=en-US)`,
+    `${id}_videos`,
+  );
 
-        setMovie(res.data);
-      } catch (error) {
-        console.error(error);
-      }
-    }
-    fetchData();
-  }, [id]);
+  const { data: credits, isPending: isCreditsPending } = useFetchMovieItem(
+    `/movie/${id}/credits?language=en-US`,
+    `${id}_credits`,
+  );
+
+  const { data: keywords, isPending: isKeywordsPending } = useFetchMovieItem(
+    `/movie/${id}/keywords`,
+    `${id}_keywords`,
+  );
 
   return (
     <div className="grid grid-cols-3 items-start gap-x-3 gap-y-6 pt-4 sm:grid-cols-4 md:grid-cols-3 md:gap-x-4 md:pt-8 lg:gap-x-6 lg:gap-y-8 2xl:grid-cols-4">
       <section className="flex flex-col items-center gap-2">
         <Poster path={movie?.poster_path} preview={true} />
-        {token && <ListDropdownButton item={movie} />}
+        <Highlight movie={movie} />
       </section>
 
       <section className="col-span-2 flex flex-col gap-4 sm:col-span-3 md:col-span-2 2xl:col-span-3">
@@ -51,31 +58,41 @@ function FilmInfo() {
 
         {width >= 1024 && <Highlight movie={movie} />}
       </section>
+      <section className="col-span-full flex flex-wrap justify-center gap-2">
+        {token && (
+          <>
+            <ListDropdownButton item={movie} />
+            <SetFavourite item={movie} />
+          </>
+        )}
+      </section>
 
       <section className="col-span-full 2xl:col-span-3">
-        <Videos movie={movie} />
+        {!isVideoPending && <Videos videoData={movieVideo} />}
       </section>
 
       {width < 1024 && (
         <section className="col-span-full">
-          <CastOverview />
+          {!isCreditsPending && <CastOverview people={credits} />}
         </section>
       )}
 
       <section className="col-span-full 2xl:col-start-4">
         <Title level={3}>Top Cast</Title>
-        <PeopleList
-          people={popularPeople}
-          className={"2xl:grid 2xl:grid-cols-3"}
-        />
+        {!isCreditsPending && (
+          <PeopleList
+            people={credits.cast}
+            className={"2xl:grid 2xl:grid-cols-3"}
+          />
+        )}
       </section>
 
       <section className="col-span-full">
-        <ImageGrid />
+        {!isImagesPending && <ImageGrid images={movieImages} />}
       </section>
 
       <section className="col-span-full">
-        <Keywords movieID={id} />
+        {!isKeywordsPending && <Keywords keywords={keywords.keywords} />}
       </section>
 
       <section className="col-span-full">

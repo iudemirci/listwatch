@@ -3,7 +3,7 @@ import Icon from "@mdi/react";
 import { mdiStarPlus } from "@mdi/js";
 import ListButton from "./ListButton";
 import { useState } from "react";
-import { Dropdown } from "antd";
+import { Dropdown, Spin } from "antd";
 import NewListPopup from "./NewListPopup";
 import AddItemPopup from "./AddItemPopup";
 import { useGetLists } from "../hooks/lists/useGetLists";
@@ -35,15 +35,19 @@ function ListDropdownButton({ item }) {
               Create New List
             </ListButton>
 
-            {lists.map((list) => (
-              <ListButton
-                key={list.id}
-                type={"list"}
-                onClick={() => handlePopup("list", list)}
-              >
-                {list.listName}
-              </ListButton>
-            ))}
+            {isListsPending ? (
+              <Spin />
+            ) : (
+              lists.map((list) => (
+                <ListButton
+                  key={list.id}
+                  type={"list"}
+                  onClick={() => handlePopup("list", list)}
+                >
+                  {list.listName}
+                </ListButton>
+              ))
+            )}
           </div>
         )}
       >

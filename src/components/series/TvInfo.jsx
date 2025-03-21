@@ -1,7 +1,3 @@
-import { useContext, useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
-import api from "../../axios/axiosInstance";
-import { MoviesContext } from "../../contexts/MoviesContext";
 import TitleOverview from "../TitleOverview";
 import CastOverview from "../CastOverview";
 import Highlight from "../movie/MovieHighlight";
@@ -17,26 +13,9 @@ import Button from "../../ui/Button";
 import Flex from "../../ui/Flex";
 import ListItem from "../ListItem";
 
-function TvInfo() {
-  const { id } = useParams("id");
-  const [series, setSeries] = useState({});
-  const { popularPeople } = useContext(MoviesContext);
-  const width = useWindowWidth();
-
+function TvInfo({ series, cast }) {
   console.log(series);
-
-  useEffect(() => {
-    async function fetchData() {
-      try {
-        const res = await api.get(`/tv/${Number(id)}?language=en-US`);
-
-        setSeries(res.data);
-      } catch (error) {
-        console.error(error);
-      }
-    }
-    fetchData();
-  }, [id]);
+  const width = useWindowWidth();
 
   return (
     <div className="grid grid-cols-3 items-start gap-x-3 gap-y-6 pt-4 sm:grid-cols-4 md:grid-cols-3 md:gap-x-4 md:pt-8 lg:gap-x-6 lg:gap-y-8 2xl:grid-cols-4">
@@ -63,7 +42,7 @@ function TvInfo() {
 
       <section className="col-span-full 2xl:col-start-4">
         <PeopleList
-          people={popularPeople}
+          people={cast}
           className={"2xl:grid 2xl:grid-cols-3"}
           title={"Top Cast"}
         />

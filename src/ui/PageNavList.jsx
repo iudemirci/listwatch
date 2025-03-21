@@ -52,7 +52,12 @@ function PageNavList() {
     </nav>
   ) : (
     <div className="flex">
-      <Icon path={mdiMenu} size={1.4} onClick={toggleDrawer} />
+      <Icon
+        path={mdiMenu}
+        size={1.4}
+        onClick={toggleDrawer}
+        className="hover:text-primary cursor-pointer duration-300"
+      />
       <Drawer
         open={isClicked}
         onClose={() => setIsClicked(!isClicked)}
@@ -74,7 +79,7 @@ function PageNavList() {
           <div className="flex flex-col items-center gap-2 p-2">
             <Icon
               path={mdiBackburger}
-              className="text-text-default cursor-pointer"
+              className="hover:text-primary cursor-pointer duration-300"
               size={1.4}
               onClick={toggleDrawer}
             />
@@ -85,7 +90,13 @@ function PageNavList() {
                     !isEnabled(i) && (
                       <li key={item.path}>
                         <NavLink to={item.path} onClick={toggleDrawer}>
-                          {item.label}
+                          <span
+                            className={
+                              "hover:text-primary text-text-default duration-300"
+                            }
+                          >
+                            {item.label}
+                          </span>
                         </NavLink>
                       </li>
                     ),

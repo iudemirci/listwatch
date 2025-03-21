@@ -19,3 +19,30 @@ export async function getUser() {
 
   return user;
 }
+
+export async function setFavouriteItem(item) {
+  const { data, error } = await supabase
+    .from("users")
+    .insert([{ favouriteItem: item }])
+    .select();
+
+  if (error)
+    throw new Error("There was something wrong with setting favourite item");
+
+  return data;
+}
+
+export async function getFavouriteItem() {
+  const data = await supabase.auth.getUser();
+  const userID = data.data.user.id;
+
+  let { data: res, error } = await supabase
+    .from("users")
+    .select("favouriteItem")
+    .eq("userID", userID);
+
+  if (error)
+    throw new Error("There was something wrong with setting favourite item");
+
+  return res;
+}
