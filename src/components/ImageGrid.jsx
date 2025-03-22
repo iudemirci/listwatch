@@ -1,5 +1,6 @@
 import { Image } from "antd";
 import Title from "../ui/Title";
+import Paragraph from "../ui/Paragraph";
 
 function ImageGrid({ images }) {
   const backdropImages = images.backdrops
@@ -8,17 +9,25 @@ function ImageGrid({ images }) {
 
   return (
     <div className="flex flex-col gap-2">
-      <Title level={3}>Photos</Title>
-      <ul className="grid grid-cols-3 grid-rows-4 gap-1 gap-x-3">
+      <Title level={3}>Images</Title>
+      <ul className="grid grid-cols-3 gap-1 gap-x-3">
         <Image.PreviewGroup>
-          {backdropImages.map((image, i) => (
-            <li
-              key={i}
-              className="overflow-hidden rounded-lg first:col-span-2 first:row-span-2 last:col-start-2 last:col-end-4 last:row-start-3 last:row-end-5"
-            >
-              <Image src={`https://image.tmdb.org/t/p/w780${image}`} />
-            </li>
-          ))}
+          {!backdropImages.length && (
+            <Paragraph type="primary">No images found</Paragraph>
+          )}
+          {backdropImages.map((image, i) => {
+            let colSpanClass = "rounded-lg overflow-hidden";
+
+            if (backdropImages.length === 1) colSpanClass += " col-span-full";
+            else if (i % 4 === 0) colSpanClass += " col-span-2 row-span-2";
+            else colSpanClass += " col-span-1";
+
+            return (
+              <li key={i} className={colSpanClass}>
+                <Image src={`https://image.tmdb.org/t/p/w780${image}`} />
+              </li>
+            );
+          })}
         </Image.PreviewGroup>
       </ul>
     </div>

@@ -1,24 +1,37 @@
-import Icon from "@mdi/react";
 import { mdiStar } from "@mdi/js";
-import Button from "../ui/Button";
-import { useDispatch } from "react-redux";
-import { SetFavouriteItem } from "../store/userSlice";
+import Icon from "@mdi/react";
 import toast from "react-hot-toast";
+
+import Button from "../ui/Button";
+
+import { useQueryClient } from "@tanstack/react-query";
+import { useGetFavouriteItem } from "../hooks/user/useGetFavouriteItem";
 import { useSetFavouriteItem } from "../hooks/user/useSetFavouriteItem";
+import { useUpdateFavouriteItem } from "../hooks/user/useUpdateFavouriteItem";
 
 function SetFavourite({ item }) {
-  const dispatch = useDispatch();
-  const { setFavouriteItem, isPending } = useSetFavouriteItem();
+  const queryClient = useQueryClient();
+  const { setFavouriteItem, isSetPending } = useSetFavouriteItem();
+  const { updateFavouriteItem, isUpdatePending } = useUpdateFavouriteItem();
+  const { favouriteItem, isPending: isFavouritePending } =
+    useGetFavouriteItem();
 
   function handleClick(i) {
-    // dispatch(SetFavouriteItem(i));
+    function toastMessage() {
+      return {
+        onSuccess: () => {
+          toast.success(`${item.title || item.name} set as favourite`);
+          queryClient.invalidateQueries(["favouriteItem"]);
+        },
+        onError: () =>
+          toast.error(
+            `${item.title || item.name} could not be set as favourite`,
+          ),
+      };
+    }
 
-    setFavouriteItem(i, {
-      onSuccess: () =>
-        toast.success(`${item.title || item.name} set as favourite`),
-      onError: () =>
-        toast.error(`${item.title || item.name} could not be set as favourite`),
-    });
+    if (!favouriteItem.length) setFavouriteItem(i, toastMessage());
+    if (favouriteItem.length) updateFavouriteItem(i, toastMessage());
   }
 
   return (

@@ -2,8 +2,8 @@ import styles from "./HomePoster.module.css";
 
 function HomePoster({ movies }) {
   const filteredPaths = movies
-    .map((movie) => movie.backdrop_path)
-    .filter((path) => path !== null);
+    ?.map((movie) => movie?.backdrop_path)
+    ?.filter((path) => path !== null);
   const randomPath =
     filteredPaths[Math.floor(Math.random() * filteredPaths?.length)];
 

@@ -1,10 +1,10 @@
+import { Link } from "react-router-dom";
 import Icon from "@mdi/react";
-import { mdiPlusBoxOutline, mdiShareAll } from "@mdi/js";
-import { useSelector } from "react-redux";
+import { mdiPlusBoxOutline, mdiShareAll, mdiImageOff } from "@mdi/js";
 
 import Title from "../../ui/Title";
+
 import { cn } from "../../utilities/cn";
-import { Link } from "react-router-dom";
 
 function AccountPoster({ favouriteItem }) {
   const favMovie = favouriteItem?.at(0)?.favouriteItem;
@@ -16,16 +16,18 @@ function AccountPoster({ favouriteItem }) {
       <div className="outline-grey-secondary hover:outline-primary relative h-35 w-full overflow-hidden rounded-xl outline-2 duration-300">
         <div
           className={cn(
-            "group absolute inset-0 before:absolute before:inset-0",
+            "group absolute inset-0 flex items-center justify-center before:absolute before:inset-0",
             isFav,
           )}
           style={{
-            background: `url(https://image.tmdb.org/t/p/w1280${favMovie?.backdrop_path})`,
+            backgroundImage: `url(https://image.tmdb.org/t/p/w1280${favMovie?.backdrop_path})`,
             backgroundSize: "cover",
-            backgroundRepeat: "no-repeat",
           }}
         >
-          {favMovie?.backdrop_path && (
+          {favouriteItem && !favMovie?.backdrop_path && (
+            <Icon path={mdiImageOff} size={1.3} className="text-grey-primary" />
+          )}
+          {favouriteItem && (
             <Link
               to={`/films/${favMovie.id}`}
               className="absolute inset-0 flex items-center justify-center rounded-lg bg-black/80 text-white opacity-0 transition-opacity duration-300 group-hover:opacity-100"
@@ -34,7 +36,7 @@ function AccountPoster({ favouriteItem }) {
             </Link>
           )}
 
-          {!favMovie?.backdrop_path && (
+          {!favouriteItem && (
             <Link
               to={"/films"}
               className="group absolute inset-0 flex items-center justify-center"

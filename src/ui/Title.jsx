@@ -44,7 +44,7 @@ function Title({ level, children, className, ...props }) {
     return (
       <h4
         className={cn(
-          "text-xbase align-center flex font-semibold md:text-base lg:text-xl 2xl:pr-2 2xl:text-xl",
+          "align-center flex leading-4.5 font-semibold md:text-base lg:text-xl 2xl:pr-2 2xl:text-xl",
           className,
         )}
         {...props}

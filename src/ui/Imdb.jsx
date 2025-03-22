@@ -5,7 +5,7 @@ function Imdb({ id, type }) {
     <a
       href={`https://www.imdb.com/${link}/${id}`}
       target="/"
-      className="imdb text-primary"
+      className="imdb text-grey-primary hover:text-primary duration-300"
     ></a>
   );
 }

@@ -25,7 +25,7 @@ function GuideTable() {
         {content.map((item, i) => {
           return (
             <div
-              className="bg-grey-secondary flex items-center gap-1 rounded-2xl p-2.5 md:p-2 lg:gap-2 lg:p-2.5 2xl:p-4"
+              className="bg-grey-secondary/75 hover:bg-grey-secondary flex items-center gap-1 rounded-2xl p-2.5 duration-300 md:p-2 lg:gap-2 lg:p-2.5 2xl:p-4"
               key={i}
             >
               <Paragraph>

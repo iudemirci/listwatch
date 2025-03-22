@@ -1,24 +1,29 @@
-import Paragraph from "../ui/Paragraph";
+import { Link } from "react-router-dom";
+
 import Title from "../ui/Title";
 import GenreList from "./GenreList";
+import MovieHighlight from "./movie/MovieHighlight";
 
 function TitleOverview({ movie }) {
-  const genres = movie.genres.map((genre) => genre.name);
-
   return (
-    <div className={"flex flex-col gap-4"}>
-      <Title level={2} className={"text-zinc-500"}>
-        {movie?.title || movie?.name}
-      </Title>
+    <>
+      <div className={"flex flex-col gap-2.5"}>
+        <Link to={`/films/${movie.id}`}>
+          <Title
+            level={2}
+            className={"hover:text-primary text-zinc-500 duration-300"}
+          >
+            {movie?.title || movie?.name}
+          </Title>
+        </Link>
 
-      <div className="flex flex-col gap-3">
-        <GenreList genres={genres} />
-
-        <div className="flex flex-col gap-2">
-          <Paragraph type={"secondary"}>{movie?.overview}</Paragraph>
+        <div className="flex flex-col gap-3">
+          <GenreList genres={movie.genres} />
         </div>
+
+        <MovieHighlight movie={movie} />
       </div>
-    </div>
+    </>
   );
 }
 

@@ -1,11 +1,21 @@
+import { Link, useNavigate } from "react-router-dom";
+
 function GenreList({ genres }) {
+  const navigate = useNavigate();
+
   return (
     <ul className="flex flex-wrap gap-1 lg:gap-1.5">
       {genres?.map((genre) => (
-        <li key={genre}>
-          <span className="2xl: border-primary hover:bg-primary cursor-pointer rounded-2xl border-1 px-1.5 py-0.5 text-xs duration-300 md:px-1.5 lg:py-1">
-            {genre}
-          </span>
+        <li
+          key={genre.id}
+          className="2xl: border-primary hover:bg-primary pointer-events-auto cursor-pointer rounded-2xl border-1 px-1.5 py-0.5 text-xs duration-300 md:px-1.5 lg:py-1"
+          onClick={(e) => {
+            e.stopPropagation();
+            e.preventDefault();
+            navigate(`/films?genre=${genre.id}`);
+          }}
+        >
+          {genre.name}
         </li>
       ))}
     </ul>

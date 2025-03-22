@@ -42,6 +42,7 @@ function Login() {
         <label className="flex flex-col">
           E-mail
           <Input
+            id="email"
             {...register("email", { required: "E-mail is required" })}
             type="email"
           />
@@ -50,6 +51,7 @@ function Login() {
           Password
           <Input
             {...register("password", { required: "Password is required" })}
+            id="password"
             type="password"
           />
         </label>
