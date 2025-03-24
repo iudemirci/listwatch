@@ -25,19 +25,14 @@ function PosterList({ movies, isPending, title, type }) {
           {isPending
             ? [...Array(6)].map((_, index) => (
                 <SwiperSlide key={index} className="aspect-2/3">
-                  <Skeleton />
+                  <Skeleton className={"rounded-lg"} />
                 </SwiperSlide>
               ))
             : movies?.map((movie) => (
                 <SwiperSlide key={movie?.id}>
                   <li className="aspect-[2/3]">
                     <LinkToId movieID={movie?.id} type={type}>
-                      <MoviePoster
-                        path={movie?.poster_path}
-                        className={
-                          "hover:border-primary border-2 border-transparent duration-300"
-                        }
-                      />
+                      <MoviePoster path={movie?.poster_path} />
                     </LinkToId>
                   </li>
                 </SwiperSlide>

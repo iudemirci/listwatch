@@ -10,7 +10,7 @@ function TopList({ movies, isPending }) {
         <ul className="grid w-[100%] grid-cols-4 gap-2 lg:grid-cols-5">
           {isPending
             ? [...Array(20)].map((_, index) => (
-                <Skeleton key={index} className={"aspect-2/3"} />
+                <Skeleton key={index} className={"aspect-2/3 rounded-lg"} />
               ))
             : movies.map((movie, i) => (
                 <li

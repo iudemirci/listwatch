@@ -6,16 +6,8 @@ import { Image } from "antd";
 import { cn } from "../utilities/cn";
 import Skeleton from "../ui/Skeleton";
 
-export default function Poster({
-  path,
-  preview = false,
-  isPending,
-  className,
-  ...props
-}) {
+export default function Poster({ path, preview = false, className, ...props }) {
   const [isLoaded, setIsLoaded] = useState(false);
-
-  if (isPending) return <Skeleton className={"aspect-2/3"} />;
 
   if (!path)
     return (
@@ -32,7 +24,7 @@ export default function Poster({
   if (preview)
     return (
       <div className={cn("aspect-2/3 overflow-hidden rounded-lg", className)}>
-        {!isLoaded && <Skeleton className={"aspect-2/3"} />}
+        {!isLoaded && <Skeleton className={cn("aspect-2/3", className)} />}
 
         <Image
           src={`https://image.tmdb.org/t/p/w780${path}`}
@@ -45,11 +37,11 @@ export default function Poster({
   return (
     <div
       className={cn(
-        "pointer-events-none aspect-2/3 overflow-hidden rounded-lg",
+        "pointer-events-none overflow-hidden rounded-lg",
         className,
       )}
     >
-      {!isLoaded && <Skeleton className={"aspect-2/3"} />}
+      {!isLoaded && <Skeleton className={cn("aspect-2/3", className)} />}
 
       <img
         src={`https://image.tmdb.org/t/p/w342${path}`}

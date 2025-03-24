@@ -7,8 +7,11 @@ import Skeleton from "../ui/Skeleton";
 
 function CastOverview({ people }) {
   const directors = people?.crew
-    .filter((person) => person.job === "Director")
-    ?.slice(0, 3);
+    .filter(
+      (person) =>
+        person.job === "Director" || person.department === "Directing",
+    )
+    ?.slice(0, 2);
   let writers = people?.crew.filter(
     (person) => person?.job === "Writer" || person?.department === "Writing",
   );

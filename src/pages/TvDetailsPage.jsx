@@ -3,7 +3,6 @@ import TvInfo from "../components/series/TvInfo";
 
 import { useFetchMovieItem } from "../hooks/moviedb/useFetchMovieItem";
 import { Spin } from "antd";
-import { useFetchMovieDB } from "../hooks/moviedb/useFetchMovieDB";
 
 function TvDetailsPage() {
   const { id } = useParams("id");
@@ -13,14 +12,7 @@ function TvDetailsPage() {
     id,
   );
 
-  const { data: popularPeople, isPending: isPeoplePending } = useFetchMovieDB(
-    "/trending/person/day?language=en-US",
-    `${id}_cast`,
-  );
-
-  if (isSeriesPending || isPeoplePending) return <Spin />;
-
-  return <TvInfo series={series} cast={popularPeople} />;
+  return <TvInfo id={id} series={series} isSeriesPending={isSeriesPending} />;
 }
 
 export default TvDetailsPage;

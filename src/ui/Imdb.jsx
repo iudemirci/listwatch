@@ -1,4 +1,4 @@
-function Imdb({ id, type }) {
+function Imdb({ id, type = "title" }) {
   const link = type === "person" ? "name" : "title";
 
   return (

@@ -11,20 +11,18 @@ import PeopleList from "../person/PeopleList";
 import Tagline from "../Tagline";
 import Languages from "../Languages";
 import ListDropdownButton from "../ListDropdownButton";
+import SetFavourite from "../SetFavourite";
 import Keywords from "../Keywords";
 import Imdb from "../../ui/Imdb";
 import Rating from "../Rating";
-
-import { useFetchMovieItem } from "../../hooks/moviedb/useFetchMovieItem";
-import SetFavourite from "../SetFavourite";
 import Paragraph from "../../ui/Paragraph";
 import Skeleton from "../../ui/Skeleton";
-import { useParams } from "react-router-dom";
-import { isPending } from "@reduxjs/toolkit";
+import PosterList from "../PosterList";
 
-function FilmInfo({ movie, isMoviePending }) {
+import { useFetchMovieItem } from "../../hooks/moviedb/useFetchMovieItem";
+
+function FilmInfo({ id, movie, isMoviePending }) {
   const token = useSelector((state) => state.auth.token);
-  const { id } = useParams("id");
 
   const { data: credits, isPending: isCreditsPending } = useFetchMovieItem(
     `/movie/${id}/credits?language=en-US`,
@@ -36,22 +34,32 @@ function FilmInfo({ movie, isMoviePending }) {
     `${id}_videos`,
   );
 
+  const { data: similarMovies, isPending: isSimilarPending } =
+    useFetchMovieItem(
+      `/movie/${id}/similar?language=en-US&page=1`,
+      `${id}_similar`,
+    );
+
   return (
     <div className="grid grid-cols-3 items-start gap-x-3 gap-y-6 pt-4 sm:grid-cols-4 md:grid-cols-3 md:gap-x-4 md:pt-8 lg:gap-x-6 lg:gap-y-8 2xl:grid-cols-4">
-      <section className="row-span-2 flex flex-col items-center gap-2">
-        <Poster
-          path={movie?.poster_path}
-          preview={true}
-          isPending={isMoviePending}
-        />
-
-        {/* {isMoviePending ? (
-          <Skeleton className={"aspect-2/3"} />
+      <section className="row-span-2">
+        {isMoviePending ? (
+          <Skeleton className={"aspect-2/3 rounded-lg"} />
         ) : (
           <Poster path={movie.poster_path} preview={true} />
-        )} */}
-        <Rating rating={movie?.vote_average} />
+        )}
+        {isMoviePending ? (
+          <Skeleton
+            className={"mt-2 h-4.5 w-20 justify-self-center rounded-lg lg:h-7"}
+          />
+        ) : (
+          <Rating
+            rating={movie?.vote_average}
+            className={"justify-self-center pt-2"}
+          />
+        )}
       </section>
+
       <section className="col-span-2 flex flex-col gap-8 sm:col-span-3 md:col-span-2 2xl:col-span-3">
         <div className="flex flex-col gap-2">
           {isMoviePending ? (
@@ -92,14 +100,17 @@ function FilmInfo({ movie, isMoviePending }) {
         )}
         <Imdb id={movie?.imdb_id} />
       </section>
-      {/* {movieVideo?.results.length ? ( */}
-      <section className="col-span-full">
-        {isVideoPending ? (
-          <Skeleton className={"aspect-video"} />
-        ) : (
-          <Videos videoData={movieVideo} />
-        )}
-      </section>
+
+      {movieVideo?.length > 0 ? (
+        <section className="col-span-full">
+          {isVideoPending ? (
+            <Skeleton className={"aspect-video"} />
+          ) : (
+            <Videos videoData={movieVideo} />
+          )}
+        </section>
+      ) : null}
+
       <section className="col-span-full flex flex-col gap-2 lg:row-start-4">
         {isCreditsPending ? (
           [...Array(3)].map((_, i) => (
@@ -128,6 +139,15 @@ function FilmInfo({ movie, isMoviePending }) {
       <section className="col-span-full">
         <Languages movieLanguages={movie?.spoken_languages} />
       </section>
+      {similarMovies?.results?.length > 0 && (
+        <section className="col-span-full">
+          <PosterList
+            title={"Similar movies"}
+            movies={similarMovies?.results || []}
+            isPending={isSimilarPending}
+          />
+        </section>
+      )}
     </div>
   );
 }

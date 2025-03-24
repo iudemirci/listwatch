@@ -3,8 +3,9 @@ import { Link } from "react-router-dom";
 import Title from "../ui/Title";
 import GenreList from "./GenreList";
 import MovieHighlight from "./movie/MovieHighlight";
+import SeriesHighlight from "./series/SeriesHighlight";
 
-function TitleOverview({ movie }) {
+function TitleOverview({ movie, type = "movie" }) {
   return (
     <>
       <div className={"flex flex-col gap-2.5"}>
@@ -20,8 +21,11 @@ function TitleOverview({ movie }) {
         <div className="flex flex-col gap-3">
           <GenreList genres={movie.genres} />
         </div>
-
-        <MovieHighlight movie={movie} />
+        {type === "series" ? (
+          <SeriesHighlight series={movie} />
+        ) : (
+          <MovieHighlight movie={movie} />
+        )}
       </div>
     </>
   );

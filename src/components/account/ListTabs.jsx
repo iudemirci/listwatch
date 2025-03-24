@@ -40,7 +40,7 @@ function ListTabs() {
         />
       </div>
       <ul className="flex flex-wrap gap-2">
-        {isListsPending
+        {!isFetched
           ? [...Array(2)].map((_, i) => (
               <Skeleton
                 key={i}

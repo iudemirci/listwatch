@@ -14,10 +14,8 @@ function AccountPoster() {
   const favMovie = !isPending && favouriteItem?.at(0)?.favouriteItem;
   const isFav = favMovie ? "before:bg-black/30" : "before:bg-transparent";
 
-  console.log(isFetched, isPending);
-
   return (
-    <div className="flex flex-col gap-2">
+    <div className="flex flex-col gap-2 2xl:gap-4">
       <Title level={3}>Favourite Content</Title>
       <div className="outline-grey-secondary hover:outline-primary relative h-35 w-full overflow-hidden rounded-xl outline-2 duration-300 lg:h-45 2xl:h-50">
         <div
