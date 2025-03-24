@@ -3,6 +3,7 @@ import uniqBy from "lodash/uniqBy";
 
 import Paragraph from "../ui/Paragraph";
 import Title from "../ui/Title";
+import Skeleton from "../ui/Skeleton";
 
 function CastOverview({ people }) {
   const directors = people?.crew
@@ -11,7 +12,7 @@ function CastOverview({ people }) {
   let writers = people?.crew.filter(
     (person) => person?.job === "Writer" || person?.department === "Writing",
   );
-  writers = uniqBy(writers, "id").slice(0, 3);
+  writers = uniqBy(writers, "id").slice(0, 2);
   const stars = people?.cast.slice(0, 3);
 
   const creditsArr = [
@@ -19,8 +20,6 @@ function CastOverview({ people }) {
     { title: "Writers", content: writers },
     { title: "Stars", content: stars },
   ];
-
-  if (!creditsArr) return <Spin />;
 
   return (
     <ul className="border-grey-primary divide-grey-primary flex flex-col divide-y border-y-1">

@@ -20,7 +20,7 @@ function TvInfo({ series, cast }) {
   return (
     <div className="grid grid-cols-3 items-start gap-x-3 gap-y-6 pt-4 sm:grid-cols-4 md:grid-cols-3 md:gap-x-4 md:pt-8 lg:gap-x-6 lg:gap-y-8 2xl:grid-cols-4">
       <div className="flex flex-col items-center gap-2">
-        <Poster path={series?.poster_path} preview="true" />
+        <Poster path={series?.poster_path} preview={true} />
         <Button type="primary">Add to list</Button>
       </div>
 

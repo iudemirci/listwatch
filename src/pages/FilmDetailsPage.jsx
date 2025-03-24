@@ -13,7 +13,7 @@ function FilmDetailsPage() {
     id,
   );
 
-  if (isMoviePending) return <Spin />;
+  // if (isMoviePending) return <Spin />;
 
   return <FilmInfo movie={movie} isMoviePending={isMoviePending} />;
 }

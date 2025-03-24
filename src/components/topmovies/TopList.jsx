@@ -1,16 +1,17 @@
 import LinkToId from "../../ui/LinkToId";
 import PaddingBottom from "../../ui/PaddingBottom";
 import Poster from "../Poster";
-import SkeletonPoster from "../SkeletonPoster";
+import Skeleton from "../../ui/Skeleton";
 
 function TopList({ movies, isPending }) {
-  console.log(movies);
   return (
     <PaddingBottom>
       <div className="flex flex-col items-center gap-4">
-        <ul className="grid w-[100%] grid-cols-5 gap-2 lg:grid-cols-5">
+        <ul className="grid w-[100%] grid-cols-4 gap-2 lg:grid-cols-5">
           {isPending
-            ? [...Array(20)].map((_, index) => <SkeletonPoster key={index} />)
+            ? [...Array(20)].map((_, index) => (
+                <Skeleton key={index} className={"aspect-2/3"} />
+              ))
             : movies.map((movie, i) => (
                 <li
                   key={i}

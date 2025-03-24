@@ -3,18 +3,21 @@ import {
   Navigate,
   RouterProvider,
 } from "react-router-dom";
+import { lazy } from "react";
 
-import AppLayout from "./../pages/AppLayout.jsx";
-import Homepage from "./../pages/Homepage";
-import Account from "./../pages/Account";
-import Films from "./../pages/Films";
-import Lists from "./../pages/Lists";
-import News from "./../pages/News";
-import Login from "./../pages/Login.jsx";
-import FilmDetailsPage from "./../pages/FilmDetailsPage.jsx";
-import PersonDetailsPage from "./../pages/PersonDetailsPage.jsx";
-import TvDetailsPage from "./../pages/TvDetailsPage.jsx";
-import ProtectedRoute from "./protectedRoute.jsx";
+const AppLayout = lazy(() => import("./../pages/AppLayout.jsx"));
+const Homepage = lazy(() => import("./../pages/Homepage"));
+const Account = lazy(() => import("./../pages/Account.jsx"));
+const Films = lazy(() => import("./../pages/Films.jsx"));
+const Lists = lazy(() => import("./../pages/Lists.jsx"));
+const News = lazy(() => import("./../pages/News.jsx"));
+const Login = lazy(() => import("./../pages/Login.jsx"));
+const FilmDetailsPage = lazy(() => import("./../pages/FilmDetailsPage.jsx"));
+const PersonDetailsPage = lazy(
+  () => import("./../pages/PersonDetailsPage.jsx"),
+);
+const TvDetailsPage = lazy(() => import("./../pages/TvDetailsPage.jsx"));
+const ProtectedRoute = lazy(() => import("./ProtectedRoute.jsx"));
 
 function Router() {
   const router = createBrowserRouter([

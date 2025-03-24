@@ -59,7 +59,6 @@ export async function deleteItem(id) {
 }
 
 export async function updateRating(rating, id) {
-  console.log(rating, id);
   const { data, error } = await supabase
     .from("items")
     .update({ userRating: rating })

@@ -45,7 +45,7 @@ function AccountListItem({ item, edit, setEdit }) {
   }
 
   return (
-    <li className="outline-grey-primary/50 hover:outline-primary relative flex flex-col gap-1 rounded-lg outline-2 duration-300 hover:outline-2">
+    <li className="hover:outline-primary relative flex flex-col gap-1 rounded-lg outline-2 outline-transparent duration-300 hover:outline-2">
       <Link to={`/films/${item.itemID}`}>
         <Poster path={item.posterPath} />
       </Link>

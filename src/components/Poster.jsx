@@ -4,10 +4,18 @@ import Icon from "@mdi/react";
 import { Image } from "antd";
 
 import { cn } from "../utilities/cn";
-import SkeletonPoster from "./SkeletonPoster";
+import Skeleton from "../ui/Skeleton";
 
-export default function Poster({ path, preview = false, className, ...props }) {
+export default function Poster({
+  path,
+  preview = false,
+  isPending,
+  className,
+  ...props
+}) {
   const [isLoaded, setIsLoaded] = useState(false);
+
+  if (isPending) return <Skeleton className={"aspect-2/3"} />;
 
   if (!path)
     return (
@@ -24,7 +32,8 @@ export default function Poster({ path, preview = false, className, ...props }) {
   if (preview)
     return (
       <div className={cn("aspect-2/3 overflow-hidden rounded-lg", className)}>
-        {!isLoaded && <SkeletonPoster />}
+        {!isLoaded && <Skeleton className={"aspect-2/3"} />}
+
         <Image
           src={`https://image.tmdb.org/t/p/w780${path}`}
           className={`transition-opacity duration-500 ${isLoaded ? "opacity-100" : "opacity-0"}`}
@@ -40,11 +49,11 @@ export default function Poster({ path, preview = false, className, ...props }) {
         className,
       )}
     >
-      {!isLoaded && <SkeletonPoster />}
+      {!isLoaded && <Skeleton className={"aspect-2/3"} />}
 
       <img
         src={`https://image.tmdb.org/t/p/w342${path}`}
-        className={`transition-opacity duration-500 ${isLoaded ? "opacity-100" : "opacity-0"}`}
+        className={`rounded-lg transition-opacity duration-500 ${isLoaded ? "opacity-100" : "opacity-0"}`}
         alt="movie poster"
         {...props}
         onLoad={() => setIsLoaded(true)}

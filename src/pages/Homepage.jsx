@@ -3,9 +3,10 @@ import { Spin } from "antd";
 import HomePoster from "../components/HomePoster";
 import GreetingText from "../components/GreetingText";
 import GuideTable from "../components/GuideTable";
-import MoviesList from "../components/PosterList";
+import PosterList from "../components/PosterList";
 import PeopleList from "../components/person/PeopleList";
 import MovieDetailCard from "../components/movie/MovieDetailCard";
+
 import { useFetchMovieDB } from "../hooks/moviedb/useFetchMovieDB.js";
 
 function Homepage() {
@@ -19,36 +20,30 @@ function Homepage() {
   const { data: popularSeries, isPending: isPopularSeriesPending } =
     useFetchMovieDB("/trending/tv/day?language=en-US", "popularSeries");
 
-  const { data: inTheaters, isPending: isInTheatersPending } = useFetchMovieDB(
-    "/movie/now_playing",
-    "inTheaters",
-  );
-
-  if (
-    isPopularMoviesPending ||
-    isPeoplePending ||
-    isPopularSeriesPending ||
-    isInTheatersPending
-  )
-    return <Spin />;
   return (
     <>
       <HomePoster movies={popularMovies} />
       <GreetingText />
-      <MoviesList movies={popularMovies} title={"Trending Movies"} />
+      <PosterList
+        movies={popularMovies}
+        isPending={isPopularMoviesPending}
+        title={"Trending Movies"}
+      />
       <GuideTable />
       <PeopleList
         people={popularPeople}
+        isPending={isPeoplePending}
         title={"Trending People"}
         className={"pb-8"}
       />
-      <MoviesList
+      <PosterList
         type="tv"
         movies={popularSeries}
+        isPending={isPopularSeriesPending}
         title={"Trending Series"}
         autoPlay={9000}
       />
-      <MovieDetailCard movies={inTheaters} />
+      <MovieDetailCard />
     </>
   );
 }

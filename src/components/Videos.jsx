@@ -1,24 +1,32 @@
+import { memo, useEffect, useState } from "react";
 import LiteYouTubeEmbed from "react-lite-youtube-embed";
 
 function Videos({ videoData }) {
+  const [visible, setVisible] = useState(false);
+
   const movieTrailer = videoData?.results.find(
-    (video) => video.type === "Trailer",
+    (video) => video.type === "Trailer" || "Clip",
   );
+  useEffect(() => {
+    setVisible(true); // Trigger animation on mount
+  }, []);
 
   if (!movieTrailer) return null;
 
   return (
-    <div className="flex flex-col gap-2">
-      <div className="overflow-hidden rounded-lg">
-        <LiteYouTubeEmbed
-          id={movieTrailer?.key}
-          playlist={false}
-          noCookie={true}
-          title={`Trailer ${movieTrailer?.name}`}
-        />
-      </div>
+    <div
+      className={`overflow-hidden rounded-lg transition-opacity duration-500 ${
+        visible ? "opacity-100" : "opacity-0"
+      }`}
+    >
+      <LiteYouTubeEmbed
+        id={movieTrailer?.key}
+        playlist={false}
+        noCookie={true}
+        title={`Trailer ${movieTrailer?.name}`}
+      />
     </div>
   );
 }
 
-export default Videos;
+export default memo(Videos);

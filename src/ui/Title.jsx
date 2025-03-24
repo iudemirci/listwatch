@@ -18,7 +18,7 @@ function Title({ level, children, className, ...props }) {
     return (
       <h2
         className={cn(
-          "align-center flex text-3xl leading-6 font-extrabold sm:w-[350px] lg:w-[450px] 2xl:w-[500px] 2xl:text-4xl 2xl:leading-7",
+          "align-center flex text-3xl leading-6 font-extrabold lg:text-4xl lg:leading-8 2xl:text-5xl 2xl:leading-11",
           className,
         )}
         {...props}

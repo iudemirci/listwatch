@@ -8,19 +8,17 @@ import Title from "../../ui/Title";
 import AccountList from "./accountList";
 import Paragraph from "../../ui/Paragraph";
 import NewListPopup from "../NewListPopup";
-import { Spin } from "antd";
+import Skeleton from "../../ui/Skeleton";
 
 function ListTabs() {
   const [isPopup, setIsPopup] = useState(false);
   const [currentList, setCurrentList] = useState(null);
 
-  const { data: lists, isPending: isListsPending } = useGetLists();
+  const { data: lists, isPending: isListsPending, isFetched } = useGetLists();
 
   useEffect(() => {
     if (!isListsPending) setCurrentList(lists[0]);
   }, [lists, isListsPending]);
-
-  if (isListsPending) return <Spin size="large" />;
 
   function handlePopup() {
     setIsPopup((s) => !s);
@@ -32,7 +30,7 @@ function ListTabs() {
 
   return (
     <>
-      <div className="flex gap-2">
+      <div className="flex items-center gap-2">
         <Title level={2}>My Lists</Title>
         <Icon
           path={mdiPlusBoxMultiple}
@@ -42,21 +40,28 @@ function ListTabs() {
         />
       </div>
       <ul className="flex flex-wrap gap-2">
-        {lists.map((list) => (
-          <li key={list.id}>
-            <Button
-              type={
-                currentList && currentList.id === list.id
-                  ? "primary"
-                  : "secondary"
-              }
-              onClick={() => setCurrentList(list)}
-            >
-              {list.listName}
-            </Button>
-          </li>
-        ))}
-        {lists && lists.length === 0 && (
+        {isListsPending
+          ? [...Array(2)].map((_, i) => (
+              <Skeleton
+                key={i}
+                className={`h-8 rounded-3xl 2xl:h-10 ${i % 2 === 1 ? "w-40" : "w-30"}`}
+              />
+            ))
+          : lists?.map((list) => (
+              <li key={list.id}>
+                <Button
+                  type={
+                    currentList && currentList.id === list.id
+                      ? "primary"
+                      : "secondary"
+                  }
+                  onClick={() => setCurrentList(list)}
+                >
+                  {list.listName}
+                </Button>
+              </li>
+            ))}
+        {isFetched && lists?.length === 0 && (
           <Paragraph
             type="secondary"
             className={"hover:text-primary cursor-pointer"}

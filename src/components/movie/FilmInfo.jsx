@@ -1,12 +1,9 @@
 import "react-lite-youtube-embed/dist/LiteYouTubeEmbed.css";
 import { useSelector } from "react-redux";
-import Icon from "@mdi/react";
-import { mdiStar } from "@mdi/js";
 
 import Poster from "../Poster";
 import TitleOverview from "../TitleOverview";
 import CastOverview from "../CastOverview";
-import Highlight from "./MovieHighlight";
 import Videos from "../Videos";
 import ImageGrid from "../ImageGrid";
 import Title from "../../ui/Title";
@@ -16,21 +13,22 @@ import Languages from "../Languages";
 import ListDropdownButton from "../ListDropdownButton";
 import Keywords from "../Keywords";
 import Imdb from "../../ui/Imdb";
+import Rating from "../Rating";
 
-import useWindowWidth from "../../hooks/useWindowWidth";
 import { useFetchMovieItem } from "../../hooks/moviedb/useFetchMovieItem";
 import SetFavourite from "../SetFavourite";
 import Paragraph from "../../ui/Paragraph";
-import SkeletonPoster from "../SkeletonPoster";
+import Skeleton from "../../ui/Skeleton";
+import { useParams } from "react-router-dom";
+import { isPending } from "@reduxjs/toolkit";
 
 function FilmInfo({ movie, isMoviePending }) {
   const token = useSelector((state) => state.auth.token);
-  const id = movie.id;
+  const { id } = useParams("id");
 
-  const width = useWindowWidth();
-  const { data: movieImages, isPending: isImagesPending } = useFetchMovieItem(
-    `/movie/${id}/images`,
-    `${id}_images`,
+  const { data: credits, isPending: isCreditsPending } = useFetchMovieItem(
+    `/movie/${id}/credits?language=en-US`,
+    `${id}_credits`,
   );
 
   const { data: movieVideo, isPending: isVideoPending } = useFetchMovieItem(
@@ -38,68 +36,94 @@ function FilmInfo({ movie, isMoviePending }) {
     `${id}_videos`,
   );
 
-  const { data: credits, isPending: isCreditsPending } = useFetchMovieItem(
-    `/movie/${id}/credits?language=en-US`,
-    `${id}_credits`,
-  );
-  const { data: keywords, isPending: isKeywordsPending } = useFetchMovieItem(
-    `/movie/${id}/keywords`,
-    `${id}_keywords`,
-  );
   return (
     <div className="grid grid-cols-3 items-start gap-x-3 gap-y-6 pt-4 sm:grid-cols-4 md:grid-cols-3 md:gap-x-4 md:pt-8 lg:gap-x-6 lg:gap-y-8 2xl:grid-cols-4">
-      <section className="flex flex-col items-center gap-2">
-        {isMoviePending && <SkeletonPoster />}
-        <Poster path={movie?.poster_path} preview={true} />
-      </section>
-      <section className="col-span-2 flex flex-col sm:col-span-3 md:col-span-2 2xl:col-span-3">
-        <TitleOverview movie={movie} />
-        {width >= 1024 && <CastOverview />}
+      <section className="row-span-2 flex flex-col items-center gap-2">
+        <Poster
+          path={movie?.poster_path}
+          preview={true}
+          isPending={isMoviePending}
+        />
 
-        {width >= 1024 && <Highlight movie={movie} />}
+        {/* {isMoviePending ? (
+          <Skeleton className={"aspect-2/3"} />
+        ) : (
+          <Poster path={movie.poster_path} preview={true} />
+        )} */}
+        <Rating rating={movie?.vote_average} />
+      </section>
+      <section className="col-span-2 flex flex-col gap-8 sm:col-span-3 md:col-span-2 2xl:col-span-3">
+        <div className="flex flex-col gap-2">
+          {isMoviePending ? (
+            [...Array(3)].map((_, i) => (
+              <Skeleton key={i} className={"aspect-24/1"} />
+            ))
+          ) : (
+            <TitleOverview movie={movie} />
+          )}
+        </div>
+        <div className="hidden flex-col gap-2 lg:flex">
+          <Title level={3}>Overview</Title>
+          {isMoviePending ? (
+            [...Array(3)].map((_, i) => (
+              <Skeleton key={i} className={"aspect-50/1"} />
+            ))
+          ) : (
+            <Paragraph type={"secondary"}>{movie?.overview}</Paragraph>
+          )}
+        </div>
+      </section>
+      <section className="col-span-full flex flex-col gap-2 lg:hidden 2xl:col-span-3">
+        <Title level={3}>Overview</Title>
+        {isMoviePending ? (
+          [...Array(3)].map((_, i) => (
+            <Skeleton key={i} className={"aspect-30/1"} />
+          ))
+        ) : (
+          <Paragraph type={"secondary"}>{movie?.overview}</Paragraph>
+        )}
       </section>
       <section className="col-span-full flex flex-wrap items-center gap-2">
         {token && (
           <>
-            <ListDropdownButton item={movie} />
-            <SetFavourite item={movie} />
-            <Imdb id={movie?.imdb_id} />
+            <ListDropdownButton item={movie || []} />
+            <SetFavourite item={movie || []} />
           </>
         )}
+        <Imdb id={movie?.imdb_id} />
       </section>
-      <section className="col-span-full flex flex-col gap-2">
-        <Title level={3}>Overview</Title>
-        <Paragraph type={"secondary"}>{movie?.overview}</Paragraph>
+      {/* {movieVideo?.results.length ? ( */}
+      <section className="col-span-full">
+        {isVideoPending ? (
+          <Skeleton className={"aspect-video"} />
+        ) : (
+          <Videos videoData={movieVideo} />
+        )}
       </section>
-      {movieVideo?.results.length ? (
-        <section className="col-span-full 2xl:col-span-3">
-          {!isVideoPending && <Videos videoData={movieVideo} />}
-        </section>
-      ) : null}
-      {width < 1024 && (
-        <section className="col-span-full">
-          {!isCreditsPending && <CastOverview people={credits} />}
-        </section>
-      )}
-      <section className="col-span-full 2xl:col-start-4">
-        <Title level={3}>Cast</Title>
-        {!isCreditsPending && (
-          <PeopleList
-            people={credits.cast}
-            className={"2xl:grid 2xl:grid-cols-3"}
-          />
+      <section className="col-span-full flex flex-col gap-2 lg:row-start-4">
+        {isCreditsPending ? (
+          [...Array(3)].map((_, i) => (
+            <Skeleton
+              key={i}
+              className={"aspect-12/1 md:aspect-15/1 lg:aspect-23/1"}
+            />
+          ))
+        ) : (
+          <CastOverview people={credits} />
         )}
       </section>
       <section className="col-span-full">
-        {!isImagesPending && <ImageGrid images={movieImages} />}
+        <Title level={3}>Cast</Title>
+        <PeopleList people={credits?.cast} isPending={isCreditsPending} />
       </section>
-      {
-        <section className="col-span-full">
-          {!isKeywordsPending && <Keywords keywords={keywords.keywords} />}
-        </section>
-      }
       <section className="col-span-full">
-        <Tagline tagline={movie?.tagline} />
+        <ImageGrid id={id} />
+      </section>
+      <section className="col-span-full">
+        <Keywords id={id} />
+      </section>
+      <section className="col-span-full">
+        <Tagline tagline={movie?.tagline} isPending={isMoviePending} />
       </section>
       <section className="col-span-full">
         <Languages movieLanguages={movie?.spoken_languages} />

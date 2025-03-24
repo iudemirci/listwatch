@@ -1,11 +1,12 @@
-import TopList from "../components/topmovies/TopList";
-import Button from "../ui/Button";
-import Paragraph from "../ui/Paragraph";
 import { useEffect, useState } from "react";
-import SortingBar from "../components/topmovies/SortingBar";
+import { useLocation, useNavigate } from "react-router-dom";
 import api from "../axios/axiosInstance";
 import { useQuery } from "@tanstack/react-query";
-import { useLocation, useNavigate } from "react-router-dom";
+
+import TopList from "../components/topmovies/TopList";
+import SortingBar from "../components/topmovies/SortingBar";
+import Button from "../ui/Button";
+import Paragraph from "../ui/Paragraph";
 
 const fetchMovies = async ({ genre, sort, page }) => {
   let url = `discover/movie?language=en-US&vote_count.gte=300&page=${page}`;
@@ -100,8 +101,6 @@ function Films() {
       page: newPage,
     }));
   };
-
-  // if (isMoviesPending) return <Spin />;
 
   return (
     <section>
