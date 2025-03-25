@@ -20,6 +20,7 @@ import Skeleton from "../../ui/Skeleton";
 import PosterList from "../PosterList";
 
 import { useFetchMovieItem } from "../../hooks/moviedb/useFetchMovieItem";
+import { useLocation } from "react-router-dom";
 
 function FilmInfo({ id, movie, isMoviePending }) {
   const token = useSelector((state) => state.auth.token);
@@ -100,16 +101,13 @@ function FilmInfo({ id, movie, isMoviePending }) {
         )}
         <Imdb id={movie?.imdb_id} />
       </section>
-
-      {movieVideo?.length > 0 ? (
-        <section className="col-span-full">
-          {isVideoPending ? (
-            <Skeleton className={"aspect-video"} />
-          ) : (
-            <Videos videoData={movieVideo} />
-          )}
-        </section>
-      ) : null}
+      <section className="col-span-full">
+        {isVideoPending ? (
+          <Skeleton className={"aspect-video"} />
+        ) : (
+          <Videos videoData={movieVideo} />
+        )}
+      </section>
 
       <section className="col-span-full flex flex-col gap-2 lg:row-start-4">
         {isCreditsPending ? (

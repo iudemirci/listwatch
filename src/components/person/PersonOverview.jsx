@@ -1,5 +1,3 @@
-import Imdb from "../../ui/Imdb";
-import Paragraph from "../../ui/Paragraph";
 import Title from "../../ui/Title";
 
 function PersonOverview({ person }) {
@@ -25,11 +23,10 @@ function PersonOverview({ person }) {
             )}
           </div>
           <Title level={5} role={"h4"}>
-            Known for {person?.known_for_department.toLowerCase()}
+            Known for {person?.known_for_department?.toLowerCase()}
           </Title>
         </div>
       </div>
-      {/* <Imdb id={person?.imdb_id} type={"person"} /> */}
     </>
   );
 }

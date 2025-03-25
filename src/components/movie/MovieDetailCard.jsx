@@ -6,7 +6,7 @@ import Paragraph from "../../ui/Paragraph";
 import PaddingBottom from "../../ui/PaddingBottom";
 import Title from "../../ui/Title";
 import MoviePoster from "../Poster";
-import LinkToMovie from "../../ui/LinkToId";
+import LinkToId from "../../ui/LinkToId";
 import GenreList from "../GenreList";
 
 import { useFetchGenres } from "../../hooks/moviedb/useFetchGenres";
@@ -82,7 +82,7 @@ function MovieDetailCard() {
                 genres.filter((genre) => movie.genre_ids.includes(genre.id));
 
               return (
-                <LinkToMovie key={movie.id} movieID={movie?.id}>
+                <LinkToId key={movie.id} movieID={movie?.id}>
                   <div className="group bg-grey-secondary/75 hover:bg-grey-secondary relative grid h-full cursor-pointer grid-cols-5 gap-2 rounded-xl p-3 duration-300 2xl:gap-4">
                     <MoviePoster
                       path={movie?.poster_path}
@@ -120,7 +120,7 @@ function MovieDetailCard() {
                       />
                     </div>
                   </div>
-                </LinkToMovie>
+                </LinkToId>
               );
             })}
         {isLoading &&

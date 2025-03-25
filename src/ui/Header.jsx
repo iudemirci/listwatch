@@ -7,7 +7,7 @@ function Header() {
   const width = useWindowWidth();
 
   return (
-    <header className="flex items-center justify-between py-4">
+    <header className="relative flex items-center justify-between py-4">
       <Logo />
       <div className="flex items-center gap-2 transition 2xl:gap-4">
         <Search />

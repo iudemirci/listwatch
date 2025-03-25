@@ -41,7 +41,7 @@ function Homepage() {
         movies={popularSeries}
         isPending={isPopularSeriesPending}
         title={"Trending Series"}
-        autoPlay={9000}
+        delay={7000}
       />
       <MovieDetailCard />
     </>

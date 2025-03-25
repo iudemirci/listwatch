@@ -1,9 +1,13 @@
 import {
+  BrowserRouter,
   createBrowserRouter,
   Navigate,
+  Route,
   RouterProvider,
+  Routes,
 } from "react-router-dom";
 import { lazy } from "react";
+import ScrollToTop from "../components/ScrollToTop.jsx";
 
 const AppLayout = lazy(() => import("./../pages/AppLayout.jsx"));
 const Homepage = lazy(() => import("./../pages/Homepage"));
@@ -20,60 +24,28 @@ const TvDetailsPage = lazy(() => import("./../pages/TvDetailsPage.jsx"));
 const ProtectedRoute = lazy(() => import("./ProtectedRoute.jsx"));
 
 function Router() {
-  const router = createBrowserRouter([
-    {
-      element: <AppLayout />,
-      children: [
-        {
-          element: <ProtectedRoute />,
-          children: [
-            {
-              path: "account",
-              element: <Account />,
-            },
-          ],
-        },
-        {
-          path: "/",
-          element: <Navigate replace to={"home"} />,
-        },
-        {
-          path: "home",
-          element: <Homepage />,
-        },
-        {
-          path: "login",
-          element: <Login />,
-        },
-        {
-          path: "films",
-          element: <Films />,
-        },
-        {
-          path: "films/:id",
-          element: <FilmDetailsPage />,
-        },
-        {
-          path: "person/:id",
-          element: <PersonDetailsPage />,
-        },
-        {
-          path: "tv/:id",
-          element: <TvDetailsPage />,
-        },
-        {
-          path: "lists",
-          element: <Lists />,
-        },
-        {
-          path: "news",
-          element: <News />,
-        },
-      ],
-    },
-  ]);
+  return (
+    <BrowserRouter>
+      <ScrollToTop />
+      <Routes>
+        <Route element={<AppLayout />}>
+          <Route element={<ProtectedRoute />}>
+            <Route path="/account" element={<Account />} />
+          </Route>
 
-  return <RouterProvider router={router} />;
+          <Route path="/" element={<Navigate replace to={"home"} />} />
+          <Route path="home" element={<Homepage />} />
+          <Route path="login" element={<Login />} />
+          <Route path="films" element={<Films />} />
+          <Route path="films/:id" element={<FilmDetailsPage />} />
+          <Route path="person/:id" element={<PersonDetailsPage />} />
+          <Route path="tv/:id" element={<TvDetailsPage />} />
+          <Route path="lists" element={<Lists />} />
+          <Route path="news" element={<News />} />
+        </Route>
+      </Routes>
+    </BrowserRouter>
+  );
 }
 
 export default Router;

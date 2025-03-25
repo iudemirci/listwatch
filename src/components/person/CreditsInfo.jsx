@@ -28,10 +28,10 @@ function CreditsInfo({ id, gender }) {
   const director =
     credits &&
     filterDate(credits?.crew.filter((item) => item.job === "Director"));
-
+  console.log(cast);
   const tabs = [
     {
-      label: cast?.length > 0 && gender === 1 ? "Actress" : "Actor",
+      label: cast?.length > 0 && (gender === 1 ? "Actress" : "Actor"),
     },
     {
       label: producer?.length > 0 && "Producer",
@@ -40,6 +40,7 @@ function CreditsInfo({ id, gender }) {
       label: director?.length > 0 && "Director",
     },
   ];
+
   let currentLabel = cast;
   if (currentTab === 1) currentLabel = cast;
   else if (currentTab === 2) currentLabel = producer;

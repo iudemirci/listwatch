@@ -6,7 +6,13 @@ import { Image } from "antd";
 import { cn } from "../utilities/cn";
 import Skeleton from "../ui/Skeleton";
 
-export default function Poster({ path, preview = false, className, ...props }) {
+export default function Poster({
+  path,
+  preview = false,
+  skeleton = true,
+  className,
+  ...props
+}) {
   const [isLoaded, setIsLoaded] = useState(false);
 
   if (!path)
@@ -41,7 +47,9 @@ export default function Poster({ path, preview = false, className, ...props }) {
         className,
       )}
     >
-      {!isLoaded && <Skeleton className={cn("aspect-2/3", className)} />}
+      {skeleton && !isLoaded && (
+        <Skeleton className={cn("aspect-2/3", className)} />
+      )}
 
       <img
         src={`https://image.tmdb.org/t/p/w342${path}`}

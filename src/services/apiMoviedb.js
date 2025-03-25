@@ -17,3 +17,11 @@ export async function getMovieItem(url) {
 
   return res.data;
 }
+
+export async function getSearchData(searchTerm) {
+  const res = await api.get(
+    `/search/multi?query=${searchTerm}&include_adult=false&language=en-US&page=1`,
+  );
+  // console.log(res.data);
+  return res.data;
+}

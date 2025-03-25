@@ -8,15 +8,15 @@ import LinkToId from "../ui/LinkToId";
 import CustomSwiper from "../ui/CustomSwiper";
 import Skeleton from "../ui/Skeleton";
 
-var settings = {
-  perItem: 3,
-  delay: 6000,
-  space: 6,
-  loop: false,
-  ItemToSlide: 2,
-};
+function PosterList({ movies, isPending, title, type, delay = 6000 }) {
+  var settings = {
+    perItem: 3,
+    delay: delay,
+    space: 6,
+    loop: false,
+    ItemToSlide: 2,
+  };
 
-function PosterList({ movies, isPending, title, type }) {
   return (
     <PaddingBottom>
       <Title level={3}>{title}</Title>

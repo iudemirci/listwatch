@@ -48,7 +48,6 @@ function EpisodeInfo({ series, isPending, id }) {
               key={season?.id}
               item={season}
               type={"season"}
-              isTv={true}
               onClick={() => {
                 setSeasonNumber(season?.season_number);
                 setCurrentTab("episodes");
