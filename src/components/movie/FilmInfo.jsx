@@ -18,9 +18,10 @@ import Rating from "../Rating";
 import Paragraph from "../../ui/Paragraph";
 import Skeleton from "../../ui/Skeleton";
 import PosterList from "../PosterList";
+import HomePoster from "../HomePoster";
+import Reviews from "../Reviews";
 
 import { useFetchMovieItem } from "../../hooks/moviedb/useFetchMovieItem";
-import { useLocation } from "react-router-dom";
 
 function FilmInfo({ id, movie, isMoviePending }) {
   const token = useSelector((state) => state.auth.token);
@@ -41,8 +42,14 @@ function FilmInfo({ id, movie, isMoviePending }) {
       `${id}_similar`,
     );
 
+  const { data: reviews, isPending: isReviewsPending } = useFetchMovieItem(
+    `/movie/${id}/reviews?language=en-US&page=1`,
+    `${id}_reviews`,
+  );
+
   return (
-    <div className="grid grid-cols-3 items-start gap-x-3 gap-y-6 pt-4 sm:grid-cols-4 md:grid-cols-3 md:gap-x-4 md:pt-8 lg:gap-x-6 lg:gap-y-8 2xl:grid-cols-4">
+    <div className="mt-[23rem] grid grid-cols-3 items-start gap-x-3 gap-y-6 pt-4 sm:grid-cols-4 md:grid-cols-3 md:gap-x-4 md:pt-8 lg:gap-x-6 lg:gap-y-8 2xl:grid-cols-4">
+      <HomePoster path={movie?.backdrop_path} className="pt-[40rem]" />
       <section className="row-span-2">
         {isMoviePending ? (
           <Skeleton className={"aspect-2/3 rounded-lg"} />
@@ -92,15 +99,16 @@ function FilmInfo({ id, movie, isMoviePending }) {
           <Paragraph type={"secondary"}>{movie?.overview}</Paragraph>
         )}
       </section>
-      <section className="col-span-full flex flex-wrap items-center gap-2">
-        {token && (
+      {token && (
+        <section className="col-span-full flex flex-wrap items-center gap-2">
           <>
             <ListDropdownButton item={movie || []} />
             <SetFavourite item={movie || []} />
           </>
-        )}
-        <Imdb id={movie?.imdb_id} />
-      </section>
+          <Imdb id={movie?.imdb_id} />
+        </section>
+      )}
+
       <section className="col-span-full">
         {isVideoPending ? (
           <Skeleton className={"aspect-video"} />
@@ -144,6 +152,11 @@ function FilmInfo({ id, movie, isMoviePending }) {
             movies={similarMovies?.results || []}
             isPending={isSimilarPending}
           />
+        </section>
+      )}
+      {(isReviewsPending || reviews?.results?.length !== 0) && (
+        <section className="col-span-full">
+          <Reviews reviews={reviews?.results} isPending={isReviewsPending} />
         </section>
       )}
     </div>

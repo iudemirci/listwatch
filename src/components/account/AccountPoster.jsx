@@ -10,7 +10,6 @@ import Skeleton from "../../ui/Skeleton";
 
 function AccountPoster() {
   const { favouriteItem, isPending, isFetched } = useGetFavouriteItem();
-
   const favMovie = !isPending && favouriteItem?.at(0)?.favouriteItem;
   const isFav = favMovie ? "before:bg-black/30" : "before:bg-transparent";
 

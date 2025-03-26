@@ -16,7 +16,7 @@ function Videos({ videoData }) {
 
   return (
     <div
-      className={`bg-grey-secondary aspect-video items-center justify-center overflow-hidden rounded-lg transition-opacity duration-500 ${
+      className={`bg-grey-secondary aspect-video items-center justify-center overflow-hidden rounded-2xl transition-opacity duration-500 ${
         visible ? "opacity-100" : "opacity-0"
       }`}
     >

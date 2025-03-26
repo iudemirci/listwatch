@@ -1,5 +1,4 @@
 import { useParams } from "react-router-dom";
-import ReactReadMoreReadLess from "react-read-more-read-less";
 
 import Title from "../../ui/Title";
 import Poster from "../Poster";
@@ -11,6 +10,7 @@ import ImageGrid from "../ImageGrid";
 
 import useWindowWidth from "../../hooks/useWindowWidth";
 import { useFetchMovieItem } from "../../hooks/moviedb/useFetchMovieItem";
+import ReadMore from "../../utilities/ReadMore";
 
 function PersonInfo() {
   const { id } = useParams("id");
@@ -51,21 +51,7 @@ function PersonInfo() {
           ))
         ) : (
           <Paragraph type={"secondary"}>
-            <ReactReadMoreReadLess
-              charLimit={1000}
-              readMoreText={
-                <span className="hover:text-primary text-text-default duration-300">
-                  Read more &darr;
-                </span>
-              }
-              readLessText={
-                <span className="hover:text-primary text-text-default duration-300">
-                  Read less &uarr;
-                </span>
-              }
-            >
-              {person?.biography}
-            </ReactReadMoreReadLess>
+            <ReadMore>{person?.biography}</ReadMore>
           </Paragraph>
         )}
       </section>

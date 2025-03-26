@@ -14,10 +14,7 @@ function SearchResultItem({ result }) {
         movieID={result?.id}
       >
         <div className="w-11 self-center rounded-lg">
-          <Poster
-            path={result?.poster_path || result?.profile_path}
-            skeleton={false}
-          />
+          <Poster path={result?.poster_path || result?.profile_path} />
         </div>
         <div className="flex flex-1 flex-col">
           <Title

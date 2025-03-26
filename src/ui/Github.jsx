@@ -4,7 +4,7 @@ import Icon from "@mdi/react";
 function Github() {
   return (
     <a href="https://github.com/iudemirci" target="_tab">
-      <Icon path={mdiGithub} size={1.5} />
+      <Icon path={mdiGithub} size={1.7} />
     </a>
   );
 }

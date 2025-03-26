@@ -9,7 +9,7 @@ import Button from "../ui/Button";
 import Paragraph from "../ui/Paragraph";
 
 const fetchMovies = async ({ genre, sort, page }) => {
-  let url = `discover/movie?language=en-US&vote_count.gte=300&page=${page}`;
+  let url = `discover/movie?include_adult=false?language=en-US&vote_count.gte=300&page=${page}`;
 
   if (genre) {
     url += `&with_genres=${genre}`;

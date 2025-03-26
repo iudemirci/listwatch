@@ -1,17 +1,21 @@
-import Button from "../ui/Button";
-import Icon from "@mdi/react";
-import { mdiStarPlus } from "@mdi/js";
-import ListButton from "./ListButton";
 import { useState } from "react";
-import { Dropdown, Spin } from "antd";
-import NewListPopup from "./NewListPopup";
-import AddItemPopup from "./AddItemPopup";
-import { useGetLists } from "../hooks/lists/useGetLists";
 import { useDispatch } from "react-redux";
+import { mdiPlus } from "@mdi/js";
+import Icon from "@mdi/react";
+import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
+import { AnimatePresence, motion } from "framer-motion";
+
+import AddItemPopup from "./AddItemPopup";
+import ListButton from "./ListButton";
+import NewListPopup from "./NewListPopup";
+import Button from "../ui/Button";
+
+import { useGetLists } from "../hooks/lists/useGetLists";
 import { setSelectedList } from "../store/userSlice";
 
 function ListDropdownButton({ item }) {
   const [popupType, setPopupType] = useState(null);
+  // const [isOpen, setIsOpen] = useState(false);
   const { data: lists, isPending: isListsPending } = useGetLists();
   const dispatch = useDispatch();
 
@@ -28,33 +32,56 @@ function ListDropdownButton({ item }) {
 
   return (
     <>
-      <Dropdown
-        dropdownRender={() => (
-          <div className="font-exo flex flex-col items-start gap-0.5">
-            <ListButton onClick={() => handlePopup("create")}>
-              Create New List
-            </ListButton>
-
-            {isListsPending ? (
-              <Spin />
-            ) : (
-              lists.map((list) => (
-                <ListButton
-                  key={list.id}
-                  type={"list"}
-                  onClick={() => handlePopup("list", list)}
+      <Menu as="div">
+        {({ open }) => (
+          <>
+            <MenuButton>
+              <span
+                className={
+                  "border-primary bg-primary hover:bg-primary-dark flex cursor-pointer items-center gap-1 rounded-2xl border-2 px-2 py-1 text-[14px] transition-colors duration-300 hover:border-2 lg:text-base 2xl:px-2 2xl:text-lg"
+                }
+              >
+                <Icon path={mdiPlus} size={0.89} /> List now
+              </span>
+            </MenuButton>
+            <AnimatePresence mode="wait">
+              {open && (
+                <MenuItems
+                  as={motion.div}
+                  initial={{ opacity: 0, y: -10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -10 }}
+                  className={"flex flex-col gap-0.5 pt-0.5"}
+                  anchor="bottom start"
+                  modal={false}
+                  static
                 >
-                  {list.listName}
-                </ListButton>
-              ))
-            )}
-          </div>
+                  <MenuItem>
+                    <ListButton onClick={() => handlePopup("create")}>
+                      Create New List
+                    </ListButton>
+                  </MenuItem>
+
+                  {isListsPending ? (
+                    <ListButton type={"list"}>Loading lists...</ListButton>
+                  ) : (
+                    lists.map((list) => (
+                      <MenuItem key={list.id}>
+                        <ListButton
+                          type={"list"}
+                          onClick={() => handlePopup("list", list)}
+                        >
+                          {list.listName}
+                        </ListButton>
+                      </MenuItem>
+                    ))
+                  )}
+                </MenuItems>
+              )}
+            </AnimatePresence>
+          </>
         )}
-      >
-        <Button type="primary" className={"flex items-center gap-1"}>
-          <Icon path={mdiStarPlus} size={0.89} /> List now
-        </Button>
-      </Dropdown>
+      </Menu>
 
       {popupType === "create" && <NewListPopup handlePopup={handlePopup} />}
 

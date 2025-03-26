@@ -1,18 +1,26 @@
+import { twMerge } from "tailwind-merge";
 import styles from "./HomePoster.module.css";
 
-function HomePoster({ movies }) {
-  const filteredPaths = movies
-    ?.map((movie) => movie?.backdrop_path)
-    ?.filter((path) => path !== null);
+function HomePoster({ path, movies, className }) {
+  const filteredPaths =
+    path ||
+    movies
+      ?.map((movie) => movie?.backdrop_path)
+      ?.filter((path) => path !== null);
   const randomPath =
-    filteredPaths &&
-    filteredPaths[Math.floor(Math.random() * filteredPaths?.length)];
+    path ||
+    (filteredPaths &&
+      filteredPaths[Math.floor(Math.random() * filteredPaths?.length)]);
 
   return (
     <div
-      className={`${styles.wrapper} w-[100%] pt-[50rem] sm:w-[120%] md:w-[130%] lg:w-[135%] 2xl:w-[140%]`}
+      className={twMerge(
+        `${styles.wrapper} w-[100%] pt-[50rem] sm:w-[125%] md:w-[130%] lg:w-[135%] 2xl:w-[140%]`,
+        className,
+      )}
       style={{
-        backgroundImage: `url(https://image.tmdb.org/t/p/w1280${randomPath})`,
+        backgroundImage:
+          randomPath && `url(https://image.tmdb.org/t/p/w1280${randomPath})`,
       }}
     ></div>
   );

@@ -1,8 +1,5 @@
 import supabase from "./supabase";
 
-const data = await supabase.auth.getUser();
-const userID = data.data.user?.id;
-
 export async function login(info) {
   const { data, error } = await supabase.auth.signInWithPassword(info);
 
@@ -36,7 +33,10 @@ export async function setFavouriteItem(item) {
 }
 
 export async function updateFavouriteItem(item) {
-  const { data, error } = await supabase
+  const data = await supabase.auth.getUser();
+  const userID = data.data.user?.id;
+
+  const { data: res, error } = await supabase
     .from("users")
     .update({ favouriteItem: item })
     .eq("userID", userID)
@@ -45,10 +45,13 @@ export async function updateFavouriteItem(item) {
   if (error)
     throw new Error("There was something wrong with updating favourite item");
 
-  return data;
+  return res;
 }
 
 export async function getFavouriteItem() {
+  const data = await supabase.auth.getUser();
+  const userID = data.data.user?.id;
+
   let { data: res, error } = await supabase
     .from("users")
     .select("favouriteItem")

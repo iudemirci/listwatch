@@ -1,16 +1,14 @@
-import Icon from "@mdi/react";
+import { useEffect, useState } from "react";
 import { mdiShare } from "@mdi/js";
-import { Spin } from "antd";
+import Icon from "@mdi/react";
 
 import Paragraph from "../../ui/Paragraph";
-import PaddingBottom from "../../ui/PaddingBottom";
 import Title from "../../ui/Title";
 import MoviePoster from "../Poster";
 import LinkToId from "../../ui/LinkToId";
 import GenreList from "../GenreList";
 
 import { useFetchGenres } from "../../hooks/moviedb/useFetchGenres";
-import { useEffect, useState } from "react";
 import Skeleton from "../../ui/Skeleton";
 import { useFetchMovieDB } from "../../hooks/moviedb/useFetchMovieDB";
 

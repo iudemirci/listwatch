@@ -8,7 +8,7 @@ function Paragraph({ children, type, className, ...props }) {
       case "secondary":
         return "text-xs md:text-5 font-semibold  text-grey-primary";
       case "tertiary":
-        return "text-sm md:text-5 font-semibold";
+        return "text-xs md:text-5 font-semibold text-grey-primary-light";
     }
   }
 

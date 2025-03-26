@@ -1,4 +1,3 @@
-import { Spin } from "antd";
 import { useFetchGenres } from "../../hooks/moviedb/useFetchGenres";
 import Title from "../../ui/Title";
 
@@ -33,8 +32,6 @@ const sortFilters = [
 function SortingBar({ handleFilter, handleSort }) {
   const { data: genres, isPending: isGenresPending } = useFetchGenres();
 
-  if (isGenresPending) return <Spin />;
-
   return (
     <div className="flex items-center justify-between py-4">
       <Title level={3}>Movies</Title>
@@ -58,11 +55,15 @@ function SortingBar({ handleFilter, handleSort }) {
           onChange={handleFilter}
         >
           <option value={""}>Sort by genre</option>
-          {genres.map((genre) => (
-            <option key={genre.id} value={genre.id}>
-              {genre.name}
-            </option>
-          ))}
+          {isGenresPending ? (
+            <option>Loading...</option>
+          ) : (
+            genres.map((genre) => (
+              <option key={genre.id} value={genre.id}>
+                {genre.name}
+              </option>
+            ))
+          )}
         </select>
       </div>
     </div>

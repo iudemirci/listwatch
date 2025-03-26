@@ -6,6 +6,7 @@
   --color-primary: #dc2626;
   --color-primary-dark: #7f1d1d;
   --color-grey-primary: #71717a;
+  --color-grey-primary-light: #9f9fa9;
   --color-grey-secondary: #27272a;
   --color-grey-tertiary: #18181b;
   --color-background-default: #131314;
@@ -31,11 +32,6 @@
   --swiper-navigation-color: var(--swiper-theme-color);
 }
 
-/* the slides */
-.slick-slide {
-  padding: 0 4px;
-}
-
 .imdb {
   display: inline-block;
   width: 42px;
@@ -50,50 +46,7 @@
   mask-size: 100% 100%;
 }
 
-.ant-image-preview-footer,
-.ant-image-preview-close {
-  display: none;
-}
-
 .active span {
-  color: var(--color-primary);
-}
-
-.ant-drawer-close {
-  width: 48px;
-  height: 48px;
-}
-
-.ant-popover-inner,
-.ant-popconfirm-title {
-  font-family: "Exo 2";
-  color: var(--color-text-default) !important;
-  background-color: var(--color-grey-secondary) !important;
-}
-
-.ant-btn,
-.ant-btn-variant {
-  font-family: "Exo 2";
-  background-color: var(--color-primary) !important;
-  outline: 2px solid var(--color-primary);
-  border-radius: 15px;
-  border: none;
-}
-
-.ant-btn:hover,
-.ant-btn-variant:hover {
-  background-color: transparent !important;
-  color: var(--color-primary) !important;
-}
-.ant-popconfirm-message-icon svg {
-  display: none;
-}
-
-.ant-popover-arrow::before {
-  background: var(--color-primary) !important;
-}
-
-.ant-spin-dot-item {
   color: var(--color-primary);
 }
 

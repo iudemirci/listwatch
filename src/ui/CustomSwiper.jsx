@@ -41,6 +41,7 @@ function CustomSwiper({
   return (
     <div className="group relative">
       <Swiper
+        className="overflow-hidden rounded-lg"
         spaceBetween={space}
         modules={[Autoplay, Mousewheel, Navigation]}
         onSlideChange={handleSlideChange}

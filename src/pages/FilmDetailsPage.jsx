@@ -1,4 +1,3 @@
-import { Spin } from "antd";
 import { useParams } from "react-router-dom";
 
 import FilmInfo from "../components/movie/FilmInfo";

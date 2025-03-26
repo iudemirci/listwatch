@@ -9,7 +9,7 @@ function ListButton({ children, type, ...props }) {
   return (
     <Button
       type={buttonType}
-      className={"text-text-default flex items-center gap-1 py-0.5"}
+      className={"text-text-default flex w-fit items-center gap-1 py-0.5"}
       {...props}
     >
       <Icon path={iconType} size={0.8} />

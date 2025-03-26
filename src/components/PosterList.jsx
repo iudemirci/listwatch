@@ -1,7 +1,6 @@
 import { SwiperSlide } from "swiper/react";
 import "swiper/css";
 
-import PaddingBottom from "../ui/PaddingBottom";
 import Title from "../ui/Title";
 import MoviePoster from "./Poster";
 import LinkToId from "../ui/LinkToId";
@@ -18,7 +17,7 @@ function PosterList({ movies, isPending, title, type, delay = 6000 }) {
   };
 
   return (
-    <PaddingBottom>
+    <>
       <Title level={3}>{title}</Title>
       <ul className="pt-2 2xl:pt-4">
         <CustomSwiper {...settings}>
@@ -39,7 +38,7 @@ function PosterList({ movies, isPending, title, type, delay = 6000 }) {
               ))}
         </CustomSwiper>
       </ul>
-    </PaddingBottom>
+    </>
   );
 }
 

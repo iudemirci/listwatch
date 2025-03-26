@@ -1,5 +1,3 @@
-import { Spin } from "antd";
-
 import HomePoster from "../components/HomePoster";
 import GreetingText from "../components/GreetingText";
 import GuideTable from "../components/GuideTable";
@@ -23,27 +21,39 @@ function Homepage() {
   return (
     <>
       <HomePoster movies={popularMovies} />
-      <GreetingText />
-      <PosterList
-        movies={popularMovies}
-        isPending={isPopularMoviesPending}
-        title={"Trending Movies"}
-      />
-      <GuideTable />
-      <PeopleList
-        people={popularPeople}
-        isPending={isPeoplePending}
-        title={"Trending People"}
-        className={"pb-8"}
-      />
-      <PosterList
-        type="tv"
-        movies={popularSeries}
-        isPending={isPopularSeriesPending}
-        title={"Trending Series"}
-        delay={7000}
-      />
-      <MovieDetailCard />
+      <div className="flex flex-col gap-6 lg:gap-8">
+        <GreetingText />
+        <section>
+          <PosterList
+            movies={popularMovies}
+            isPending={isPopularMoviesPending}
+            title={"Trending Movies"}
+          />
+        </section>
+        <section>
+          <GuideTable />
+        </section>
+        <section>
+          <PeopleList
+            people={popularPeople}
+            isPending={isPeoplePending}
+            title={"Trending People"}
+          />
+        </section>
+
+        <section>
+          <PosterList
+            type="tv"
+            movies={popularSeries}
+            isPending={isPopularSeriesPending}
+            title={"Trending Series"}
+            delay={7000}
+          />
+        </section>
+        <section>
+          <MovieDetailCard />
+        </section>
+      </div>
     </>
   );
 }

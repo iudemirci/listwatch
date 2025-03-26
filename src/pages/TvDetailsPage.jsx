@@ -2,7 +2,6 @@ import { useParams } from "react-router-dom";
 import TvInfo from "../components/series/TvInfo";
 
 import { useFetchMovieItem } from "../hooks/moviedb/useFetchMovieItem";
-import { Spin } from "antd";
 
 function TvDetailsPage() {
   const { id } = useParams("id");

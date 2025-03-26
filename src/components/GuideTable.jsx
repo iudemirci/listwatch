@@ -1,4 +1,3 @@
-import PaddingBottom from "../ui/PaddingBottom";
 import Paragraph from "../ui/Paragraph";
 import Title from "../ui/Title";
 
@@ -19,7 +18,7 @@ function GuideTable() {
   ];
 
   return (
-    <PaddingBottom>
+    <>
       <Title level={3}>In list&watch you can;</Title>
       <div className="grid grid-cols-2 grid-rows-2 gap-1.5 pt-2 md:grid-cols-3 2xl:gap-2 2xl:pt-4">
         {content.map((item, i) => {
@@ -36,7 +35,7 @@ function GuideTable() {
           );
         })}
       </div>
-    </PaddingBottom>
+    </>
   );
 }
 
