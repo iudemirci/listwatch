@@ -4,15 +4,12 @@ import Icon from "@mdi/react";
 import profile from "../assets/profile.png";
 import Paragraph from "../ui/Paragraph";
 
-import { useFetchMovieDB } from "../hooks/moviedb/useFetchMovieDB";
 import ReadMore from "../utilities/ReadMore";
 import Title from "../ui/Title";
 import dayjs from "dayjs";
 import Skeleton from "../ui/Skeleton";
 
 function Reviews({ reviews, isPending }) {
-  console.log(reviews);
-
   return (
     <div className="divide-grey-primary flex flex-col divide-y-1">
       <Title level={3} className="pb-2">
@@ -30,14 +27,14 @@ function Reviews({ reviews, isPending }) {
                     ? `https://image.tmdb.org/t/p/w185${review?.author_details?.avatar_path}`
                     : profile
                 }
-                className="aspect-square h-10 w-10 rounded-full"
+                className="bg-grey-secondary aspect-square h-10 w-10 cursor-pointer rounded-full"
               />
               <div className="flex flex-col gap-2 py-0.5">
                 <div className="flex flex-wrap justify-between gap-2">
                   <div className="flex gap-2">
                     <Paragraph type="tertiary">
                       Review by
-                      <b className="text-text-default pl-1 font-semibold">
+                      <b className="text-text-default cursor-pointer pl-1 font-semibold">
                         {review?.author}
                       </b>
                     </Paragraph>

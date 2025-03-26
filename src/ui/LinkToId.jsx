@@ -1,10 +1,10 @@
 import { Link } from "react-router-dom";
 import { cn } from "../utilities/cn";
 
-function LinkToId({ movieID, children, type = "films", className, ...props }) {
+function LinkToId({ movieID, children, type = "movie", className, ...props }) {
   return (
     <Link
-      to={`/${type}/${movieID}`}
+      to={`/discover/${type}/${movieID}`}
       className={cn("cursor-pointer", className)}
       {...props}
     >

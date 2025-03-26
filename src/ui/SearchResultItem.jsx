@@ -10,7 +10,7 @@ function SearchResultItem({ result }) {
     <li className="group bg-grey-tertiary hover:bg-grey-secondary cursor-pointer duration-300">
       <LinkToId
         className={"flex h-20 gap-2 px-2 py-1.5"}
-        type={(result?.media_type === "movie" && "films") || result?.media_type}
+        type={result?.media_type}
         movieID={result?.id}
       >
         <div className="w-11 self-center rounded-lg">

@@ -29,7 +29,7 @@ function ImageGrid({ id, type = "movie" }) {
   return (
     <div className="flex flex-col gap-2">
       <Title level={3}>Images</Title>
-      <ul className="grid grid-cols-3 gap-1 gap-x-3 lg:grid-cols-4">
+      <ul className="grid grid-cols-3 gap-x-2 gap-y-1.5 lg:grid-cols-4">
         {isPending
           ? [...Array(type !== "person" ? screenBackdrop : screenProfiles)].map(
               (_, i) => (

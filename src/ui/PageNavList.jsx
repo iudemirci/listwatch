@@ -28,25 +28,25 @@ function PageNavList() {
       label: token ? "Account" : "Login",
       path: token ? "/account" : "/login",
       icon: token ? (
-        <Icon path={mdiAccountBox} size={1.3} />
+        <Icon path={mdiAccountBox} size={1.2} />
       ) : (
-        <Icon path={mdiLogin} size={1.3} />
+        <Icon path={mdiLogin} size={1.2} />
       ),
     },
     {
-      label: "Films",
-      path: "/films",
-      icon: <Icon path={mdiFilmstripBox} size={1.3} />,
+      label: "Discover",
+      path: "/discover",
+      icon: <Icon path={mdiFilmstripBox} size={1.2} />,
     },
     {
       label: "lists",
       path: "/lists",
-      icon: <Icon path={mdiListBox} size={1.3} />,
+      icon: <Icon path={mdiListBox} size={1.2} />,
     },
     {
       label: "News",
       path: "/news",
-      icon: <Icon path={mdiNewspaper} size={1.3} />,
+      icon: <Icon path={mdiNewspaper} size={1.2} />,
     },
   ];
 
@@ -100,7 +100,7 @@ function PageNavList() {
                 size={1.6}
                 onClick={() => setIsClicked(false)}
               />
-              <ul className="flex h-full flex-col items-center justify-between text-[16px] font-extrabold uppercase lg:text-[9px] 2xl:gap-4 2xl:text-xs">
+              <ul className="flex h-full flex-col items-center justify-between text-sm font-extrabold uppercase lg:text-[9px] 2xl:gap-4 2xl:text-xs">
                 <div className="flex flex-col gap-2">
                   {navItems().map((item) => (
                     <li key={item.path}>
@@ -129,7 +129,7 @@ function PageNavList() {
                     }}
                   >
                     <span className="text-grey-primary">
-                      <Icon path={mdiLogout} size={1.3} />
+                      <Icon path={mdiLogout} size={1.2} />
                     </span>
                     Log out
                   </li>

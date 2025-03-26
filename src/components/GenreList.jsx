@@ -14,7 +14,7 @@ function GenreList({ genres, max }) {
             onClick={(e) => {
               e.stopPropagation();
               e.preventDefault();
-              navigate(`/films?genre=${genre.id}`);
+              navigate(`/discover?genre=${genre.id}`);
             }}
           >
             {genre.name}

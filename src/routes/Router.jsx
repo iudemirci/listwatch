@@ -1,18 +1,11 @@
-import {
-  BrowserRouter,
-  createBrowserRouter,
-  Navigate,
-  Route,
-  RouterProvider,
-  Routes,
-} from "react-router-dom";
+import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import { lazy } from "react";
 import ScrollToTop from "../components/ScrollToTop.jsx";
 
 const AppLayout = lazy(() => import("./../pages/AppLayout.jsx"));
 const Homepage = lazy(() => import("./../pages/Homepage"));
 const Account = lazy(() => import("./../pages/Account.jsx"));
-const Films = lazy(() => import("./../pages/Films.jsx"));
+const Discover = lazy(() => import("./../pages/Discover.jsx"));
 const Lists = lazy(() => import("./../pages/Lists.jsx"));
 const News = lazy(() => import("./../pages/News.jsx"));
 const Login = lazy(() => import("./../pages/Login.jsx"));
@@ -36,10 +29,10 @@ function Router() {
           <Route path="/" element={<Navigate replace to={"home"} />} />
           <Route path="home" element={<Homepage />} />
           <Route path="login" element={<Login />} />
-          <Route path="films" element={<Films />} />
-          <Route path="films/:id" element={<FilmDetailsPage />} />
-          <Route path="person/:id" element={<PersonDetailsPage />} />
-          <Route path="tv/:id" element={<TvDetailsPage />} />
+          <Route path="discover" element={<Discover />} />
+          <Route path="discover/movie/:id" element={<FilmDetailsPage />} />
+          <Route path="discover/person/:id" element={<PersonDetailsPage />} />
+          <Route path="discover/tv/:id" element={<TvDetailsPage />} />
           <Route path="lists" element={<Lists />} />
           <Route path="news" element={<News />} />
         </Route>

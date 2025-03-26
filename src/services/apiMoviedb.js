@@ -25,3 +25,20 @@ export async function getSearchData(searchTerm) {
   // console.log(res.data);
   return res.data;
 }
+
+export async function fetchMovies({ pageParam = 1, queryKey }) {
+  const [, { genre, sort, type }] = queryKey;
+
+  let url = `discover/${type}?include_adult=false?language=en-US&vote_count.gte=300&page=${pageParam}`;
+
+  if (genre) {
+    url += `&with_genres=${genre}`;
+  }
+
+  if (sort) {
+    url += `discover&sort_by=${sort}`;
+  }
+
+  const { data } = await api.get(url);
+  return { movies: data };
+}

@@ -47,6 +47,8 @@ function FilmInfo({ id, movie, isMoviePending }) {
     `${id}_reviews`,
   );
 
+  console.log(movie);
+
   return (
     <div className="mt-[23rem] grid grid-cols-3 items-start gap-x-3 gap-y-6 pt-4 sm:grid-cols-4 md:grid-cols-3 md:gap-x-4 md:pt-8 lg:gap-x-6 lg:gap-y-8 2xl:grid-cols-4">
       <HomePoster path={movie?.backdrop_path} className="pt-[40rem]" />

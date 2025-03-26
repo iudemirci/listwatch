@@ -88,8 +88,8 @@ function CreditsInfo({ id, gender }) {
                 key={i}
                 to={
                   credit?.media_type === "movie"
-                    ? `/films/${credit.id}`
-                    : `/tv/${credit.id}`
+                    ? `/discover/films/${credit.id}`
+                    : `/discover/tv/${credit.id}`
                 }
               >
                 <ListItem key={i} item={credit} />
