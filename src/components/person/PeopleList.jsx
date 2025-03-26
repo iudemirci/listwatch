@@ -53,7 +53,7 @@ function PeopleList({ people, isPending, title, className }) {
                           <Paragraph type="primary">{person.name}</Paragraph>
                           {person.character && (
                             <Paragraph type="secondary">
-                              as {person.character}
+                              {person.character}
                             </Paragraph>
                           )}
                         </div>

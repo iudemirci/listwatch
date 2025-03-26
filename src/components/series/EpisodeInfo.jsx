@@ -24,15 +24,13 @@ function EpisodeInfo({ series, isPending, id }) {
     <div className="flex flex-col gap-2">
       <div className="flex gap-2">
         <Button
-          className={currentTab === "seasons" ? "bg-primary" : "bg-transparent"}
+          type={currentTab === "seasons" ? "primary" : "secondary"}
           onClick={() => setCurrentTab("seasons")}
         >
           Seasons
         </Button>
         <Button
-          className={
-            currentTab === "episodes" ? "bg-primary" : "bg-transparent"
-          }
+          type={currentTab === "episodes" ? "primary" : "secondary"}
           onClick={() => setCurrentTab("episodes")}
         >
           Episodes

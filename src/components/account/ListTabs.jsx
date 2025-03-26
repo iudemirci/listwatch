@@ -5,10 +5,10 @@ import { useEffect, useState } from "react";
 
 import Button from "../../ui/Button";
 import Title from "../../ui/Title";
-import AccountList from "./accountList";
 import Paragraph from "../../ui/Paragraph";
 import NewListPopup from "../NewListPopup";
 import Skeleton from "../../ui/Skeleton";
+import AccountList from "./AccountList";
 
 function ListTabs() {
   const [isPopup, setIsPopup] = useState(false);

@@ -34,7 +34,7 @@ function MovieDetailCard() {
         Math.min(prevCount + moviesLoadedPerScroll, movies.length),
       );
       setIsLoading(false);
-    }, 250);
+    }, 200);
   }
 
   // listening window

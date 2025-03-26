@@ -7,6 +7,7 @@ import { useFilters } from "../hooks/useFilters";
 import { fetchMovies } from "../services/apiMoviedb";
 import { useEffect, useMemo, useRef } from "react";
 import { debounce } from "lodash";
+import ScrollToTopButton from "../ui/ScrollToTopButton";
 
 function Discover() {
   const { genre, sort, type, setFilter } = useFilters();
@@ -60,7 +61,7 @@ function Discover() {
         isPending={isPending}
         isFetchingNextPage={isFetchingNextPage}
       />
-
+      <ScrollToTopButton />
       <div ref={loadMoreRef} style={{ height: 1, visibility: "hidden" }} />
     </section>
   );
