@@ -1,4 +1,4 @@
-import { mdiStar } from "@mdi/js";
+import { mdiStar, mdiAccount } from "@mdi/js";
 import Icon from "@mdi/react";
 
 import profile from "../assets/profile.png";
@@ -21,14 +21,18 @@ function Reviews({ reviews, isPending }) {
         ) : (
           reviews?.slice(0, 10)?.map((review) => [
             <li key={review?.id} className="flex gap-3 py-3">
-              <img
-                src={
-                  review?.author_details?.avatar_path
-                    ? `https://image.tmdb.org/t/p/w185${review?.author_details?.avatar_path}`
-                    : profile
-                }
-                className="bg-grey-secondary aspect-square h-10 w-10 cursor-pointer rounded-full"
-              />
+              {review?.author_details?.avatar_path ? (
+                <img
+                  src={`https://image.tmdb.org/t/p/w185${review?.author_details?.avatar_path}`}
+                  className="bg-grey-secondary aspect-square size-10 cursor-pointer rounded-full"
+                />
+              ) : (
+                <Icon
+                  path={mdiAccount}
+                  size={1}
+                  className="aspect-square size-10 bg-amber-200"
+                />
+              )}
               <div className="flex flex-col gap-2 py-0.5">
                 <div className="flex flex-wrap justify-between gap-2">
                   <div className="flex gap-2">
