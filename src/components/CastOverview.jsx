@@ -36,7 +36,7 @@ function CastOverview({ people }) {
             {credit.content.map((person) => (
               <Paragraph key={person.name} type={"primary"}>
                 <Link
-                  to={`/person/${person.id}`}
+                  to={`/discover/person/${person.id}`}
                   className="hover:text-primary flex items-center duration-300"
                 >
                   {person.name}

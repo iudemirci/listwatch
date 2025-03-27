@@ -11,6 +11,7 @@ import ImageGrid from "../ImageGrid";
 import useWindowWidth from "../../hooks/useWindowWidth";
 import { useFetchMovieItem } from "../../hooks/moviedb/useFetchMovieItem";
 import ReadMore from "../../utilities/ReadMore";
+import useDocumentTitle from "../../hooks/useDocumentTitle";
 
 function PersonInfo() {
   const { id } = useParams("id");
@@ -20,6 +21,9 @@ function PersonInfo() {
     `/person/${id}?language=en-US`,
     `person_${id}`,
   );
+
+  useDocumentTitle(`${person?.name} | list&watch`, isPersonPending);
+
   return (
     <div className="grid grid-cols-3 items-start gap-x-3 gap-y-6 pt-4 sm:grid-cols-4 md:grid-cols-3 md:gap-x-4 md:pt-8 lg:gap-x-6 lg:gap-y-8 2xl:grid-cols-4">
       <div>

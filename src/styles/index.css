@@ -4,7 +4,7 @@
 
 @theme {
   --color-primary: #dc2626;
-  --color-primary-dark: #7f1d1d;
+  --color-primary-dark: oklch(0.505 0.213 27.518);
   --color-grey-primary: #71717a;
   --color-grey-primary-light: #9f9fa9;
   --color-grey-secondary: #27272a;
@@ -78,8 +78,6 @@
 }
 
 .spinner {
-  margin: 4.8rem auto;
-
   width: 2.4rem;
   aspect-ratio: 1;
   border-radius: 50%;

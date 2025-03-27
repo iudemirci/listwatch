@@ -10,28 +10,25 @@ import {
   mdiListBox,
 } from "@mdi/js";
 import Icon from "@mdi/react";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { removeToken } from "../store/authSlice";
 import { useQueryClient } from "@tanstack/react-query";
 import { AnimatePresence, motion } from "framer-motion";
 
-function PageNavList() {
+function PageNavList({ setIsOpen }) {
   const [isClicked, setIsClicked] = useState(false);
   const queryClient = useQueryClient();
   const token = useSelector((state) => state.auth.token);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const linkRef = useRef(null);
 
   const navItems = () => [
     {
-      label: token ? "Account" : "Login",
-      path: token ? "/account" : "/login",
-      icon: token ? (
-        <Icon path={mdiAccountBox} size={1.2} />
-      ) : (
-        <Icon path={mdiLogin} size={1.2} />
-      ),
+      label: token && "Account",
+      path: token && "/account",
+      icon: token && <Icon path={mdiAccountBox} size={1.2} />,
     },
     {
       label: "Discover",
@@ -54,15 +51,53 @@ function PageNavList() {
     setIsClicked((prevState) => !prevState);
   }
 
+  function handleLoginClick(e) {
+    if (e.button === 0) {
+      e.preventDefault();
+      setIsOpen(true);
+    }
+
+    if (e.button === 1) {
+      e.preventDefault();
+      if (linkRef.current) linkRef.current.click();
+    }
+  }
+
   return (
     <>
-      <nav className="hidden md:block">
-        <ul className="flex gap-2 text-xs font-extrabold uppercase 2xl:gap-4 2xl:text-sm">
-          {navItems().map((item) => (
-            <li key={item.path}>
-              <NavLink to={item.path}>{item.label}</NavLink>
+      {/* pc nav */}
+      <nav className="hidden opacity-100 md:block">
+        <ul className="flex items-center gap-2 text-xs font-extrabold tracking-wider uppercase 2xl:gap-4 2xl:text-sm">
+          {!token && (
+            <li
+              onMouseDown={handleLoginClick}
+              className="cursor-pointer duration-300 hover:text-white"
+            >
+              <NavLink to={"/login"}>Sign in</NavLink>
             </li>
-          ))}
+          )}
+          {navItems().map((item) => {
+            if (item.label === null) return null;
+            return (
+              <li key={item.path} className="duration-300 hover:text-white">
+                <NavLink to={item.path}>{item.label}</NavLink>
+              </li>
+            );
+          })}
+          {/* logout pc */}
+          {token && (
+            <li className="hover:text-primary cursor-pointer duration-300">
+              <Icon
+                path={mdiLogout}
+                size={1}
+                onClick={() => {
+                  dispatch(removeToken());
+                  queryClient.removeQueries(["lists"]);
+                  navigate("/");
+                }}
+              />
+            </li>
+          )}
         </ul>
       </nav>
       <Icon
@@ -102,22 +137,45 @@ function PageNavList() {
               />
               <ul className="flex h-full flex-col items-center justify-between text-sm font-extrabold uppercase lg:text-[9px] 2xl:gap-4 2xl:text-xs">
                 <div className="flex flex-col gap-2">
-                  {navItems().map((item) => (
-                    <li key={item.path}>
-                      <NavLink to={item.path} onClick={toggleDrawer}>
+                  {!token && (
+                    <li className="cursor-pointer duration-300 hover:text-white">
+                      <NavLink to={"/login"} onClick={toggleDrawer}>
                         <span
                           className={
                             "hover:text-primary text-text-default flex items-center gap-1 duration-300"
                           }
                         >
-                          <span className="text-grey-primary">{item.icon}</span>
-                          {item.label}
+                          <span className="text-grey-primary">
+                            <Icon path={mdiLogin} size={1.4} />
+                          </span>
+                          Sign in
                         </span>
                       </NavLink>
                     </li>
-                  ))}
+                  )}
+                  {navItems().map((item) => {
+                    if (item.label === null) return null;
+
+                    return (
+                      <li key={item.path}>
+                        <NavLink to={item.path} onClick={toggleDrawer}>
+                          <span
+                            className={
+                              "hover:text-primary text-text-default flex items-center gap-1 duration-300"
+                            }
+                          >
+                            <span className="text-grey-primary">
+                              {item.icon}
+                            </span>
+                            {item.label}
+                          </span>
+                        </NavLink>
+                      </li>
+                    );
+                  })}
                 </div>
 
+                {/* logout mobile */}
                 {token && (
                   <li
                     className="hover:text-primary flex cursor-pointer items-center gap-1 duration-300"

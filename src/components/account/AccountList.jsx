@@ -116,7 +116,7 @@ function AccountList({ currentList }) {
               .map((item) => <AccountListItem key={item.id} item={item} />)}
 
         {listItems?.length - itemsInListCount < 0 && (
-          <Link to={"/discover/films"}>
+          <Link to={"/discover"}>
             <li className="text-grey-primary outline-grey-primary/50 hover:outline-primary flex aspect-2/3 items-center justify-center rounded-lg outline-2">
               <Icon path={mdiPlusBoxOutline} size={1.3} />
             </li>

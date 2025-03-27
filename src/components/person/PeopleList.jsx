@@ -1,12 +1,12 @@
 import { useState } from "react";
+import { mdiAccount } from "@mdi/js";
+import Icon from "@mdi/react";
 import { Popover } from "react-tiny-popover";
 import { Link } from "react-router-dom";
 import { SwiperSlide } from "swiper/react";
-
 import "swiper/css";
 
 import Paragraph from "../../ui/Paragraph";
-import profile from "../../assets/profile.png";
 import Title from "../../ui/Title";
 
 import { cn } from "../../utilities/cn";
@@ -32,10 +32,6 @@ function PeopleList({ people, isPending, title, className }) {
     <>
       <Title level={3}>{title}</Title>
       <ul className={cn("pt-2 2xl:pt-4", className)}>
-        {!isPending && !people?.length && (
-          <Paragraph type="primary">No cast information found</Paragraph>
-        )}
-
         <div>
           <CustomSwiper {...settings}>
             {isPending &&
@@ -63,21 +59,21 @@ function PeopleList({ people, isPending, title, className }) {
                     padding={4}
                   >
                     <li
-                      className="hover:border-primary aspect-square size-full cursor-pointer overflow-hidden rounded-full border-2 border-transparent duration-300 hover:border-2"
+                      className="hover:border-primary bg-grey-secondary flex aspect-square size-full cursor-pointer items-center justify-center overflow-hidden rounded-full border-2 border-transparent duration-300 hover:border-2"
                       onMouseEnter={() => setIsPopoverOpen(i)}
                       onMouseLeave={() => setIsPopoverOpen(null)}
                     >
-                      <Link to={`/person/${person?.id}`}>
+                      <Link to={`/discover/person/${person?.id}`}>
                         {!isLoaded && skeleton}
-                        <img
-                          src={
-                            person.profile_path
-                              ? `https://image.tmdb.org/t/p/w185${person.profile_path}`
-                              : profile
-                          }
-                          className={`bg-grey-secondary pointer-events-none object-contain ${isLoaded ? "opacity-100" : "opacity-0"} duration-300`}
-                          onLoad={() => setIsLoaded(true)}
-                        />
+                        {person.profile_path ? (
+                          <img
+                            src={`https://image.tmdb.org/t/p/w185${person.profile_path}`}
+                            className={`bg-grey-secondary pointer-events-none object-contain ${isLoaded ? "opacity-100" : "opacity-0"} duration-300`}
+                            onLoad={() => setIsLoaded(true)}
+                          />
+                        ) : (
+                          <Icon path={mdiAccount} size={1.8} />
+                        )}
                       </Link>
                     </li>
                   </Popover>

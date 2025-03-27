@@ -6,6 +6,7 @@ import PeopleList from "../components/person/PeopleList";
 import MovieDetailCard from "../components/movie/MovieDetailCard";
 
 import { useFetchMovieDB } from "../hooks/moviedb/useFetchMovieDB.js";
+import useDocumentTitle from "../hooks/useDocumentTitle.js";
 
 function Homepage() {
   const { data: popularMovies, isPending: isPopularMoviesPending } =
@@ -17,6 +18,8 @@ function Homepage() {
   );
   const { data: popularSeries, isPending: isPopularSeriesPending } =
     useFetchMovieDB("/trending/tv/day?language=en-US", "popularSeries");
+
+  useDocumentTitle("list&watch | Dicover new content.", false);
 
   return (
     <>

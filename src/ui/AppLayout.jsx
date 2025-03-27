@@ -1,8 +1,8 @@
 import { Outlet } from "react-router-dom";
-import MainContainer from "../ui/MainContainer";
-import Header from "../ui/Header";
-import Content from "../ui/Content";
-import Footer from "../ui/Footer";
+import MainContainer from "./MainContainer";
+import Header from "./Header";
+import Content from "./Content";
+import Footer from "./Footer";
 
 function AppLayout() {
   return (

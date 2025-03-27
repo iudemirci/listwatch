@@ -44,7 +44,7 @@ function AccountPoster() {
             favouriteItem?.length > 0 &&
             favMovie?.backdrop_path && (
               <Link
-                to={`/discover/films/${favMovie?.id}`}
+                to={`/discover/movie/${favMovie?.id}`}
                 className="absolute inset-0 flex items-center justify-center rounded-lg bg-black/80 text-white opacity-0 transition-opacity duration-300 group-hover:opacity-100"
               >
                 <Icon path={mdiShareAll} size={1.3} className="text-primary" />

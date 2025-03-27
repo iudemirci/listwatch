@@ -18,13 +18,20 @@ import Keywords from "../Keywords";
 import Imdb from "../../ui/Imdb";
 import PosterList from "../PosterList";
 import EpisodeInfo from "./EpisodeInfo";
+import Reviews from "../Reviews";
 
 import { useFetchMovieItem } from "../../hooks/moviedb/useFetchMovieItem";
-import Reviews from "../Reviews";
+import useDocumentTitle from "../../hooks/useDocumentTitle";
+import { getYear } from "../../utilities/getYear";
 
 function TvInfo({ id, series, isSeriesPending }) {
   const token = useSelector((state) => state.auth.token);
 
+  //document title
+  useDocumentTitle(
+    `${series?.name} (${getYear(series?.first_air_date)}) | list&watch`,
+    isSeriesPending,
+  );
   const { data: credits, isPending: isCreditsPending } = useFetchMovieItem(
     `/tv/${id}/aggregate_credits?language=en-US`,
     `${id}_cast`,
