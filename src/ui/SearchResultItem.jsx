@@ -7,7 +7,7 @@ import { getYear } from "../utilities/getYear";
 
 function SearchResultItem({ result }) {
   return (
-    <li className="group bg-grey-tertiary hover:bg-grey-secondary cursor-pointer duration-300">
+    <li className="group/search bg-grey-tertiary hover:bg-grey-secondary cursor-pointer duration-300">
       <LinkToId
         className={"flex h-20 gap-2 px-2 py-1.5"}
         type={result?.media_type}
@@ -19,7 +19,7 @@ function SearchResultItem({ result }) {
         <div className="flex flex-1 flex-col">
           <Title
             level={4}
-            className="group-hover:text-primary line-clamp-1 !text-base duration-300"
+            className="group-hover/search:text-primary line-clamp-1 !text-base duration-300"
           >
             {result?.title || result?.name}
           </Title>

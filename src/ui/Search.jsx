@@ -1,12 +1,14 @@
+import { useEffect, useMemo, useRef, useState } from "react";
 import { useLocation } from "react-router-dom";
+import Icon from "@mdi/react";
+import { mdiMagnify } from "@mdi/js";
 import { debounce } from "lodash";
 import { AnimatePresence, motion } from "motion/react";
-import { useEffect, useMemo, useRef, useState } from "react";
 
 import Spinner from "./Spinner";
+import SearchResultItem from "./SearchResultItem";
 
 import { useSearchData } from "../hooks/moviedb/useSearchData";
-import SearchResultItem from "./SearchResultItem";
 
 function Search() {
   const [inputValue, setInputValue] = useState("");
@@ -69,20 +71,27 @@ function Search() {
   }
   return (
     <div className="flex sm:relative md:order-3">
-      <input
-        ref={inputRef}
-        id="search"
-        type="text"
-        placeholder="Search"
-        name="search-xyxy"
-        autoComplete="off"
-        autoCorrect="off"
-        spellCheck="false"
-        value={inputValue}
-        className="bg-text-default text-grey-secondary h-6 w-35 rounded-2xl px-2 text-xs opacity-50 transition-opacity duration-300 focus:opacity-100 sm:w-40 2xl:h-7 2xl:w-50"
-        onChange={handleSearchInputChange}
-        onFocus={handleFocus}
-      />
+      <div className="relative">
+        <input
+          ref={inputRef}
+          id="search"
+          type="text"
+          name="search-xyxy"
+          autoComplete="off"
+          autoCorrect="off"
+          spellCheck="false"
+          value={inputValue}
+          className="bg-text-default text-grey-secondary h-6.5 w-35 rounded-2xl pr-8 pl-3 text-xs opacity-30 transition-opacity duration-300 group-hover/header:opacity-100 focus:opacity-100 sm:w-35 2xl:h-7 2xl:w-50"
+          onChange={handleSearchInputChange}
+          onFocus={handleFocus}
+        />
+        <Icon
+          path={mdiMagnify}
+          size={1}
+          className="text-grey-secondary/60 absolute top-1/2 right-1 -translate-y-1/2"
+        />
+      </div>
+
       <AnimatePresence>
         {isOpen && searchTerm.length > 2 && (
           <motion.ul
@@ -101,8 +110,8 @@ function Search() {
             ) : (
               data?.results
                 ?.slice(0, 8)
-                .map((result) => (
-                  <SearchResultItem key={result?.id} result={result} />
+                .map((result, i) => (
+                  <SearchResultItem key={i} result={result} />
                 ))
             )}
             {data?.results?.length === 0 && (

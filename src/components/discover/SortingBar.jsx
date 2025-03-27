@@ -49,7 +49,11 @@ function SortingBar({ type, setFilter }) {
     <div className="flex flex-wrap items-center justify-between gap-2 py-4">
       <TabGroup
         onChange={(i) => {
-          setFilter("type", i === 0 ? "movie" : "tv");
+          setFilter({
+            type: i === 0 ? "movie" : "tv",
+            sort: "popularity.desc",
+            genre: null,
+          });
           setCurrentGenres(i);
         }}
         defaultIndex={type === "movie" ? 0 : 1}
@@ -70,7 +74,7 @@ function SortingBar({ type, setFilter }) {
           value={selectedSort}
           className={sortStyle}
           onChange={(e) => {
-            setFilter("sort", e.target.value);
+            setFilter({ sort: e.target.value });
             setSelectedSort(e.target.value);
           }}
         >
@@ -86,7 +90,7 @@ function SortingBar({ type, setFilter }) {
           value={selectedGenre}
           className={sortStyle}
           onChange={(e) => {
-            setFilter("genre", e.target.value);
+            setFilter({ genre: e.target.value });
             setSelectedGenre(e.target.value);
           }}
         >

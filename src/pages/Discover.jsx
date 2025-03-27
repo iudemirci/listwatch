@@ -1,15 +1,17 @@
 import { keepPreviousData, useInfiniteQuery } from "@tanstack/react-query";
+import { useEffect, useMemo, useRef } from "react";
+import { debounce } from "lodash";
 
 import DiscoverList from "../components/discover/DiscoverList";
 import SortingBar from "../components/discover/SortingBar";
 
-import { useFilters } from "../hooks/useFilters";
-import { fetchMovies } from "../services/apiMoviedb";
-import { useEffect, useMemo, useRef } from "react";
-import { debounce } from "lodash";
 import ScrollToTopButton from "../ui/ScrollToTopButton";
+import { fetchMovies } from "../services/apiMoviedb";
+import { useFilters } from "../hooks/useFilters";
+import useDocumentTitle from "../hooks/useDocumentTitle";
 
 function Discover() {
+  useDocumentTitle("Discover | list&watch", false);
   const { genre, sort, type, setFilter } = useFilters();
 
   const loadMoreRef = useRef(null);

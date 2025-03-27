@@ -19,8 +19,7 @@ function HomePoster({ path, movies, className }) {
         className,
       )}
       style={{
-        backgroundImage:
-          randomPath && `url(https://image.tmdb.org/t/p/w1280${randomPath})`,
+        backgroundImage: `url(https://image.tmdb.org/t/p/w1280${randomPath})`,
       }}
     ></div>
   );

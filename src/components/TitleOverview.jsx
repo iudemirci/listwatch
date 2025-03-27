@@ -9,7 +9,7 @@ function TitleOverview({ movie, type = "movie" }) {
   return (
     <>
       <div className={"flex flex-col gap-2.5"}>
-        <Link to={`/discover/films/${movie.id}`}>
+        <Link to={`/discover/movie/${movie.id}`}>
           <Title level={2} className={"hover:text-primary duration-300"}>
             {movie?.title || movie?.name}
           </Title>

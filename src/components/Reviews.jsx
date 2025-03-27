@@ -1,9 +1,7 @@
 import { mdiStar, mdiAccount } from "@mdi/js";
 import Icon from "@mdi/react";
 
-import profile from "../assets/profile.png";
 import Paragraph from "../ui/Paragraph";
-
 import ReadMore from "../utilities/ReadMore";
 import Title from "../ui/Title";
 import dayjs from "dayjs";
@@ -27,11 +25,9 @@ function Reviews({ reviews, isPending }) {
                   className="bg-grey-secondary aspect-square size-10 cursor-pointer rounded-full"
                 />
               ) : (
-                <Icon
-                  path={mdiAccount}
-                  size={1}
-                  className="aspect-square size-10 bg-amber-200"
-                />
+                <div className="bg-grey-secondary flex aspect-square size-10 max-h-fit cursor-pointer items-center justify-center rounded-full">
+                  <Icon path={mdiAccount} size={1.3} className="" />
+                </div>
               )}
               <div className="flex flex-col gap-2 py-0.5">
                 <div className="flex flex-wrap justify-between gap-2">

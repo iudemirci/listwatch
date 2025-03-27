@@ -88,7 +88,7 @@ function CreditsInfo({ id, gender }) {
                 key={i}
                 to={
                   credit?.media_type === "movie"
-                    ? `/discover/films/${credit.id}`
+                    ? `/discover/movie/${credit.id}`
                     : `/discover/tv/${credit.id}`
                 }
               >
