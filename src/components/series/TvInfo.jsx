@@ -1,56 +1,65 @@
+import { useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 
-import TitleOverview from "../TitleOverview";
-import CastOverview from "../CastOverview";
+import TitleOverview from "../shared/TitleOverview";
+import CastOverview from "../shared/CastOverview";
 import Poster from "../Poster";
-import Videos from "../Videos";
+import Videos from "../shared/Videos";
 import PeopleList from "../person/PeopleList";
-import ImageGrid from "../ImageGrid";
-import Languages from "../Languages";
-import Tagline from "../Tagline";
-import Rating from "../Rating";
+import ImageGrid from "../shared/ImageGrid";
+import Languages from "../shared/Languages";
+import Tagline from "../shared/Tagline";
+import Rating from "../shared/Rating";
 import ListDropdownButton from "../ListDropdownButton";
 import SetFavourite from "../SetFavourite";
 import Skeleton from "../../ui/Skeleton";
 import Title from "../../ui/Title";
 import Paragraph from "../../ui/Paragraph";
-import Keywords from "../Keywords";
+import Keywords from "../shared/Keywords";
 import Imdb from "../../ui/Imdb";
-import PosterList from "../PosterList";
+import PosterList from "../shared/PosterList";
 import EpisodeInfo from "./EpisodeInfo";
-import Reviews from "../Reviews";
+import Reviews from "../shared/Reviews";
 
-import { useFetchMovieItem } from "../../hooks/moviedb/useFetchMovieItem";
 import useDocumentTitle from "../../hooks/useDocumentTitle";
 import { getYear } from "../../utilities/getYear";
+import { useMovieDB } from "../../hooks/moviedb/useMovieDB";
 
-function TvInfo({ id, series, isSeriesPending }) {
-  const token = useSelector((state) => state.auth.token);
+function TvInfo() {
+  const { id } = useParams("id");
+  const token = localStorage.getItem("token");
+
+  const { data: series, isPending: isSeriesPending } = useMovieDB(
+    "tv",
+    id,
+    "item",
+  );
 
   //document title
   useDocumentTitle(
     `${series?.name} (${getYear(series?.first_air_date)}) | list&watch`,
     isSeriesPending,
   );
-  const { data: credits, isPending: isCreditsPending } = useFetchMovieItem(
-    `/tv/${id}/aggregate_credits?language=en-US`,
-    `${id}_cast`,
+
+  const { data: credits, isPending: isCreditsPending } = useMovieDB(
+    "tv",
+    id,
+    "credits",
   );
-
-  const { data: seriesVideo, isPending: isVideoPending } = useFetchMovieItem(
-    `/tv/${id}/videos?language=en-US`,
-    `${id}_videos`,
+  const { data: seriesVideo, isPending: isVideoPending } = useMovieDB(
+    "tv",
+    id,
+    "videos",
   );
-
-  const { data: similarSeries, isPending: isSimilarPending } =
-    useFetchMovieItem(
-      `/tv/${id}/similar?language=en-US&page=1`,
-      `${id}_similar`,
-    );
-
-  const { data: reviews, isPending: isReviewsPending } = useFetchMovieItem(
-    `/tv/${id}/reviews?language=en-US&page=1`,
-    `${id}_reviews`,
+  const { data: reviews, isPending: isReviewsPending } = useMovieDB(
+    "tv",
+    id,
+    "reviews",
+  );
+  const { data: similarSeries, isPending: isSimilarPending } = useMovieDB(
+    "tv",
+    id,
+    "similar",
   );
 
   return (
@@ -166,7 +175,7 @@ function TvInfo({ id, series, isSeriesPending }) {
       <section className="col-span-full">
         <PosterList
           title={"Similar series"}
-          movies={similarSeries?.results || []}
+          movies={similarSeries || []}
           type="tv"
           isPending={isSimilarPending}
         />
@@ -174,7 +183,7 @@ function TvInfo({ id, series, isSeriesPending }) {
 
       {reviews?.results?.length > 0 && (
         <section className="col-span-full">
-          <Reviews reviews={reviews?.results} isPending={isReviewsPending} />
+          <Reviews reviews={reviews} isPending={isReviewsPending} />
         </section>
       )}
     </div>

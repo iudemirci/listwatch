@@ -70,7 +70,7 @@ function Search() {
     }
   }
   return (
-    <div className="flex sm:relative md:order-3">
+    <div className="flex sm:relative lg:order-3">
       <div className="relative">
         <input
           ref={inputRef}
@@ -81,7 +81,7 @@ function Search() {
           autoCorrect="off"
           spellCheck="false"
           value={inputValue}
-          className="bg-text-default text-grey-secondary h-6.5 w-35 rounded-2xl pr-8 pl-3 text-xs opacity-30 transition-opacity duration-300 group-hover/header:opacity-100 focus:opacity-100 sm:w-35 2xl:h-7 2xl:w-50"
+          className="bg-text-default text-grey-secondary h-6.5 w-40 rounded-2xl pr-8 pl-3 text-xs opacity-30 transition-opacity duration-300 group-hover/header:opacity-100 focus:opacity-100 2xl:h-7 2xl:w-50"
           onChange={handleSearchInputChange}
           onFocus={handleFocus}
         />
@@ -95,7 +95,7 @@ function Search() {
       <AnimatePresence>
         {isOpen && searchTerm.length > 2 && (
           <motion.ul
-            className="divide-grey-primary outline-grey-primary absolute bottom-0 left-0 z-200 w-full translate-y-1/1 divide-y-1 overflow-hidden rounded-lg outline-1 sm:-bottom-2 sm:left-1/2 sm:w-90 sm:-translate-x-1/2"
+            className="divide-grey-primary outline-grey-primary/50 absolute bottom-0 left-0 z-200 w-full translate-y-1/1 divide-y-1 overflow-hidden rounded-lg outline-1 sm:-bottom-2 sm:left-1/2 sm:w-90 sm:-translate-x-1/2"
             // className="divide-grey-primary outline-grey-primary absolute -bottom-1 left-1/2 z-200 w-90 -translate-x-1/2 translate-y-1/1 divide-y-1 rounded-lg outline-1"
             ref={searchRef}
             initial={{ opacity: 0, y: -10 }}

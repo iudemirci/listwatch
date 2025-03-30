@@ -11,8 +11,8 @@ export function useLogin() {
 
   const {
     isPending,
-    error,
     mutate: login,
+    error,
   } = useMutation({
     mutationFn: loginApi,
     onSuccess: (res) => {
@@ -22,8 +22,8 @@ export function useLogin() {
         replace: true,
       });
     },
-    onError: () => toast.error("Login Failed"),
+    onError: (error) => toast.error(error.message),
   });
 
-  return { isPending, login };
+  return { isPending, login, error };
 }

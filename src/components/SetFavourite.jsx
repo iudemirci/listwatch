@@ -5,16 +5,16 @@ import toast from "react-hot-toast";
 import Button from "../ui/Button";
 
 import { useQueryClient } from "@tanstack/react-query";
-import { useGetFavouriteItem } from "../hooks/user/useGetFavouriteItem";
-import { useSetFavouriteItem } from "../hooks/user/useSetFavouriteItem";
 import { useUpdateFavouriteItem } from "../hooks/user/useUpdateFavouriteItem";
+import Spinner from "../ui/Spinner";
+import { useGetUser } from "../hooks/auth/useGetUser";
 
 function SetFavourite({ item }) {
   const queryClient = useQueryClient();
-  const { setFavouriteItem, isSetPending } = useSetFavouriteItem();
+  const { user } = useGetUser() || [];
+  const userID = user?.id || "";
+
   const { updateFavouriteItem, isUpdatePending } = useUpdateFavouriteItem();
-  const { favouriteItem, isPending: isFavouritePending } =
-    useGetFavouriteItem();
 
   function handleClick(i) {
     function toastMessage() {
@@ -29,18 +29,16 @@ function SetFavourite({ item }) {
           ),
       };
     }
-
-    if (!favouriteItem.length) setFavouriteItem(i, toastMessage());
-    if (favouriteItem.length) updateFavouriteItem(i, toastMessage());
+    updateFavouriteItem({ userID, i }, toastMessage());
   }
 
   return (
     <Button
       type="secondary"
-      className={"flex gap-0.5"}
+      className={"flex items-center gap-0.5"}
       onClick={() => handleClick(item)}
     >
-      <Icon path={mdiStar} size={0.89} />
+      {isUpdatePending ? <Spinner /> : <Icon path={mdiStar} size={0.89} />}
       Set favourite
     </Button>
   );

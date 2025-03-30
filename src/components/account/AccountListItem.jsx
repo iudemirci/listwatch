@@ -2,7 +2,6 @@ import { mdiTextBoxEdit, mdiTrashCan } from "@mdi/js";
 import Icon from "@mdi/react";
 import { useState } from "react";
 import { useQueryClient } from "@tanstack/react-query";
-import { Link } from "react-router-dom";
 
 import PopupBlur from "../../ui/PopupBlur";
 import StarRating from "../StarRating";
@@ -46,9 +45,9 @@ function AccountListItem({ item, edit, setEdit }) {
 
   return (
     <li className="hover:outline-primary relative flex flex-col gap-1 rounded-lg outline-2 outline-transparent duration-300 hover:outline-2">
-      <Link to={`/discover/movie/${item.itemID}`}>
+      <LinkToId type="movie" item={item}>
         <Poster path={item.posterPath} />
-      </Link>
+      </LinkToId>
       {!edit && (
         <span className="bg-primary/80 text-grey-secondary absolute top-1 right-1 flex size-5 items-center justify-center rounded-md text-sm font-black">
           {item.userRating}

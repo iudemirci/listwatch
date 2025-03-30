@@ -4,7 +4,6 @@ export const useFilters = () => {
   const [searchParams, setSearchParams] = useSearchParams();
 
   const setFilter = (filters) => {
-    console.log(filters);
     const newParams = new URLSearchParams(searchParams);
 
     Object.keys(filters).forEach((key) => {

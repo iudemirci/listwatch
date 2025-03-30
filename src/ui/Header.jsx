@@ -1,17 +1,17 @@
-import { useState } from "react";
+import { useSelector } from "react-redux";
+import { AnimatePresence, motion } from "motion/react";
 
 import Logo from "./Logo";
 import PageNavList from "./PageNavList";
 import Search from "./Search";
-import LoginPopover from "./LoginPopover";
-import { AnimatePresence, motion } from "motion/react";
+import LoginPopover from "../components/popover/LoginPopover";
+import SignupPopover from "../components/popover/SignupPopover";
 
 function Header() {
-  const [isLoginOpen, setIsLoginOpen] = useState(false);
+  const isLoginOpen = useSelector((state) => state.popup.isLoginOpen);
   return (
     <header className="group/header relative flex items-center justify-between py-4">
       <Logo />
-
       <AnimatePresence>
         {!isLoginOpen && (
           <motion.div
@@ -22,11 +22,13 @@ function Header() {
             className="flex items-center gap-2 transition 2xl:gap-4"
           >
             <Search />
-            <PageNavList setIsOpen={setIsLoginOpen} isOpen={isLoginOpen} />
+            <PageNavList />
           </motion.div>
         )}
       </AnimatePresence>
-      <LoginPopover isOpen={isLoginOpen} setIsOpen={setIsLoginOpen} />
+
+      <LoginPopover />
+      <SignupPopover />
     </header>
   );
 }

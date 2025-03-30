@@ -29,9 +29,9 @@ function Router() {
           <Route path="/" element={<Navigate replace to={"home"} />} />
           <Route path="home" element={<Homepage />} />
           <Route path="discover" element={<Discover />} />
-          <Route path="discover/movie/:id" element={<FilmDetailsPage />} />
-          <Route path="discover/person/:id" element={<PersonDetailsPage />} />
-          <Route path="discover/tv/:id" element={<TvDetailsPage />} />
+          <Route path="/movie/:id/:name" element={<FilmDetailsPage />} />
+          <Route path="/tv/:id/:name" element={<TvDetailsPage />} />
+          <Route path="/person/:id/:name" element={<PersonDetailsPage />} />
           <Route path="lists" element={<Lists />} />
           <Route path="news" element={<News />} />
         </Route>

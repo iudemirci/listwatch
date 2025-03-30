@@ -3,13 +3,17 @@ import Icon from "@mdi/react";
 import { mdiPlusBoxOutline, mdiShareAll, mdiImageOff } from "@mdi/js";
 
 import Title from "../../ui/Title";
+import Skeleton from "../../ui/Skeleton";
 
 import { cn } from "../../utilities/cn";
 import { useGetFavouriteItem } from "../../hooks/user/useGetFavouriteItem";
-import Skeleton from "../../ui/Skeleton";
+import { useGetUser } from "../../hooks/auth/useGetUser";
 
 function AccountPoster() {
-  const { favouriteItem, isPending, isFetched } = useGetFavouriteItem();
+  const {
+    user: { id },
+  } = useGetUser();
+  const { favouriteItem, isPending, isFetched } = useGetFavouriteItem(id);
   const favMovie = !isPending && favouriteItem?.at(0)?.favouriteItem;
   const isFav = favMovie ? "before:bg-black/30" : "before:bg-transparent";
 
@@ -44,7 +48,7 @@ function AccountPoster() {
             favouriteItem?.length > 0 &&
             favMovie?.backdrop_path && (
               <Link
-                to={`/discover/movie/${favMovie?.id}`}
+                to={`/movie/${favMovie?.id}`}
                 className="absolute inset-0 flex items-center justify-center rounded-lg bg-black/80 text-white opacity-0 transition-opacity duration-300 group-hover:opacity-100"
               >
                 <Icon path={mdiShareAll} size={1.3} className="text-primary" />

@@ -1,4 +1,4 @@
-import { keepPreviousData, useQuery } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import { getSearchData } from "../../services/apiMoviedb";
 
 export function useSearchData(searchTerm, options) {

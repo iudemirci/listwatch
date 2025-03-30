@@ -5,17 +5,15 @@ import Icon from "@mdi/react";
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
 import { AnimatePresence, motion } from "framer-motion";
 
-import AddItemPopup from "./AddItemPopup";
+import AddItemPopup from "./popover/AddItemPopup";
 import ListButton from "./ListButton";
 import NewListPopup from "./NewListPopup";
-import Button from "../ui/Button";
 
 import { useGetLists } from "../hooks/lists/useGetLists";
 import { setSelectedList } from "../store/userSlice";
 
 function ListDropdownButton({ item }) {
   const [popupType, setPopupType] = useState(null);
-  // const [isOpen, setIsOpen] = useState(false);
   const { data: lists, isPending: isListsPending } = useGetLists();
   const dispatch = useDispatch();
 
@@ -38,7 +36,7 @@ function ListDropdownButton({ item }) {
             <MenuButton>
               <span
                 className={
-                  "border-primary bg-primary hover:bg-primary-dark flex cursor-pointer items-center gap-1 rounded-2xl border-2 px-2 py-1 text-[14px] transition-colors duration-300 hover:border-2 lg:text-base 2xl:px-2 2xl:text-lg"
+                  "border-primary bg-primary hover:bg-primary-dark flex cursor-pointer items-center gap-1 rounded-lg border-2 px-2 py-1 text-[14px] transition-colors duration-300 hover:border-2 lg:text-base 2xl:px-2 2xl:text-lg"
                 }
               >
                 <Icon path={mdiPlus} size={0.89} /> List now

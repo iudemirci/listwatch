@@ -3,6 +3,7 @@
 @custom-variant dark (&:where(.dark, .dark *));
 
 @theme {
+  --font-exo: "Exo 2";
   --color-primary: #dc2626;
   --color-primary-dark: oklch(0.505 0.213 27.518);
   --color-grey-primary: #71717a;
@@ -11,7 +12,7 @@
   --color-grey-tertiary: #18181b;
   --color-background-default: #131314;
   --color-text-default: oklch(0.92 0.004 286.32);
-  --font-exo: "Exo 2";
+  --scrollbar-width: 11px;
 }
 
 @layer base {
@@ -47,7 +48,7 @@
 }
 
 .active span {
-  color: var(--color-primary);
+  color: var(--color-text-default);
 }
 
 .containerClass {
@@ -77,20 +78,26 @@
   background-color: var(--color-primary);
 }
 
-.spinner {
-  width: 2.4rem;
-  aspect-ratio: 1;
-  border-radius: 50%;
-  background:
-    radial-gradient(farthest-side, var(--color-primary) 94%, #0000) top/10px
-      10px no-repeat,
-    conic-gradient(#0000 30%, var(--color-primary));
-  -webkit-mask: radial-gradient(farthest-side, #0000 calc(100% - 10px), #000 0);
-  animation: rotate 1.5s infinite linear;
+/* scrollbar */
+::-webkit-scrollbar {
+  width: var(--scrollbar-width);
 }
 
-@keyframes rotate {
-  to {
-    transform: rotate(1turn);
-  }
+::-webkit-scrollbar-track {
+  background: #1d1d1d;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #2b2b2b;
+  border-radius: 10px;
+
+  transition-duration: 300ms;
+}
+
+.fi,
+.fi::before {
+  width: 40px;
+  background-position: center;
+  background-repeat: no-repeat;
 }
