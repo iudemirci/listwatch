@@ -1,10 +1,11 @@
 import { Link } from "react-router-dom";
 import { cn } from "../utilities/cn";
+import { kebabCase } from "lodash";
 
-function LinkToId({ movieID, children, type = "movie", className, ...props }) {
+function LinkToId({ item, children, type = "movie", className, ...props }) {
   return (
     <Link
-      to={`/discover/${type}/${movieID}`}
+      to={`/${type}/${item?.id}/${kebabCase(item?.title || item?.name).replace(/-/g, "_")}`}
       className={cn("cursor-pointer", className)}
       {...props}
     >

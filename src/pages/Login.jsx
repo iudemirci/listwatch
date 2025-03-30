@@ -1,16 +1,18 @@
-import Input from "../ui/Input";
-import Button from "../ui/Button";
 import { useForm } from "react-hook-form";
-import { useLogin } from "../hooks/auth/useLogin";
 import { Link, useNavigate } from "react-router-dom";
 import { useEffect } from "react";
-import { useSelector } from "react-redux";
+import { mdiArrowLeft } from "@mdi/js";
 
+import Button from "../ui/Button";
 import Title from "../ui/Title";
 import LogoIcon from "../ui/LogoIcon";
+import InputField from "../ui/InputField";
+
+import { useLogin } from "../hooks/auth/useLogin";
+import MdiIcon from "../ui/MdiIcon";
 
 function Login() {
-  const token = useSelector((state) => state.auth.token);
+  const token = localStorage.getItem("token");
   const navigate = useNavigate();
   useEffect(() => {
     if (token) navigate("/");
@@ -18,7 +20,6 @@ function Login() {
 
   const { register, handleSubmit, reset } = useForm();
   const { login, isPending } = useLogin();
-
   function onSubmit(info) {
     login(info, {
       onSuccess: reset,
@@ -28,13 +29,16 @@ function Login() {
   if (token) return null;
 
   return (
-    <div className="absolute top-1/2 left-1/2 flex -translate-x-1/2 -translate-y-1/2 items-center justify-center">
+    <div className="fixed inset-0 z-10000 flex items-center justify-center p-2 backdrop-blur-xs">
       <form
-        className="bg-grey-secondary grid-rows-[1fr, min-content] grid min-w-98 gap-3 rounded-lg"
+        className="bg-grey-tertiary border-grey-secondary grid-rows-[1fr, min-content] relative m-3 grid w-105 gap-3 rounded-lg border-1"
         onSubmit={handleSubmit(onSubmit)}
       >
+        <span className="absolute top-3 left-3">
+          <MdiIcon onClick={() => navigate("/")} path={mdiArrowLeft} />
+        </span>
         <div className="px-9 pt-9">
-          <div className="flex flex-col items-center gap-2 self-center pb-4">
+          <div className="flex flex-col items-center gap-2 self-center pb-4 text-nowrap">
             <LogoIcon size={1.3} />
             <Title level={1} className="flex gap-1">
               Sign in to
@@ -44,28 +48,20 @@ function Login() {
             </Title>
           </div>
           <div className="flex flex-col gap-3">
-            <label
-              className={`text-grey-primary-light flex flex-col gap-1 text-xs ${isPending && "animate-pulse"}`}
-            >
-              E-mail
-              <Input
-                id="email"
-                {...register("email", { required: "E-mail is required" })}
-                type="email"
-                disabled={isPending}
-              />
-            </label>
-            <label
-              className={`text-grey-primary-light flex flex-col gap-1 text-xs ${isPending && "animate-pulse"}`}
-            >
-              Password
-              <Input
-                {...register("password", { required: "Password is required" })}
-                id="password"
-                type="password"
-                disabled={isPending}
-              />
-            </label>
+            <InputField
+              {...register("email", { required: "E-mail is required" })}
+              label="E-mail"
+              id="email"
+              type="email"
+              isPending={isPending}
+            />
+            <InputField
+              {...register("password", { required: "Password is required" })}
+              label="Password"
+              id="password"
+              type="password"
+              isPending={isPending}
+            />
           </div>
           <div className="flex justify-end gap-1.5 pt-4 pb-6">
             <Button

@@ -1,59 +1,88 @@
-import HomePoster from "../components/HomePoster";
-import GreetingText from "../components/GreetingText";
-import GuideTable from "../components/GuideTable";
-import PosterList from "../components/PosterList";
+import HomePoster from "../components/homepage/HomePoster.jsx";
+import GreetingText from "../components/homepage/GreetingText";
+import GuideTable from "../components/homepage/GuideTable.jsx";
+import PosterList from "../components/shared/PosterList";
 import PeopleList from "../components/person/PeopleList";
-import MovieDetailCard from "../components/movie/MovieDetailCard";
+import MovieDetailCard from "../components/homepage/MovieDetailCard.jsx";
 
-import { useFetchMovieDB } from "../hooks/moviedb/useFetchMovieDB.js";
 import useDocumentTitle from "../hooks/useDocumentTitle.js";
+import { useMovieDB } from "../hooks/moviedb/useMovieDB.js";
+import Title from "../ui/Title.jsx";
+
+const adultKeywords =
+  /adult|xxx|porn|erotic|av|idol|gravure|softcore|hardcore|nude|playboy|lingerie/i;
+const cjkRegex =
+  /[\p{Script=Han}\p{Script=Hiragana}\p{Script=Katakana}\p{Script=Hangul}]/u;
+const blocklist = [5009810, 5009979, 5248794, 2710789];
 
 function Homepage() {
-  const { data: popularMovies, isPending: isPopularMoviesPending } =
-    useFetchMovieDB("/trending/movie/day?language=en-US", "popularMovies");
-
-  const { data: popularPeople, isPending: isPeoplePending } = useFetchMovieDB(
-    "/trending/person/day?language=en-US",
-    "popularPeople",
-  );
-  const { data: popularSeries, isPending: isPopularSeriesPending } =
-    useFetchMovieDB("/trending/tv/day?language=en-US", "popularSeries");
-
   useDocumentTitle("list&watch | Dicover new content.", false);
+  const { data: popularMovies, isPending: isPopularMoviesPending } = useMovieDB(
+    "movie",
+    undefined,
+    "trending",
+  );
+  const { data: popularPeople, isPending: isPeoplePending } = useMovieDB(
+    "person",
+    undefined,
+    "trending",
+  );
+  const filteredPeople =
+    popularPeople?.filter((person) => {
+      const isCJK = cjkRegex.test(person.name);
+      const isAdultMovie = person.known_for?.some((work) =>
+        adultKeywords.test(work.title || work.name || work.overview),
+      );
+      const isLowPopularityFemale =
+        person.gender === 1 && person.popularity < 5;
+      const isBlocked = blocklist.includes(person.id);
+
+      return !isCJK && !isAdultMovie && !isLowPopularityFemale && !isBlocked;
+    }) || [];
+
+  const { data: popularSeries, isPending: isPopularSeriesPending } = useMovieDB(
+    "tv",
+    undefined,
+    "trending",
+  );
 
   return (
     <>
       <HomePoster movies={popularMovies} />
       <div className="flex flex-col gap-6 lg:gap-8">
         <GreetingText />
-        <section>
+        <section className="divide-grey-primary/40 divide-y-1">
+          <Title level={3}>Trending Movies</Title>
           <PosterList
             movies={popularMovies}
             isPending={isPopularMoviesPending}
             title={"Trending Movies"}
           />
         </section>
-        <section>
+        <section className="divide-grey-primary/40 divide-y-1">
+          <Title level={3}>In list&watch you can;</Title>
           <GuideTable />
         </section>
-        <section>
+        <section className="divide-grey-primary/40 divide-y-1">
+          <Title level={3}>Trending People</Title>
           <PeopleList
-            people={popularPeople}
+            people={filteredPeople}
             isPending={isPeoplePending}
             title={"Trending People"}
           />
         </section>
 
-        <section>
+        <section className="divide-grey-primary/40 divide-y-1">
+          <Title level={3}>Trending Shows</Title>
           <PosterList
             type="tv"
             movies={popularSeries}
             isPending={isPopularSeriesPending}
-            title={"Trending Series"}
             delay={7000}
           />
         </section>
-        <section>
+        <section className="divide-grey-primary/40 divide-y-1">
+          <Title level={3}>In theaters</Title>
           <MovieDetailCard />
         </section>
       </div>

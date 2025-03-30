@@ -26,7 +26,7 @@ function ScrollToTopButton() {
   return (
     <button
       onClick={scrollToTop}
-      className={`bg-primary border-text-default fixed right-5 bottom-5 z-100 flex size-11 cursor-pointer items-center justify-center rounded-full border-2 duration-300 active:-translate-y-0.5 ${visible ? "opacity-100" : "opacity-0"}`}
+      className={`bg-primary border-grey-primary-light fixed right-5 bottom-5 z-100 flex size-11 cursor-pointer items-center justify-center rounded-full border-2 duration-300 active:-translate-y-0.5 ${visible ? "opacity-100" : "opacity-0"}`}
       aria-label="Scroll to top"
     >
       <Icon path={mdiArrowUpBold} size={1} />

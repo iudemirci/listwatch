@@ -1,9 +1,10 @@
 import { useState } from "react";
 import Button from "../../ui/Button";
 import ListItem from "../ListItem";
-import { useFetchMovieItem } from "../../hooks/moviedb/useFetchMovieItem";
-import { Link } from "react-router-dom";
 import Skeleton from "../../ui/Skeleton";
+import LinkToId from "../../ui/LinkToId";
+
+import { useMovieDB } from "../../hooks/moviedb/useMovieDB";
 
 function filterDate(arr) {
   return arr.sort(
@@ -17,10 +18,12 @@ function CreditsInfo({ id, gender }) {
   const [isShow, setIsShow] = useState(false);
   const [currentTab, setCurrentTab] = useState(1);
 
-  const { data: credits, isPending } = useFetchMovieItem(
-    `/person/${id}/combined_credits?language=en-US`,
-    `person_${id}_credits`,
+  const { data: credits, isPending: isPending } = useMovieDB(
+    undefined,
+    id,
+    "person_credits",
   );
+
   const cast = credits && filterDate(credits?.cast);
   const producer =
     credits &&
@@ -28,7 +31,7 @@ function CreditsInfo({ id, gender }) {
   const director =
     credits &&
     filterDate(credits?.crew.filter((item) => item.job === "Director"));
-  console.log(cast);
+
   const tabs = [
     {
       label: cast?.length > 0 && (gender === 1 ? "Actress" : "Actor"),
@@ -84,16 +87,19 @@ function CreditsInfo({ id, gender }) {
           currentLabel
             .slice(0, isShow ? currentLabel?.length : 10)
             ?.map((credit, i) => (
-              <Link
-                key={i}
-                to={
-                  credit?.media_type === "movie"
-                    ? `/discover/movie/${credit.id}`
-                    : `/discover/tv/${credit.id}`
-                }
-              >
-                <ListItem key={i} item={credit} />
-              </Link>
+              <LinkToId key={i} type={credit?.media_type} item={credit}>
+                <ListItem item={credit} />
+              </LinkToId>
+
+              //    <Link
+              //   key={i}
+              //   to={
+              //     credit?.media_type === "movie"
+              //       ? `/movie/${credit.id}`
+              //       : `/tv/${credit.id}`
+              //   }
+              // >
+              // </Link>
             ))
         )}
 

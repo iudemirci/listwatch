@@ -11,7 +11,7 @@ function SearchResultItem({ result }) {
       <LinkToId
         className={"flex h-20 gap-2 px-2 py-1.5"}
         type={result?.media_type}
-        movieID={result?.id}
+        item={result}
       >
         <div className="w-11 self-center rounded-lg">
           <Poster path={result?.poster_path || result?.profile_path} />

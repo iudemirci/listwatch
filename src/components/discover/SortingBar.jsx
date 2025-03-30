@@ -1,6 +1,7 @@
 import { Tab, TabGroup, TabList } from "@headlessui/react";
 import { useEffect, useState } from "react";
 import genres from "../../assets/genres.json";
+import { useFilters } from "../../hooks/useFilters";
 
 const sortFilters = [
   {
@@ -36,14 +37,16 @@ const sortStyle =
   "bg-grey-secondary rounded-2xl p-1.5 text-sm font-semibold w-40";
 
 function SortingBar({ type, setFilter }) {
+  const { genre } = useFilters();
+
   const [selectedGenre, setSelectedGenre] = useState("");
   const [selectedSort, setSelectedSort] = useState("popularity.desc");
   const [currentGenres, setCurrentGenres] = useState(0);
 
   useEffect(() => {
-    setSelectedGenre("");
+    setSelectedGenre(genre);
     setSelectedSort("popularity.desc");
-  }, [currentGenres]);
+  }, [currentGenres, genre]);
 
   return (
     <div className="flex flex-wrap items-center justify-between gap-2 py-4">

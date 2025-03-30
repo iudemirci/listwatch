@@ -12,11 +12,11 @@ import useDocumentTitle from "../hooks/useDocumentTitle";
 
 function Discover() {
   useDocumentTitle("Discover | list&watch", false);
-  const { genre, sort, type, setFilter } = useFilters();
 
+  const { genre, sort, type, setFilter } = useFilters();
   const loadMoreRef = useRef(null);
 
-  // infinity fetching
+  // infinite fetching
   const { data, isFetchingNextPage, isPending, fetchNextPage, hasNextPage } =
     useInfiniteQuery({
       queryKey: ["movies", { type, genre, sort }],

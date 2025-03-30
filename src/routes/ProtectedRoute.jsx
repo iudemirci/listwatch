@@ -1,10 +1,9 @@
 import { useEffect } from "react";
-import { useSelector } from "react-redux";
 import { Outlet, useNavigate } from "react-router-dom";
 
 function ProtectedRoute() {
   const navigate = useNavigate();
-  const token = useSelector((state) => state.auth.token);
+  const token = localStorage.getItem("token");
 
   useEffect(() => {
     if (!token) navigate("/");

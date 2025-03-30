@@ -6,20 +6,19 @@ import Paragraph from "../../ui/Paragraph";
 import CreditsInfo from "./CreditsInfo";
 import Skeleton from "../../ui/Skeleton";
 import PersonOverview from "./PersonOverview";
-import ImageGrid from "../ImageGrid";
+import ImageGrid from "../shared/ImageGrid";
 
-import useWindowWidth from "../../hooks/useWindowWidth";
-import { useFetchMovieItem } from "../../hooks/moviedb/useFetchMovieItem";
 import ReadMore from "../../utilities/ReadMore";
 import useDocumentTitle from "../../hooks/useDocumentTitle";
+import { useMovieDB } from "../../hooks/moviedb/useMovieDB";
 
 function PersonInfo() {
   const { id } = useParams("id");
-  const width = useWindowWidth();
 
-  const { data: person, isPending: isPersonPending } = useFetchMovieItem(
-    `/person/${id}?language=en-US`,
-    `person_${id}`,
+  const { data: person, isPending: isPersonPending } = useMovieDB(
+    "person",
+    id,
+    "item",
   );
 
   useDocumentTitle(`${person?.name} | list&watch`, isPersonPending);

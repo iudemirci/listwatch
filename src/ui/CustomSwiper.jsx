@@ -28,6 +28,7 @@ function CustomSwiper({
   delay = 5000,
   loop = false,
   children,
+  buttons = true,
 }) {
   const id = Math.floor(Math.random() * 100000);
   const [atStart, setAtStart] = useState(false);
@@ -79,16 +80,21 @@ function CustomSwiper({
       >
         {children}
       </Swiper>
-      <button
-        className={`swiper-prev-${id} bg-background-default hover:bg-primary border-primary absolute top-[50%] left-0 z-20 block translate-x-[-50%] translate-y-[-50%] cursor-pointer rounded-lg border-2 px-1.5 py-2.5 text-sm opacity-0 duration-300 group-hover:opacity-100 ${atStart ? "!opacity-0" : ""}`}
-      >
-        <Paragraph>&larr;</Paragraph>
-      </button>
-      <button
-        className={`swiper-next-${id} bg-background-default hover:bg-primary border-primary absolute top-[50%] right-0 z-20 block translate-x-[50%] translate-y-[-50%] cursor-pointer rounded-lg border-2 px-1.5 py-2.5 text-[12px] opacity-50 duration-300 group-hover:opacity-100 2xl:px-1.5 2xl:py-3 ${atEnd ? "!opacity-0" : ""}`}
-      >
-        <Paragraph>&rarr;</Paragraph>
-      </button>
+
+      {buttons ? (
+        <>
+          <button
+            className={`swiper-prev-${id} bg-background-default hover:bg-primary border-primary absolute top-[50%] left-0 z-20 block translate-x-[-50%] translate-y-[-50%] cursor-pointer rounded-lg border-2 px-1.5 py-2.5 text-sm opacity-0 duration-300 group-hover:opacity-100 ${atStart ? "!opacity-0" : ""}`}
+          >
+            <Paragraph>&larr;</Paragraph>
+          </button>
+          <button
+            className={`swiper-next-${id} bg-background-default hover:bg-primary border-primary absolute top-[50%] right-0 z-20 block translate-x-[50%] translate-y-[-50%] cursor-pointer rounded-lg border-2 px-1.5 py-2.5 text-[12px] opacity-50 duration-300 group-hover:opacity-100 2xl:px-1.5 2xl:py-3 ${atEnd ? "!opacity-0" : ""}`}
+          >
+            <Paragraph>&rarr;</Paragraph>
+          </button>
+        </>
+      ) : null}
     </div>
   );
 }

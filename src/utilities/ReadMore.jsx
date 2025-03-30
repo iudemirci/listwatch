@@ -1,28 +1,29 @@
-import ReactReadMoreReadLess from "react-read-more-read-less";
+import React, { useState } from "react";
 
-function ReadMore({
-  children,
-  limit = 1000,
-  readMore = "Read more",
-  readLess = "Read less",
-}) {
+const ReadMoreLess = ({ children, charLimit = 100 }) => {
+  const [isExpanded, setIsExpanded] = useState(false);
+
+  const isContentLong = children.length > charLimit;
+
+  const handleToggle = () => {
+    setIsExpanded(!isExpanded);
+  };
+
+  const displayText = isExpanded ? children : children.slice(0, charLimit);
+
   return (
-    <ReactReadMoreReadLess
-      charLimit={limit}
-      readMoreText={
-        <span className="hover:text-primary text-grey-primary-light duration-300">
-          {readMore}
-        </span>
-      }
-      readLessText={
-        <span className="hover:text-primary text-grey-primary-light duration-300">
-          {readLess}
-        </span>
-      }
-    >
-      {children}
-    </ReactReadMoreReadLess>
+    <>
+      {displayText}
+      {isContentLong && (
+        <button
+          onClick={handleToggle}
+          className="text-grey-primary-light hover:text-primary ml-2 inline-block cursor-pointer duration-300"
+        >
+          {isExpanded ? "Read Less" : "Read More"}
+        </button>
+      )}
+    </>
   );
-}
+};
 
-export default ReadMore;
+export default ReadMoreLess;

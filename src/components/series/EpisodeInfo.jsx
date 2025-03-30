@@ -4,6 +4,7 @@ import Skeleton from "../../ui/Skeleton";
 import ListItem from "../ListItem";
 import { useQuery } from "@tanstack/react-query";
 import { getMovieItem } from "../../services/apiMoviedb";
+import { useMovieDB } from "../../hooks/moviedb/useMovieDB";
 
 function EpisodeInfo({ series, isPending, id }) {
   const [currentTab, setCurrentTab] = useState("seasons");
@@ -12,13 +13,21 @@ function EpisodeInfo({ series, isPending, id }) {
     (season) => season.name !== "Specials" && season.episode_count !== 0,
   );
 
-  const { data: seriesSeasons, isPending: isSeasonsPending } = useQuery({
-    queryKey: ["movieDB", `${id}_season_${seasonNumber}_episodes`],
-    queryFn: () =>
-      getMovieItem(`/tv/${id}/season/${seasonNumber}?language=en-US
-      `),
-    enabled: !!seasonNumber,
-  });
+  // const { data: seriesSeasons, isPending: isSeasonsPending } = useQuery({
+  //   queryKey: ["movieDB", `${id}_season_${seasonNumber}_episodes`],
+  //   queryFn: () =>
+  //     getMovieItem(`/tv/${id}/season/${seasonNumber}?language=en-US
+  //     `),
+  //   enabled: !!seasonNumber,
+  // });
+
+  const { data: seriesSeasons, isPending: isSeasonsPending } = useMovieDB(
+    seasonNumber,
+    id,
+    "tv_credits",
+  );
+
+  console.log(seriesSeasons);
 
   return (
     <div className="flex flex-col gap-2">

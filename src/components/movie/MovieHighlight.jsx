@@ -7,6 +7,7 @@ function MovieHighlight({ movie }) {
         <Paragraph type={"secondary"}>
           {movie?.release_date?.split("-").at(0)}
         </Paragraph>
+
         {movie?.runtime ? (
           <Paragraph type={"secondary"}>{movie?.runtime} mins</Paragraph>
         ) : null}
