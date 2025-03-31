@@ -4,11 +4,11 @@ function Paragraph({ children, type, className, ...props }) {
   function textStyle(type) {
     switch (type) {
       case "primary":
-        return "text-xs md:text-4 font-semibold ";
+        return "text-xs lg:text-sm font-semibold ";
       case "secondary":
-        return "text-xs md:text-5 font-semibold  text-grey-primary ";
+        return "text-xs lg:text-sm font-semibold  text-grey-primary ";
       case "tertiary":
-        return "text-xs md:text-5 font-semibold text-grey-primary-light ";
+        return "text-xs lg:text-sm font-semibold text-grey-primary-light ";
     }
   }
 

@@ -1,7 +1,8 @@
-import { Link, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
-function GenreList({ genres, max, type = "movie" }) {
+function GenreList({ genres, max }) {
   const navigate = useNavigate();
+  const type = useLocation().pathname.split("/")[1];
   const maxGenres = max ? max : genres.length;
 
   return (
@@ -14,9 +15,7 @@ function GenreList({ genres, max, type = "movie" }) {
             onClick={(e) => {
               e.stopPropagation();
               e.preventDefault();
-              navigate(
-                `/discover?type=${type === "series" ? "tv" : type}&genre=${genre.id}`,
-              );
+              navigate(`/discover?type=${type}&genre=${genre.id}`);
             }}
           >
             {genre.name}

@@ -1,9 +1,10 @@
 import Paragraph from "../../ui/Paragraph";
+import TrailerPopover from "../popover/TrailerPopover";
 
 function SeriesHighlight({ series }) {
   return (
     <div className="flex flex-col flex-wrap justify-between md:flex-wrap md:gap-1.5 lg:gap-y-0">
-      <div className="flex items-center gap-2">
+      <div className="flex items-center gap-2 pb-2">
         <Paragraph type={"secondary"}>
           {series?.first_air_date?.split("-").at(0)}
         </Paragraph>
@@ -19,6 +20,7 @@ function SeriesHighlight({ series }) {
           {series?.original_language?.toUpperCase()}
         </Paragraph>
       </div>
+      <TrailerPopover />
     </div>
   );
 }

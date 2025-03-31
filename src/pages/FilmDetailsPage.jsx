@@ -1,5 +1,5 @@
 import "react-lite-youtube-embed/dist/LiteYouTubeEmbed.css";
-import { useParams } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
 
 import Poster from "../components/Poster";
@@ -29,53 +29,52 @@ import { useReadReviews } from "../hooks/reviews/useReadReviews";
 import { useQueryClient } from "@tanstack/react-query";
 
 function FilmDetailsPage() {
+  const location = useLocation();
+  const type = location.pathname.split("/")[1];
   const { id } = useParams("id");
   const token = localStorage.getItem("token");
   const queryClient = useQueryClient();
 
   const { data: movie, isPending: isMoviePending } = useMovieDB(
-    "movie",
+    type,
     id,
     "item",
   );
 
   //document title
   useDocumentTitle(
-    `${movie?.title} (${getYear(movie?.release_date)}) | list&watch`,
+    `${movie?.title || movie?.name} (${getYear(movie?.release_date || movie?.first_air_date)}) | list&watch`,
     isMoviePending,
   );
   const { data: credits, isPending: isCreditsPending } = useMovieDB(
-    "movie",
+    type,
     id,
     "credits",
   );
   const { data: movieVideo, isPending: isVideoPending } = useMovieDB(
-    "movie",
+    type,
     id,
     "videos",
   );
   const movieTrailer =
     movieVideo?.find((video) => video.type === "Trailer" && "Clip") || [];
   const { data: similarMovies, isPending: isSimilarPending } = useMovieDB(
-    "movie",
+    type,
     id,
     "similar",
   );
-  const { data: relatedMovies, isPending: isRelatedPending } = useMovieDB(
+  const { data: relatedMovies } = useMovieDB(
     undefined,
     movie?.belongs_to_collection?.id,
     "collection",
   );
 
-  const { data: userLists, isPending: isUserListsPending } = useMovieDB(
-    "movie",
-    id,
-    "lists",
-  );
-  const { data: reviewsMovieDB, isPending: isReviewsMovieDBPending } =
-    useMovieDB("movie", id, "reviews");
+  const { data: userLists } = useMovieDB(type, id, "lists");
+
+  const { data: reviewsMovieDB } = useMovieDB(type, id, "reviews");
 
   const { data: reviews, isPending: isReviewsPending } = useReadReviews(id);
+
   // sending reviews to supabase
   const { mutate: insertReviews } = useInsertReviews();
   useEffect(() => {
@@ -169,12 +168,14 @@ function FilmDetailsPage() {
         </section>
       )}
 
-      <section className="w-full lg:absolute lg:hidden">
+      <section
+        className={`w-full lg:absolute lg:hidden ${movieTrailer?.length === 0 && "hidden"}`}
+      >
         {isVideoPending ? (
           <Skeleton className={"aspect-video rounded-2xl"} />
-        ) : (
+        ) : movieTrailer?.length !== 0 ? (
           <Videos movieTrailer={movieTrailer} />
-        )}
+        ) : null}
       </section>
 
       <section>
@@ -185,12 +186,14 @@ function FilmDetailsPage() {
         <PeopleList
           people={credits?.cast}
           isPending={isCreditsPending}
-          perItem={5}
+          perItem={4}
+          maxItem={9}
+          buttons={credits?.cast?.length > 9}
         />
       </section>
 
       <section className="w-full">
-        <ImageGrid />
+        <ImageGrid type={type} />
       </section>
 
       {relatedMovies?.parts?.length > 0 && (
@@ -200,6 +203,7 @@ function FilmDetailsPage() {
           </Title>
           <PosterList
             title={"related movies"}
+            type={type}
             movies={relatedMovies?.parts || []}
             isPending={isSimilarPending}
             buttons={false}
@@ -214,6 +218,7 @@ function FilmDetailsPage() {
           </Title>
           <PosterList
             title={"Similar movies"}
+            type={type}
             movies={similarMovies || []}
             isPending={isSimilarPending}
             perItem={3}

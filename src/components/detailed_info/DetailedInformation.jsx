@@ -5,7 +5,7 @@ import CastTab from "./CastTab";
 import Paragraph from "../../ui/Paragraph";
 import CrewTab from "./CrewTab";
 import DetailsTab from "./DetailsTab";
-import { useParams } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 import GenresTab from "./GenresTab";
 
 import { useMovieDB } from "../../hooks/moviedb/useMovieDB";
@@ -15,12 +15,16 @@ const tabs = ["CAST", "CREW", "DETAILS", "GENRES", "RELEASES"];
 
 function DetailedInformation({ item, credits }) {
   const { id } = useParams("id");
+  const type = useLocation().pathname.split("/")[1];
   const [expanded, setExpanded] = useState(false);
 
-  const { data: titles } = useMovieDB("movie", id, "alternative_titles");
-  const { data: dates } = useMovieDB("movie", id, "release_dates");
-  const { data: keywords } = useMovieDB("movie", id, "keywords");
-
+  const { data: titles } = useMovieDB(type, id, "alternative_titles");
+  const { data: dates } = useMovieDB(
+    type === "movie" ? type : undefined,
+    id,
+    "release_dates",
+  );
+  const { data: keywords } = useMovieDB(type, id, "keywords");
   return (
     <div>
       <TabGroup>
@@ -61,16 +65,18 @@ function DetailedInformation({ item, credits }) {
       <div className="pt-6">
         <Paragraph type="tertiary" className="flex items-center gap-1">
           More at
+          {item?.imdb_id && (
+            <a
+              className="border-grey-secondary hover:border-grey-primary cursor-pointer rounded-xs border-2 px-1 py-0.5 text-[10px] duration-100"
+              href={`https://www.imdb.com/title/${item?.imdb_id}`}
+              target="_blank"
+            >
+              IMDB
+            </a>
+          )}
           <a
             className="border-grey-secondary hover:border-grey-primary cursor-pointer rounded-xs border-2 px-1 py-0.5 text-[10px] duration-100"
-            href={`https://www.imdb.com/title/${item?.imdb_id}`}
-            target="_blank"
-          >
-            IMDB
-          </a>
-          <a
-            className="border-grey-secondary hover:border-grey-primary cursor-pointer rounded-xs border-2 px-1 py-0.5 text-[10px] duration-100"
-            href={`https://www.themoviedb.org/movie/${item?.id}`}
+            href={`https://www.themoviedb.org/${type}/${id}`}
             target="_blank"
           >
             TMDB

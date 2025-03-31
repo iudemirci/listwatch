@@ -24,6 +24,7 @@ function PrevArrow() {
 function CustomSwiper({
   perItem = 3,
   ItemToSlide = 2,
+  maxItem = 6,
   space = 5,
   loop = false,
   children,
@@ -68,7 +69,7 @@ function CustomSwiper({
             slidesPerGroup: perItem + 1,
           },
           1024: {
-            slidesPerView: perItem + 3,
+            slidesPerView: maxItem,
           },
         }}
       >

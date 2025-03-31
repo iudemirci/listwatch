@@ -9,8 +9,6 @@ function Videos({ movieTrailer }) {
     setVisible(true); // Trigger animation on mount
   }, []);
 
-  if (!movieTrailer) return null;
-
   return (
     <div
       className={`bg-grey-secondary aspect-video items-center justify-center overflow-hidden rounded-2xl transition-opacity duration-500 ${

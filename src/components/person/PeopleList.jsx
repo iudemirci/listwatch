@@ -16,14 +16,23 @@ const skeleton = (
   <Skeleton className={"aspect-square rounded-full px-2 py-1"} />
 );
 
-function PeopleList({ people, isPending, className, perItem }) {
+function PeopleList({
+  people,
+  isPending,
+  className,
+  perItem,
+  maxItem,
+  buttons = true,
+}) {
   const [isPopoverOpen, setIsPopoverOpen] = useState(null);
   const [isLoaded, setIsLoaded] = useState(false);
 
   var settings = {
     perItem: perItem,
+    maxItem: maxItem,
     space: 2,
     ItemToSlide: 3,
+    buttons: buttons,
   };
 
   return (

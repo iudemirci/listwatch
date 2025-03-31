@@ -30,7 +30,7 @@ function Router() {
           <Route path="home" element={<Homepage />} />
           <Route path="discover" element={<Discover />} />
           <Route path="/movie/:id/:name" element={<FilmDetailsPage />} />
-          <Route path="/tv/:id/:name" element={<TvDetailsPage />} />
+          <Route path="/tv/:id/:name" element={<FilmDetailsPage />} />
           <Route path="/person/:id/:name" element={<PersonDetailsPage />} />
           <Route path="lists" element={<Lists />} />
           <Route path="news" element={<News />} />
