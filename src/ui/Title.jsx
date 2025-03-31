@@ -35,7 +35,7 @@ function Title({ level, type, children, className, ...props }) {
     return (
       <h3
         className={cn(
-          `text-grey-primary-light text-sm font-semibold tracking-wide uppercase lg:text-base ${colors[type]}`,
+          `text-sm font-semibold tracking-wide uppercase lg:text-base ${colors[type]}`,
           className,
         )}
         {...props}

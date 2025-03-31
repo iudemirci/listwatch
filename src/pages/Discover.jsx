@@ -21,7 +21,7 @@ function Discover() {
     useInfiniteQuery({
       queryKey: ["movies", { type, genre, sort }],
       queryFn: fetchMovies,
-      initialData: keepPreviousData,
+      placeholderData: (prevData) => prevData,
       getNextPageParam: (lastPage) => {
         const currentPage = lastPage?.movies?.page;
         const totalPages = lastPage?.movies?.total_pages;
@@ -44,7 +44,7 @@ function Discover() {
     const observer = new IntersectionObserver(
       (entries) => {
         if (entries[0].isIntersecting && hasNextPage && !isFetchingNextPage) {
-          debouncedFetch();
+          fetchNextPage();
         }
       },
       { threshold: 1.0 },

@@ -13,23 +13,31 @@ import ReviewsOptions from "./ReviewsOptions";
 import { useGetUser } from "../../../hooks/auth/useGetUser";
 import { useState } from "react";
 
+const sortReviews = (reviews, currentUserID) => {
+  return reviews.sort((a, b) =>
+    a.userID === currentUserID ? -1 : b.userID === currentUserID ? 1 : 0,
+  );
+};
+
 function Reviews({ reviews, isPending }) {
   const [edit, setEdit] = useState(false);
   const token = localStorage.getItem("token");
   const { user } = useGetUser() || [];
   const isUserReviewed =
     reviews?.filter((review) => review.userID === user?.id)?.length === 0;
-  const sortedReviews =
+  const dateSortedReviews =
     reviews?.sort((a, b) => {
       return new Date(b.createdAt) - new Date(a.createdAt);
     }) || [];
+  sortReviews(dateSortedReviews, user?.id);
+
   return (
     <>
       <div className="divide-grey-primary/50 flex flex-col divide-y-1">
         <Title level={3} className="pb-1">
           {!token
             ? "Sign in to share your opinion with the world!"
-            : "Popular Reviews"}
+            : "Latest reviews"}
         </Title>
         <SubmitReview
           token={token}
@@ -37,14 +45,14 @@ function Reviews({ reviews, isPending }) {
           edit={edit}
           setEdit={setEdit}
         />
-        <ul className="divide-grey-secondary flex flex-col divide-y-1">
+        <ul className="divide-grey-secondary mt-2 flex flex-col divide-y-1">
           {isPending ? (
             <Skeleton className="mt-2 aspect-5/2 rounded-lg" />
           ) : (
-            sortedReviews?.slice(0, 10)?.map((review) => (
+            dateSortedReviews?.slice(0, 10)?.map((review) => (
               <li
                 key={review?.id}
-                className={`relative flex flex-1 gap-3 pt-3 pb-2`}
+                className={`relative flex flex-1 gap-3 px-1.5 pt-3 pb-2 ${review?.userID === user?.id && "bg-grey-tertiary rounded-lg"}`}
               >
                 <AccountIcon path={review?.avatarPath} />
                 <div className="flex w-full flex-col gap-2 py-0.5">

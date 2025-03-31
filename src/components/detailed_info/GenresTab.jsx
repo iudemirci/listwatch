@@ -1,6 +1,7 @@
 import { capitalize } from "lodash";
 import Title from "../../ui/Title";
 import DetailedInfoButton from "./DetailedInfoButton";
+import { Link } from "react-router-dom";
 
 function GenresTab({ item, keywords }) {
   return (
@@ -11,7 +12,12 @@ function GenresTab({ item, keywords }) {
         </Title>
         <div className="flex flex-wrap gap-x-1 gap-y-1.5">
           {item?.genres?.map((genre) => (
-            <DetailedInfoButton key={genre.id}>{genre.name}</DetailedInfoButton>
+            <Link
+              key={genre.id}
+              to={`/discover?type=${"movie"}&genre=${genre.id}`}
+            >
+              <DetailedInfoButton>{genre.name}</DetailedInfoButton>
+            </Link>
           ))}
         </div>
       </div>

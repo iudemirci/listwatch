@@ -27,10 +27,10 @@ function ListPreviewCard({ listID }) {
     <Skeleton className="h-35 rounded-lg" />
   ) : (
     <div className="bg-grey-tertiary shadow-grey-secondary group hover:bg-grey-secondary flex h-35 cursor-pointer justify-between gap-2 rounded-lg p-2 shadow-xs duration-300">
-      <div className="line-clamp-1 flex flex-col justify-between gap-1 py-2.5 pl-2.5">
+      <div className="flex flex-col justify-between gap-1 py-2.5 pl-0.5">
         <Title
-          level={4}
-          className="group-hover:text-grey-primary-light duration-300"
+          level={5}
+          className="group-hover:text-grey-primary-light line-clamp-1 duration-300"
         >
           {capitalize(name)}
         </Title>
@@ -43,7 +43,9 @@ function ListPreviewCard({ listID }) {
           </div>
           <div className="flex flex-wrap items-center gap-1">
             <AccountIcon path={avatar_path} className="size-5" />
-            <Paragraph type="tertiary">{username}</Paragraph>{" "}
+            <Paragraph type="tertiary" className="line-clamp-1">
+              {username}
+            </Paragraph>{" "}
             <span className="text-grey-primary flex pl-1 text-xs font-medium tracking-wide">
               <Icon path={mdiStar} size={0.6} className="text-grey-primary" />
               {average_rating} avg.

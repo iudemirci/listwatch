@@ -101,3 +101,9 @@
   background-position: center;
   background-repeat: no-repeat;
 }
+
+img {
+  image-rendering: auto;
+  -webkit-transform: translateZ(0);
+  transform: translateZ(0);
+}

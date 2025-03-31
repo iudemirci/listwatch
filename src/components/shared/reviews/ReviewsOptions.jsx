@@ -54,12 +54,12 @@ function ReviewsOptions({ review, userID, setEdit }) {
                 <PopoverPanel
                   static
                   as={motion.div}
-                  initial={{ opacity: 0, scale: 0, x: 40, y: -20 }}
+                  initial={{ opacity: 0, scale: 0, x: 40, y: 20 }}
                   animate={{ opacity: 1, scale: 1, x: 0, y: 0 }}
-                  exit={{ opacity: 0, scale: 0, x: 40, y: -20 }}
+                  exit={{ opacity: 0, scale: 0, x: 40, y: 20 }}
                   transition={{ type: "spring", stiffness: 300, damping: 30 }}
-                  anchor="left start"
-                  className="bg-grey-tertiary flex flex-col rounded-lg p-1.5 text-xs font-semibold"
+                  anchor="left end"
+                  className="bg-grey-secondary flex flex-col rounded-lg p-1.5 text-xs font-semibold"
                 >
                   <CloseButton disabled={isDeleting} onClick={handleEdit}>
                     <div className="group hover:bg-grey-secondary flex cursor-pointer items-center gap-1 rounded-lg px-2 py-1.5 duration-300">
