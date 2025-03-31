@@ -7,9 +7,13 @@ import {
   deleteVote,
 } from "../../../services/apiReview";
 import { debounce } from "lodash";
+import { useDispatch } from "react-redux";
+import { openSignupPopup } from "../../../store/popupSlice";
 
 function ReviewVotes({ reviewID, userID }) {
   const queryClient = useQueryClient();
+  const token = localStorage.getItem("token");
+  const dispatch = useDispatch();
   const { data: votes, isVotesPending } = useQuery({
     queryKey: [`${reviewID}`, `votes`],
     queryFn: () => getVoteCounts(reviewID, userID),
@@ -44,7 +48,10 @@ function ReviewVotes({ reviewID, userID }) {
     <div className="text-grey-primary flex gap-0.5 text-xs">
       <span
         className={`group flex cursor-pointer items-center ${votes?.hasVoted && votes?.voteType && "text-primary"}`}
-        onClick={() => handleVote(true)}
+        onClick={() => {
+          if (token) handleVote(true);
+          else dispatch(openSignupPopup());
+        }}
       >
         <Icon
           path={mdiChevronUp}
@@ -55,7 +62,10 @@ function ReviewVotes({ reviewID, userID }) {
       </span>
       <span
         className={`group flex cursor-pointer items-center ${votes?.hasVoted && !votes?.voteType && "text-primary"}`}
-        onClick={() => handleVote(false)}
+        onClick={() => {
+          if (token) handleVote(false);
+          else dispatch(openSignupPopup());
+        }}
       >
         <Icon
           path={mdiChevronDown}

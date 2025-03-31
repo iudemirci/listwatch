@@ -2,6 +2,7 @@ import LinkToId from "../../ui/LinkToId";
 import DetailedInfoButton from "./DetailedInfoButton";
 import crewCategories from "../../assets/crewCategories.json";
 import Title from "../../ui/Title";
+import Paragraph from "../../ui/Paragraph";
 
 const formatCrew = (crewData) => {
   return crewData?.reduce((acc, person) => {
@@ -36,6 +37,13 @@ const getFormattedCrew = (crewData) => {
 
 function CrewTab({ credits }) {
   const sortedData = getFormattedCrew(credits);
+
+  if (!isNaN(sortedData))
+    return (
+      <Paragraph type="tertiary" className="pt-2">
+        No crew information found
+      </Paragraph>
+    );
 
   return (
     <div className="flex flex-col gap-3.5 pt-2">

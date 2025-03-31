@@ -6,7 +6,7 @@ import LinkToId from "../../ui/LinkToId";
 import CustomSwiper from "../../ui/CustomSwiper";
 import Skeleton from "../../ui/Skeleton";
 
-function PosterList({ movies, isPending, perItem = 3, type, buttons = true }) {
+function PosterList({ movies, isPending, type, perItem = 3, buttons = true }) {
   var settings = {
     perItem: perItem,
     space: 6,

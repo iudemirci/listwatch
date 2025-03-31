@@ -159,7 +159,7 @@ function PageNavList() {
                         <NavLink to={"/login"} onClick={toggleDrawer}>
                           <span
                             className={
-                              "hover:text-text-default flex items-center gap-1 py-1 duration-300"
+                              "hover:text-text-default flex items-center gap-1 py-1.5 duration-300"
                             }
                           >
                             <span>
@@ -170,7 +170,7 @@ function PageNavList() {
                         </NavLink>
                       </li>
                       <li
-                        className="flex cursor-pointer items-center gap-1 py-1 duration-300 hover:text-white"
+                        className="flex cursor-pointer items-center gap-1 py-1.5 duration-300 hover:text-white"
                         onClick={() => {
                           toggleDrawer();
                           dispatch(openSignupPopup());
@@ -185,7 +185,7 @@ function PageNavList() {
                     if (item.label === null) return null;
 
                     return (
-                      <li key={item.path} className="py-1">
+                      <li key={item.path} className="py-1.5">
                         <NavLink to={item.path} onClick={toggleDrawer}>
                           <span
                             className={

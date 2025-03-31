@@ -62,7 +62,7 @@ function Title({ level, type, children, className, ...props }) {
     return (
       <h5
         className={cn(
-          `text-grey-primary-light text-sm font-medium tracking-wider uppercase ${colors[type]}`,
+          `text-grey-primary-light text-sm font-medium tracking-wider uppercase lg:text-base ${colors[type]}`,
           className,
         )}
         {...props}

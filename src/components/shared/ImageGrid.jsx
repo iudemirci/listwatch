@@ -3,8 +3,8 @@ import Thumbnails from "yet-another-react-lightbox/plugins/thumbnails";
 import Zoom from "yet-another-react-lightbox/plugins/zoom";
 import "yet-another-react-lightbox/styles.css";
 import "yet-another-react-lightbox/plugins/thumbnails.css";
-import { useParams } from "react-router-dom";
-import { useState } from "react";
+import { useParams, useSearchParams } from "react-router-dom";
+import { useEffect, useRef, useState } from "react";
 
 import Skeleton from "../../ui/Skeleton";
 import Title from "../../ui/Title";
@@ -12,11 +12,13 @@ import Title from "../../ui/Title";
 import { useMovieDB } from "../../hooks/moviedb/useMovieDB";
 import ImageHoverMask from "../ImageHoverMask";
 
-function ImageGrid({ type = "movie" }) {
+function ImageGrid({ type }) {
   const { id } = useParams("id");
   const [isLoaded, setIsLoaded] = useState(false);
   const [open, setOpen] = useState(false);
   const [index, setIndex] = useState(0);
+  const [searchParams, setSearchParams] = useSearchParams();
+  const isUpdating = useRef(false);
 
   const { data: movieImages, isPending } = useMovieDB(type, id, "images");
   const backdropImages = movieImages?.backdrops?.map((img) => ({
@@ -26,6 +28,19 @@ function ImageGrid({ type = "movie" }) {
   const optimizedImg = backdropImages?.map((img) => ({
     src: img.src.replace("/w780/", "/original/"),
   }));
+
+  useEffect(() => {
+    const imgIndex = parseInt(searchParams.get("img"), 10);
+
+    if (
+      !isNaN(imgIndex) &&
+      imgIndex >= 0 &&
+      imgIndex < backdropImages?.length
+    ) {
+      setIndex(imgIndex);
+      setOpen(true);
+    }
+  }, [searchParams, backdropImages?.length]);
 
   return (
     <>
@@ -53,6 +68,7 @@ function ImageGrid({ type = "movie" }) {
                   onClick={() => {
                     setIndex(i);
                     setOpen(true);
+                    setSearchParams({ img: i });
                   }}
                 />
                 <ImageHoverMask />
@@ -80,6 +96,7 @@ function ImageGrid({ type = "movie" }) {
                   onClick={() => {
                     setIndex(i + 3);
                     setOpen(true);
+                    setSearchParams({ img: i + 3 });
                   }}
                 />
                 <ImageHoverMask />
@@ -113,7 +130,10 @@ function ImageGrid({ type = "movie" }) {
           slides={optimizedImg}
           open={open}
           index={index}
-          close={() => setOpen(false)}
+          close={() => {
+            setOpen(false);
+            setSearchParams({});
+          }}
           plugins={[Thumbnails, Zoom]}
           thumbnails={{
             height: 75,
@@ -129,6 +149,16 @@ function ImageGrid({ type = "movie" }) {
             scrollToZoom: true,
           }}
           controller={{ closeOnBackdropClick: true }}
+          on={{
+            view: ({ index }) => {
+              if (!isUpdating.current) {
+                isUpdating.current = true;
+                setIndex(index);
+                setSearchParams({ img: index });
+                setTimeout(() => (isUpdating.current = false), 100);
+              }
+            },
+          }}
         />
       </div>
     </>

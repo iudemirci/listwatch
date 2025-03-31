@@ -5,6 +5,9 @@ export function useMovieDB(type, id, endpoint) {
   return useQuery({
     queryKey: ["movieDB", type, id, endpoint].filter(Boolean),
     queryFn: () => getMovieItem(type, id, endpoint),
-    enabled: endpoint === "collection" ? !!endpoint && !!id : !!endpoint,
+    enabled: () => {
+      if (endpoint === "collection") return !!endpoint && !!id;
+      if (endpoint === "release_dates") return !!type;
+    },
   });
 }

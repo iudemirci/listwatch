@@ -1,23 +1,23 @@
 import { motion } from "motion/react";
 import { useEffect } from "react";
 
-function PopupBlur({ isOpen, setIsOpen, reset, children }) {
-  const scrollbarWidth = window.innerWidth - document.body.clientWidth;
+function PopupBlur({ setIsOpen, reset, children }) {
+  // const scrollbarWidth = window.innerWidth - document.body.clientWidth;
 
-  useEffect(() => {
-    if (isOpen) {
-      document.body.style.overflow = "hidden";
-      document.body.style.paddingRight = `${scrollbarWidth}px`;
-    } else {
-      document.body.style.overflow = "auto";
-      document.body.style.paddingRight = "0";
-    }
+  // useEffect(() => {
+  //   if (isOpen) {
+  //     document.body.style.overflow = "hidden";
+  //     document.body.style.paddingRight = `${scrollbarWidth}px`;
+  //   } else {
+  //     document.body.style.overflow = "auto";
+  //     document.body.style.paddingRight = "0";
+  //   }
 
-    return () => {
-      document.body.style.overflow = "auto";
-      document.body.style.paddingRight = "0";
-    };
-  }, [isOpen, scrollbarWidth]);
+  //   return () => {
+  //     document.body.style.overflow = "auto";
+  //     document.body.style.paddingRight = "0";
+  //   };
+  // }, [isOpen, scrollbarWidth]);
 
   return (
     <motion.div

@@ -15,7 +15,6 @@ function ListPreviewCard({ listID }) {
     listID,
     "list",
   );
-
   const {
     item_count,
     average_rating,
@@ -46,7 +45,7 @@ function ListPreviewCard({ listID }) {
             <AccountIcon path={avatar_path} className="size-5" />
             <Paragraph type="tertiary" className="line-clamp-1">
               {username}
-            </Paragraph>{" "}
+            </Paragraph>
             <span className="text-grey-primary flex pl-1 text-xs font-medium tracking-wide">
               <Icon path={mdiStar} size={0.6} className="text-grey-primary" />
               {average_rating} avg.

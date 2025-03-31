@@ -1,4 +1,4 @@
-import { useParams } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 import { useState } from "react";
 import Icon from "@mdi/react";
 import { mdiPlay } from "@mdi/js";
@@ -11,15 +11,17 @@ import { AnimatePresence } from "motion/react";
 import Skeleton from "../../ui/Skeleton";
 
 function TrailerPopover() {
-  const [isOpen, setIsOpen] = useState(false);
   const { id } = useParams("id");
+  const type = useLocation().pathname.split("/")[1];
+  const [isOpen, setIsOpen] = useState(false);
   const { data: movieVideo, isPending: isVideoPending } = useMovieDB(
-    "movie",
+    type,
     id,
     "videos",
   );
   const movieTrailer =
     movieVideo?.find((video) => video.type === "Trailer" && "Clip") || [];
+  // if (movieTrailer?.length === 0) return null;
   return (
     movieTrailer && (
       <>

@@ -4,15 +4,14 @@ import { getLanguageName } from "../../utilities/getIsoTo";
 
 function DetailsTab({ item, titles }) {
   const tabs = item && {
-    Studios: item?.production_companies?.map((company) => company.name),
-    Countries: item?.production_countries?.map((country) => country.name),
+    Studios: item?.production_companies?.map((company) => company.name) || [],
+    Countries: item?.production_countries?.map((country) => country.name) || [],
     "Primary Language": [getLanguageName(item?.original_language)],
-    "Spoken Languages": item?.spoken_languages?.map(
-      (lang) => lang.english_name,
-    ),
-    "Alternative Titles": titles?.titles?.map((t) => t.title),
+    "Spoken Languages":
+      item?.spoken_languages?.map((lang) => lang?.english_name) || [],
+    "Alternative Titles": titles?.titles?.map((t) => t.title) ||
+      titles?.map((t) => t.title) || ["No information found"],
   };
-
   return (
     <div className="flex flex-col gap-3.5 pt-2">
       {Object.keys(tabs).map((tab) => (
@@ -26,7 +25,7 @@ function DetailsTab({ item, titles }) {
                 return <DetailedInfoButton key={i}>{info}</DetailedInfoButton>;
               return (
                 <span key={i} className="text-grey-primary-light text-xs">
-                  {info},
+                  {info || "No information found"}
                 </span>
               );
             })}

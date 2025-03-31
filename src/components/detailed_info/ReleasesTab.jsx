@@ -2,6 +2,7 @@ import dayjs from "dayjs";
 
 import { getCountryName } from "../../utilities/getIsoTo";
 import CountryFlag from "../../utilities/CountryFlag";
+import Paragraph from "../../ui/Paragraph";
 
 function ReleasesTab({ dates }) {
   const groupedData =
@@ -32,6 +33,13 @@ function ReleasesTab({ dates }) {
         release_date,
         countries,
       }));
+
+  if (!result)
+    return (
+      <Paragraph type="tertiary" className="pt-2">
+        No release information found
+      </Paragraph>
+    );
   return (
     <ul className="divide-grey-primary/45 text-grey-primary-light divide-y-1 text-xs">
       <li className="text-grey-primary flex py-1.5 tracking-wider">PREMIERE</li>
