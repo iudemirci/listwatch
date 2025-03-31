@@ -1,12 +1,13 @@
 import { capitalize } from "lodash";
 import Paragraph from "../../ui/Paragraph";
 import Title from "../../ui/Title";
-import AccountIcon from "../review/accountIcon";
+
 import Poster from "../Poster";
 import { useMovieDB } from "../../hooks/moviedb/useMovieDB";
 import Icon from "@mdi/react";
 import { mdiStar } from "@mdi/js";
 import Skeleton from "../../ui/Skeleton";
+import AccountIcon from "../review/accountIcon";
 
 function ListPreviewCard({ listID }) {
   const { data: list, isPending: isListPending } = useMovieDB(
