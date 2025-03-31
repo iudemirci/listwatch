@@ -1,6 +1,6 @@
 import { mdiAccount } from "@mdi/js";
-import Icon from "@mdi/react";
 import { twMerge } from "tailwind-merge";
+import Icon from "@mdi/react";
 
 function AccountIcon({ path, className }) {
   return path ? (
