@@ -7,7 +7,7 @@ import { useMovieDB } from "../../hooks/moviedb/useMovieDB";
 import Icon from "@mdi/react";
 import { mdiStar } from "@mdi/js";
 import Skeleton from "../../ui/Skeleton";
-import AccountIcon from "../review/accountIcon";
+import AccountIcon from "../AccountIcon";
 
 function ListPreviewCard({ listID }) {
   const { data: list, isPending: isListPending } = useMovieDB(

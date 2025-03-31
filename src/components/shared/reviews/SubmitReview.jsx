@@ -1,18 +1,17 @@
 import Button from "../../../ui/Button";
-import AccountIcon from "../../review/accountIcon";
+import AccountIcon from "../../AccountIcon";
 import StarRating from "../../StarRating";
 import { v4 as uuidv4 } from "uuid";
 import { useParams } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 import toast from "react-hot-toast";
 import { useInsertReviews } from "../../../hooks/reviews/useInsertReviews";
 import Spinner from "../../../ui/Spinner";
 import { useQueryClient } from "@tanstack/react-query";
 import { useGetUser } from "../../../hooks/auth/useGetUser";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { useUpdateReview } from "../../../hooks/reviews/useUpdateReview";
-import { resetSelectedReview } from "../../../store/userSlice";
 
 const reviewID = uuidv4();
 

@@ -6,7 +6,7 @@ import Paragraph from "../../../ui/Paragraph";
 import ReadMore from "../../../utilities/ReadMore";
 import Title from "../../../ui/Title";
 import Skeleton from "../../../ui/Skeleton";
-import AccountIcon from "../../review/accountIcon";
+import AccountIcon from "../../AccountIcon";
 import SubmitReview from "./SubmitReview";
 import ReviewVotes from "./ReviewVotes";
 import ReviewsOptions from "./ReviewsOptions";
