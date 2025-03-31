@@ -41,13 +41,13 @@ export default function Poster({
     return (
       <div
         className={cn(
-          "outline-grey-primary shadow-grey-secondary/30 aspect-2/3 overflow-hidden rounded-lg shadow-2xl",
+          "outline-grey-primary shadow-grey-secondary/20 aspect-2/3 overflow-hidden rounded-lg shadow-lg",
           className,
         )}
       >
         {!isLoaded && <Skeleton className={cn("aspect-2/3", className)} />}
 
-        <PhotoProvider bannerVisible={false} maskOpacity={0.9}>
+        <PhotoProvider maskOpacity={0.9} bannerVisible={false}>
           <PhotoView src={`https://image.tmdb.org/t/p/w780${path}`}>
             <img
               src={`https://image.tmdb.org/t/p/w780${path}`}
@@ -73,6 +73,7 @@ export default function Poster({
         className={`rounded-lg transition-opacity duration-500 ${isLoaded ? "opacity-100" : "opacity-0"}`}
         alt="movie poster"
         {...props}
+        loading="lazy"
         onLoad={() => setIsLoaded(true)}
       />
     </div>

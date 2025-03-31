@@ -6,10 +6,9 @@ import LinkToId from "../../ui/LinkToId";
 import CustomSwiper from "../../ui/CustomSwiper";
 import Skeleton from "../../ui/Skeleton";
 
-function PosterList({ movies, isPending, type, delay = 6000, buttons = true }) {
+function PosterList({ movies, isPending, perItem = 3, type, buttons = true }) {
   var settings = {
-    perItem: 3,
-    delay: delay,
+    perItem: perItem,
     space: 6,
     loop: false,
     ItemToSlide: 2,

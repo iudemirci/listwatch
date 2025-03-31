@@ -12,20 +12,19 @@ import LinkToId from "../../ui/LinkToId";
 
 import { cn } from "../../utilities/cn";
 
-var settings = {
-  perItem: 5,
-  delay: 5000,
-  space: 2,
-  ItemToSlide: 3,
-};
-
 const skeleton = (
   <Skeleton className={"aspect-square rounded-full px-2 py-1"} />
 );
 
-function PeopleList({ people, isPending, className }) {
+function PeopleList({ people, isPending, className, perItem }) {
   const [isPopoverOpen, setIsPopoverOpen] = useState(null);
   const [isLoaded, setIsLoaded] = useState(false);
+
+  var settings = {
+    perItem: perItem,
+    space: 2,
+    ItemToSlide: 3,
+  };
 
   return (
     <ul className={cn("pt-2 2xl:pt-4", className)}>

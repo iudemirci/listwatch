@@ -31,10 +31,10 @@ function ListTabs() {
   return (
     <>
       <div className="flex items-center gap-2">
-        <Title level={2}>My Lists</Title>
+        <Title level={3}>My Lists</Title>
         <Icon
           path={mdiPlusBoxMultiple}
-          size={1.2}
+          size={0.9}
           className="text-grey-primary hover:text-primary cursor-pointer duration-300"
           onClick={() => handlePopup()}
         />

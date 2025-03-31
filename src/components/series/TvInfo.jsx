@@ -1,5 +1,4 @@
 import { useParams } from "react-router-dom";
-import { useSelector } from "react-redux";
 
 import TitleOverview from "../shared/TitleOverview";
 import CastOverview from "../shared/CastOverview";
@@ -19,7 +18,7 @@ import Keywords from "../shared/Keywords";
 import Imdb from "../../ui/Imdb";
 import PosterList from "../shared/PosterList";
 import EpisodeInfo from "./EpisodeInfo";
-import Reviews from "../shared/Reviews";
+import Reviews from "../shared/reviews/Reviews";
 
 import useDocumentTitle from "../../hooks/useDocumentTitle";
 import { getYear } from "../../utilities/getYear";

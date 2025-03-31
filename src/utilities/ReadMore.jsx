@@ -19,7 +19,7 @@ const ReadMoreLess = ({ children, charLimit = 100 }) => {
           onClick={handleToggle}
           className="text-grey-primary-light hover:text-primary ml-2 inline-block cursor-pointer duration-300"
         >
-          {isExpanded ? "Read Less" : "Read More"}
+          {!isExpanded && "Read More"}
         </button>
       )}
     </>

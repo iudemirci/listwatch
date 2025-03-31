@@ -6,6 +6,7 @@ import {
   voteOnComment,
   deleteVote,
 } from "../../../services/apiReview";
+import { debounce } from "lodash";
 
 function ReviewVotes({ reviewID, userID }) {
   const queryClient = useQueryClient();
@@ -18,17 +19,18 @@ function ReviewVotes({ reviewID, userID }) {
     mutationKey: ["giveVote"],
     mutationFn: voteOnComment,
   });
+  const debouncedMutate = debounce(mutate, 200);
   const { mutate: removeVote, isPending: isRemovingPending } = useMutation({
     mutationKey: ["deleteVote"],
     mutationFn: () => deleteVote(reviewID, userID),
     onSuccess: () => queryClient.invalidateQueries(["votes"]),
   });
   function handleVote(value) {
-    if (isVotingPending || isRemovingPending) return;
+    // if (isVotingPending || isRemovingPending) return;
 
     if (votes?.hasVoted && votes?.voteType === value) return removeVote();
 
-    mutate(
+    debouncedMutate(
       {
         reviewID: reviewID,
         userID: userID,

@@ -4,7 +4,7 @@ import crewCategories from "../../assets/crewCategories.json";
 import Title from "../../ui/Title";
 
 const formatCrew = (crewData) => {
-  return crewData.reduce((acc, person) => {
+  return crewData?.reduce((acc, person) => {
     const category = crewCategories.jobMappings[person.job];
     if (!category) return acc;
     if (!acc[category]) {

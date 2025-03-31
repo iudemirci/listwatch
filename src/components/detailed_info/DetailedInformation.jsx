@@ -58,7 +58,7 @@ function DetailedInformation({ item, credits }) {
           </TabPanel>
         </TabPanels>
       </TabGroup>
-      <div className="pt-4">
+      <div className="pt-6">
         <Paragraph type="tertiary" className="flex items-center gap-1">
           More at
           <a

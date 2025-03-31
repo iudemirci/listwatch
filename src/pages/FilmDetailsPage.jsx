@@ -54,6 +54,8 @@ function FilmDetailsPage() {
     id,
     "videos",
   );
+  const movieTrailer =
+    movieVideo?.find((video) => video.type === "Trailer" && "Clip") || [];
   const { data: similarMovies, isPending: isSimilarPending } = useMovieDB(
     "movie",
     id,
@@ -64,6 +66,7 @@ function FilmDetailsPage() {
     movie?.belongs_to_collection?.id,
     "collection",
   );
+
   const { data: userLists, isPending: isUserListsPending } = useMovieDB(
     "movie",
     id,
@@ -95,50 +98,54 @@ function FilmDetailsPage() {
   }, [id, reviewsMovieDB, insertReviews, queryClient]);
 
   return (
-    <div className="mt-[23rem] grid grid-cols-3 items-start gap-x-3 gap-y-6 pt-4 sm:grid-cols-4 md:grid-cols-3 md:gap-x-4 md:pt-8 lg:gap-x-6 lg:gap-y-8 2xl:grid-cols-4">
+    <div className="mt-[23rem] flex flex-col items-start gap-x-3 gap-y-6 pt-4 md:gap-x-4 md:gap-y-8 md:pt-8 lg:gap-x-6 lg:gap-y-10 2xl:gap-y-12">
       <HomePoster path={movie?.backdrop_path} className="pt-[40rem]" />
-      <section className="row-span-2">
-        {isMoviePending ? (
-          <Skeleton className={"aspect-2/3 rounded-lg"} />
-        ) : (
-          <Poster path={movie.poster_path} preview={true} />
-        )}
-        {isMoviePending ? (
-          <Skeleton
-            className={"mt-2 h-4.5 w-20 justify-self-center rounded-lg lg:h-7"}
-          />
-        ) : (
-          <Rating
-            rating={movie?.vote_average}
-            className={"justify-self-center pt-2"}
-          />
-        )}
-      </section>
-
-      <section className="col-span-2 flex flex-col gap-8 sm:col-span-3 md:col-span-2 2xl:col-span-3">
-        <div className="flex flex-col gap-2">
+      <div className="2xl-grid-cols-4 grid w-full grid-cols-3 gap-x-3 sm:grid-cols-4 md:grid-cols-3 md:gap-x-4 lg:gap-x-8">
+        <section className="row-span-2">
           {isMoviePending ? (
-            [...Array(3)].map((_, i) => (
-              <Skeleton key={i} className={"aspect-24/1"} />
-            ))
+            <Skeleton className={"aspect-2/3 rounded-lg"} />
           ) : (
-            <TitleOverview movie={movie} />
+            <Poster path={movie.poster_path} preview={true} />
           )}
-        </div>
-
-        <div className="hidden flex-col gap-2 lg:flex">
           {isMoviePending ? (
-            [...Array(3)].map((_, i) => (
-              <Skeleton key={i} className={"aspect-50/1"} />
-            ))
+            <Skeleton
+              className={
+                "mt-2 h-4.5 w-20 justify-self-center rounded-lg lg:h-7"
+              }
+            />
           ) : (
-            <>
-              <Title level={5}>{movie?.tagline}</Title>
-              <Paragraph type={"secondary"}>{movie?.overview}</Paragraph>
-            </>
+            <Rating
+              rating={movie?.vote_average}
+              className={"justify-self-center pt-2"}
+            />
           )}
-        </div>
-      </section>
+        </section>
+
+        <section className="col-span-2 flex flex-col gap-8 sm:col-span-3 md:col-span-2">
+          <div className="flex flex-col gap-2">
+            {isMoviePending ? (
+              [...Array(3)].map((_, i) => (
+                <Skeleton key={i} className={"aspect-24/1"} />
+              ))
+            ) : (
+              <TitleOverview movie={movie} />
+            )}
+          </div>
+
+          <div className="hidden flex-col gap-2 lg:flex">
+            {isMoviePending ? (
+              [...Array(3)].map((_, i) => (
+                <Skeleton key={i} className={"aspect-50/1"} />
+              ))
+            ) : (
+              <>
+                <Title level={5}>{movie?.tagline}</Title>
+                <Paragraph type={"secondary"}>{movie?.overview}</Paragraph>
+              </>
+            )}
+          </div>
+        </section>
+      </div>
 
       <section className="col-span-full flex flex-col gap-1 lg:hidden 2xl:col-span-3">
         {isMoviePending ? (
@@ -154,7 +161,7 @@ function FilmDetailsPage() {
       </section>
 
       {token && (
-        <section className="col-span-full flex flex-wrap items-center gap-2">
+        <section className="flex flex-wrap items-center gap-2">
           <>
             <ListDropdownButton item={movie || []} />
             <SetFavourite item={movie || []} />
@@ -162,41 +169,46 @@ function FilmDetailsPage() {
         </section>
       )}
 
-      <section className="col-span-full">
+      <section className="w-full lg:absolute lg:hidden">
         {isVideoPending ? (
-          <Skeleton className={"aspect-video"} />
+          <Skeleton className={"aspect-video rounded-2xl"} />
         ) : (
-          <Videos videoData={movieVideo} />
+          <Videos movieTrailer={movieTrailer} />
         )}
       </section>
 
-      <section className="col-span-full">
-        <PeopleList people={credits?.cast} isPending={isCreditsPending} />
-      </section>
-
-      <section className="col-span-full">
+      <section>
         <DetailedInformation item={movie} credits={credits} />
       </section>
 
-      <section className="col-span-full">
-        <ImageGrid id={id} />
+      <section className="w-full">
+        <PeopleList
+          people={credits?.cast}
+          isPending={isCreditsPending}
+          perItem={5}
+        />
+      </section>
+
+      <section className="w-full">
+        <ImageGrid />
       </section>
 
       {relatedMovies?.parts?.length > 0 && (
-        <section className="divide-grey-primary/50 col-span-full divide-y-1">
+        <section className="divide-grey-primary/50 w-full divide-y-1">
           <Title level={3} className="pb-0.5">
-            Related Movies
+            Related movies
           </Title>
           <PosterList
             title={"related movies"}
             movies={relatedMovies?.parts || []}
-            isPending={isRelatedPending}
+            isPending={isSimilarPending}
             buttons={false}
           />
         </section>
       )}
+
       {similarMovies?.length > 0 && (
-        <section className="divide-grey-primary/50 col-span-full divide-y-1">
+        <section className="divide-grey-primary/50 w-full divide-y-1">
           <Title level={3} className="pb-0.5">
             Similar movies
           </Title>
@@ -204,31 +216,42 @@ function FilmDetailsPage() {
             title={"Similar movies"}
             movies={similarMovies || []}
             isPending={isSimilarPending}
+            perItem={3}
           />
         </section>
       )}
 
-      <section className="divide-grey-primary/50 col-span-full divide-y-1">
-        <div className="flex items-center justify-between">
-          <Title level={3} className="pb-0.5">
-            Popular lists
-          </Title>
-          <span className="text-grey-primary-light hover:text-text-default cursor-pointer text-sm duration-300">
-            MORE+
-          </span>
-        </div>
-        <div className="grid gap-2 pt-2 sm:grid-cols-2">
-          {userLists?.slice(0, 4)?.map((l) => (
-            <ListPreviewCard key={l.id} listID={l?.id} />
-          ))}
-        </div>
-      </section>
-
-      {(isReviewsPending || reviews?.results?.length !== 0) && (
-        <section className="col-span-full">
-          <Reviews reviews={reviews} isPending={isReviewsPending} />
+      <div className="flex w-full flex-col gap-x-6 gap-y-6 lg:flex-row lg:gap-x-10 lg:gap-y-8">
+        <section className="divide-grey-primary/50 col-span-full flex-2 divide-y-1 lg:order-2 lg:col-start-4 lg:row-start-[99]">
+          <div className="flex items-center justify-between">
+            <Title level={3} className="pb-1">
+              Popular lists
+            </Title>
+            {userLists?.length !== 0 && (
+              <span className="text-grey-primary-light hover:text-text-default cursor-pointer text-sm duration-300">
+                MORE+
+              </span>
+            )}
+          </div>
+          {userLists?.length !== 0 ? (
+            <div className="grid gap-2 pt-2 sm:grid-cols-2 lg:grid-cols-1 lg:pt-4">
+              {userLists?.slice(0, 4)?.map((l) => (
+                <ListPreviewCard key={l.id} listID={l?.id} />
+              ))}
+            </div>
+          ) : (
+            <Paragraph type="tertiary" className="pt-2">
+              No lists found
+            </Paragraph>
+          )}
         </section>
-      )}
+
+        {(isReviewsPending || reviews?.results?.length !== 0) && (
+          <section className="order-1 col-span-full lg:col-span-3 lg:row-start-[99] lg:flex-3 2xl:flex-4">
+            <Reviews reviews={reviews} isPending={isReviewsPending} />
+          </section>
+        )}
+      </div>
     </div>
   );
 }

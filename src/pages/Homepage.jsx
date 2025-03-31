@@ -49,7 +49,7 @@ function Homepage() {
   return (
     <>
       <HomePoster movies={popularMovies} />
-      <div className="flex flex-col gap-6 lg:gap-8">
+      <div className="flex flex-col gap-6 lg:gap-12">
         <GreetingText />
         <section className="divide-grey-primary/40 divide-y-1">
           <Title level={3}>Trending Movies</Title>
@@ -69,6 +69,7 @@ function Homepage() {
             people={filteredPeople}
             isPending={isPeoplePending}
             title={"Trending People"}
+            perItem={5}
           />
         </section>
 
@@ -78,7 +79,6 @@ function Homepage() {
             type="tv"
             movies={popularSeries}
             isPending={isPopularSeriesPending}
-            delay={7000}
           />
         </section>
         <section className="divide-grey-primary/40 divide-y-1">

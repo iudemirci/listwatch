@@ -2,12 +2,8 @@ import { memo, useEffect, useState } from "react";
 import LiteYouTubeEmbed from "react-lite-youtube-embed";
 import "react-lite-youtube-embed/dist/LiteYouTubeEmbed.css";
 
-function Videos({ videoData }) {
+function Videos({ movieTrailer }) {
   const [visible, setVisible] = useState(false);
-
-  const movieTrailer = videoData.find(
-    (video) => video.type === "Trailer" && "Clip",
-  );
 
   useEffect(() => {
     setVisible(true); // Trigger animation on mount

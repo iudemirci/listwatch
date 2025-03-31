@@ -1,7 +1,7 @@
 import { Swiper } from "swiper/react";
 import { Autoplay, Mousewheel, Navigation } from "swiper/modules";
-
 import "swiper/css/navigation";
+
 import Paragraph from "./Paragraph";
 import { useState } from "react";
 
@@ -25,7 +25,6 @@ function CustomSwiper({
   perItem = 3,
   ItemToSlide = 2,
   space = 5,
-  delay = 5000,
   loop = false,
   children,
   buttons = true,
@@ -52,17 +51,12 @@ function CustomSwiper({
         }}
         slidesPerView={perItem}
         slidesPerGroup={ItemToSlide}
-        freeMode={true}
         grabCursor={true}
         scrollbar={{ draggable: true }}
         speed={400}
         mousewheel={{
           forceToAxis: true,
           releaseOnEdges: true,
-        }}
-        autoplay={{
-          pauseOnMouseEnter: true,
-          delay: delay,
         }}
         loop={loop}
         breakpoints={{

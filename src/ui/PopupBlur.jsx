@@ -1,4 +1,4 @@
-import { AnimatePresence, motion } from "motion/react";
+import { motion } from "motion/react";
 import { useEffect } from "react";
 
 function PopupBlur({ isOpen, setIsOpen, reset, children }) {
