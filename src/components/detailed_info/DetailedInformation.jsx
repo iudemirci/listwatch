@@ -10,10 +10,11 @@ import GenresTab from "./GenresTab";
 
 import { useMovieDB } from "../../hooks/moviedb/useMovieDB";
 import { useState } from "react";
+import Skeleton from "../../ui/Skeleton";
 
 const tabs = ["CAST", "CREW", "DETAILS", "GENRES", "RELEASES"];
 
-function DetailedInformation({ item, credits }) {
+function DetailedInformation({ item, credits, isCreditsPending }) {
   const { id } = useParams("id");
   const type = useLocation().pathname.split("/")[1];
   const [expanded, setExpanded] = useState(false);
@@ -24,7 +25,11 @@ function DetailedInformation({ item, credits }) {
     id,
     "release_dates",
   );
-  const { data: keywords } = useMovieDB(type, id, "keywords");
+  const { data: keywords, isPending: isKeywordsLoading } = useMovieDB(
+    type,
+    id,
+    "keywords",
+  );
   return (
     <div>
       <TabGroup>
@@ -40,27 +45,32 @@ function DetailedInformation({ item, credits }) {
             ))}
           </div>
         </TabList>
-        <TabPanels>
-          <TabPanel>
-            <CastTab
-              credits={credits?.cast}
-              expanded={expanded}
-              setExpanded={setExpanded}
-            />
-          </TabPanel>
-          <TabPanel>
-            <CrewTab credits={credits?.crew} />
-          </TabPanel>
-          <TabPanel>
-            <DetailsTab item={item} titles={titles} />
-          </TabPanel>
-          <TabPanel>
-            <GenresTab item={item} keywords={keywords} />
-          </TabPanel>
-          <TabPanel>
-            <ReleasesTab dates={dates} />
-          </TabPanel>
-        </TabPanels>
+
+        {isKeywordsLoading || isCreditsPending ? (
+          <Skeleton className="mt-4 h-25" />
+        ) : (
+          <TabPanels>
+            <TabPanel>
+              <CastTab
+                credits={credits?.cast}
+                expanded={expanded}
+                setExpanded={setExpanded}
+              />
+            </TabPanel>
+            <TabPanel>
+              <CrewTab credits={credits?.crew} />
+            </TabPanel>
+            <TabPanel>
+              <DetailsTab item={item} titles={titles} />
+            </TabPanel>
+            <TabPanel>
+              <GenresTab item={item} keywords={keywords} />
+            </TabPanel>
+            <TabPanel>
+              <ReleasesTab dates={dates} />
+            </TabPanel>
+          </TabPanels>
+        )}
       </TabGroup>
       <div className="pt-6">
         <Paragraph type="tertiary" className="flex items-center gap-1">

@@ -8,6 +8,8 @@ import MovieDetailCard from "../components/homepage/MovieDetailCard.jsx";
 import useDocumentTitle from "../hooks/useDocumentTitle.js";
 import { useMovieDB } from "../hooks/moviedb/useMovieDB.js";
 import Title from "../ui/Title.jsx";
+import { useGetLastVisited } from "../hooks/user/useGetLastVisited.js";
+import { useGetUser } from "../hooks/auth/useGetUser.js";
 
 const adultKeywords =
   /adult|xxx|porn|erotic|av|idol|gravure|softcore|hardcore|nude|playboy|lingerie/i;
@@ -16,6 +18,7 @@ const cjkRegex =
 const blocklist = [5009810, 5009979, 5248794, 2710789];
 
 function Homepage() {
+  const { user } = useGetUser();
   useDocumentTitle("list&watch | Dicover new content.", false);
   const { data: popularMovies, isPending: isPopularMoviesPending } = useMovieDB(
     "movie",
@@ -44,6 +47,10 @@ function Homepage() {
     "tv",
     undefined,
     "trending",
+  );
+
+  const { data: lastVisited, isPending: isLastPending } = useGetLastVisited(
+    user?.id,
   );
 
   return (
@@ -81,6 +88,10 @@ function Homepage() {
             movies={popularSeries}
             isPending={isPopularSeriesPending}
           />
+        </section>
+        <section>
+          <Title level={3}>Last visited</Title>
+          <PosterList movies={lastVisited} isPending={isLastPending} />
         </section>
         <section className="divide-grey-primary/40 divide-y-1">
           <Title level={3}>In theaters</Title>

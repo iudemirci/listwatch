@@ -12,6 +12,8 @@ import ReviewVotes from "./ReviewVotes";
 import ReviewsOptions from "./ReviewsOptions";
 import { useGetUser } from "../../../hooks/auth/useGetUser";
 import { useState } from "react";
+import { useDispatch } from "react-redux";
+import { openSignupPopup } from "../../../store/popupSlice";
 
 const sortReviews = (reviews, currentUserID) => {
   return reviews.sort((a, b) =>
@@ -23,6 +25,7 @@ function Reviews({ reviews, isPending }) {
   const [edit, setEdit] = useState(false);
   const token = localStorage.getItem("token");
   const { user } = useGetUser() || [];
+  const dispatch = useDispatch();
   const isUserReviewed =
     reviews?.filter((review) => review.userID === user?.id)?.length === 0;
   const dateSortedReviews =
@@ -35,9 +38,16 @@ function Reviews({ reviews, isPending }) {
     <>
       <div className="divide-grey-primary/50 flex flex-col divide-y-1">
         <Title level={3} className="pb-1">
-          {!token
-            ? "Sign in to share your opinion with the world!"
-            : "Latest reviews"}
+          {!token ? (
+            <span
+              onClick={() => dispatch(openSignupPopup())}
+              className="cursor-pointer"
+            >
+              Sign in to share your opinion with the world!
+            </span>
+          ) : (
+            "Latest reviews"
+          )}
         </Title>
         <SubmitReview
           token={token}

@@ -1,22 +1,24 @@
 import { useState } from "react";
 import { mdiImageOff } from "@mdi/js";
 import Icon from "@mdi/react";
-import "react-photo-view/dist/react-photo-view.css";
-import { PhotoProvider, PhotoView } from "react-photo-view";
 import Zoom from "yet-another-react-lightbox/plugins/zoom";
 import "yet-another-react-lightbox/styles.css";
 import Lightbox from "yet-another-react-lightbox";
 
-import { cn } from "../utilities/cn";
 import Skeleton from "../ui/Skeleton";
 import Paragraph from "../ui/Paragraph";
 import ImageHoverMask from "./ImageHoverMask";
+
+import { cn } from "../utilities/cn";
+
+const BASE_URL = import.meta.env.VITE_BASE_IMAGE_URL;
 
 export default function Poster({
   path,
   preview = false,
   title,
   year,
+  iconSize = 1,
   className,
   ...props
 }) {
@@ -33,12 +35,14 @@ export default function Poster({
       >
         <Icon
           path={mdiImageOff}
-          size={2}
+          size={iconSize}
           className="text-grey-primary absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2"
         />
-        <Paragraph type="tertiary" className="pb-3">
-          {title}({year})
-        </Paragraph>
+        {title && (
+          <Paragraph type="tertiary" className="pb-3">
+            {title}({year})
+          </Paragraph>
+        )}
       </div>
     );
 
@@ -53,8 +57,8 @@ export default function Poster({
       {!isLoaded && <Skeleton className={"aspect-2/3"} />}
 
       <img
-        src={`https://image.tmdb.org/t/p/${preview ? "w780" : "w342"}${path}`}
-        className={`pointer-events-none rounded-lg transition-opacity duration-500 ${isLoaded ? "opacity-100" : "opacity-0"}`}
+        src={`${BASE_URL}${preview ? "/w780" : "/w342"}${path}`}
+        className={`pointer-events-none size-full rounded-lg object-cover transition-opacity duration-500 ${isLoaded ? "opacity-100" : "opacity-0"}`}
         alt={`Movie Poster`}
         {...props}
         loading="lazy"
@@ -66,7 +70,7 @@ export default function Poster({
           <Lightbox
             slides={[
               {
-                src: `https://image.tmdb.org/t/p/original${path}`,
+                src: `${BASE_URL}/original${path}`,
               },
             ]}
             open={open}

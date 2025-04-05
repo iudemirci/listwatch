@@ -1,118 +1,106 @@
 import { useState } from "react";
 import Button from "../../ui/Button";
-import ListItem from "../ListItem";
+import CreditsItem from "../CreditsItem";
 import Skeleton from "../../ui/Skeleton";
 import LinkToId from "../../ui/LinkToId";
 
 import { useMovieDB } from "../../hooks/moviedb/useMovieDB";
+import { Tab, TabGroup, TabList, TabPanel, TabPanels } from "@headlessui/react";
+import dayjs from "dayjs";
 
 function filterDate(arr) {
-  return arr.sort(
-    (a, b) =>
-      b.release_date?.split("-").at(0) - a.release_date?.split("-").at(0) ||
-      b.first_air_date?.split("-").at(0) - a.first_air_date?.split("-").at(0),
-  );
+  return arr?.sort((a, b) => {
+    const dateB = dayjs(b.release_date || b.first_air_date);
+    const dateA = dayjs(a.release_date || a.first_air_date);
+    return dateB - dateA;
+  });
 }
-
 function CreditsInfo({ id, gender }) {
   const [isShow, setIsShow] = useState(false);
   const [currentTab, setCurrentTab] = useState(1);
 
-  const { data: credits, isPending: isPending } = useMovieDB(
+  const { data: credits, isPending } = useMovieDB(
     undefined,
     id,
     "person_credits",
   );
-
-  const cast = credits && filterDate(credits?.cast);
+  const cast = filterDate(credits?.cast) || [];
   const producer =
-    credits &&
-    filterDate(credits?.crew.filter((item) => item.job !== "Director"));
+    (credits &&
+      filterDate(credits?.crew.filter((item) => item.job !== "Director"))) ||
+    [];
   const director =
-    credits &&
-    filterDate(credits?.crew.filter((item) => item.job === "Director"));
+    (credits &&
+      filterDate(credits?.crew.filter((item) => item.job === "Director"))) ||
+    [];
 
   const tabs = [
     {
-      label: cast?.length > 0 && (gender === 1 ? "Actress" : "Actor"),
+      title: gender === 2 ? "Actor" : "Actress",
+      label: "cast",
+      data: filterDate(credits?.cast) || [],
     },
     {
-      label: producer?.length > 0 && "Producer",
+      title: "Producer",
+      label: "producer",
+      data:
+        filterDate(credits?.crew.filter((item) => item.job !== "Director")) ||
+        [],
     },
     {
-      label: director?.length > 0 && "Director",
+      title: "Director",
+      label: "director",
+      data:
+        filterDate(credits?.crew.filter((item) => item.job === "Director")) ||
+        [],
     },
   ];
 
-  let currentLabel = cast;
-  if (currentTab === 1) currentLabel = cast;
-  else if (currentTab === 2) currentLabel = producer;
-  else if (currentTab === 3) currentLabel = director;
-
   return (
-    <>
-      {/* Tabs */}
-      <div className="flex gap-2">
-        {isPending
-          ? [...Array(3)].map((_, i) => (
-              <Skeleton
-                key={i}
-                className={
-                  i % 2 === 1
-                    ? "h-8 w-20 rounded-2xl lg:h-10 lg:w-25"
-                    : "h-8 w-15 rounded-2xl lg:h-10 lg:w-20"
-                }
-              />
-            ))
-          : tabs.map((tab, i) => {
-              if (tab.label)
-                return (
-                  <Button
-                    key={tab.label}
-                    type={currentTab === i + 1 ? "primary" : "secondary"}
-                    onClick={() => {
-                      setCurrentTab(i + 1);
-                      setIsShow((s) => !s);
-                    }}
-                  >
-                    {tab.label}
-                  </Button>
-                );
-            })}
-      </div>
-      <ul>
-        {isPending ? (
-          <Skeleton className={"h-20 rounded-2xl"} />
-        ) : (
-          currentLabel
-            .slice(0, isShow ? currentLabel?.length : 10)
-            ?.map((credit, i) => (
-              <LinkToId key={i} type={credit?.media_type} item={credit}>
-                <ListItem item={credit} />
-              </LinkToId>
-
-              //    <Link
-              //   key={i}
-              //   to={
-              //     credit?.media_type === "movie"
-              //       ? `/movie/${credit.id}`
-              //       : `/tv/${credit.id}`
-              //   }
-              // >
-              // </Link>
-            ))
-        )}
-
-        {currentLabel?.length > 10 && (
-          <Button
-            className={"mt-2 self-start"}
-            onClick={() => setIsShow((s) => !s)}
-          >
-            {isShow ? "Show less" : "Show all"}
-          </Button>
-        )}
-      </ul>
-    </>
+    <TabGroup onChange={() => setIsShow(false)}>
+      <TabList className="text-text-default border-grey-primary/60 relative mt-4 mb-1 border-b-1 py-0.5 text-sm font-medium tracking-wider lg:text-base">
+        <div className="absolute bottom-[-1px] left-0 flex w-full gap-2">
+          {tabs?.map((tab) => {
+            if (tab?.data?.length === 0) return null;
+            return (
+              <Tab
+                key={tab.title}
+                className="data-[selected]:text-primary cursor-pointer whitespace-nowrap uppercase focus:outline-0 data-[selected]:border-b-1"
+              >
+                {tab?.title}
+              </Tab>
+            );
+          })}
+        </div>
+      </TabList>
+      <TabPanels>
+        {tabs?.map((tab) => (
+          <TabPanel key={tab.label}>
+            <ul className="flex flex-col">
+              {isPending ? (
+                <Skeleton className={"h-20 rounded-2xl"} />
+              ) : (
+                tab?.data
+                  ?.slice(0, isShow ? cast?.length : 10)
+                  ?.map((credit, i) => (
+                    <LinkToId key={i} type={credit?.media_type} item={credit}>
+                      <CreditsItem item={credit} />
+                    </LinkToId>
+                  ))
+              )}
+              {!isPending && tab.data?.length > 10 && !isShow && (
+                <Button
+                  className="mt-2 self-end"
+                  onClick={() => setIsShow((s) => !s)}
+                >
+                  Show all
+                </Button>
+              )}
+            </ul>
+          </TabPanel>
+        ))}
+      </TabPanels>
+    </TabGroup>
   );
 }
 

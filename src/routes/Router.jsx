@@ -9,7 +9,9 @@ const Discover = lazy(() => import("./../pages/Discover.jsx"));
 const Lists = lazy(() => import("./../pages/Lists.jsx"));
 const News = lazy(() => import("./../pages/News.jsx"));
 const Login = lazy(() => import("./../pages/Login.jsx"));
-const FilmDetailsPage = lazy(() => import("./../pages/FilmDetailsPage.jsx"));
+const ContentDetailsPage = lazy(
+  () => import("./../pages/ContentDetailsPage.jsx"),
+);
 const PersonDetailsPage = lazy(
   () => import("./../pages/PersonDetailsPage.jsx"),
 );
@@ -29,8 +31,8 @@ function Router() {
           <Route path="/" element={<Navigate replace to={"home"} />} />
           <Route path="home" element={<Homepage />} />
           <Route path="discover" element={<Discover />} />
-          <Route path="/movie/:id/:name" element={<FilmDetailsPage />} />
-          <Route path="/tv/:id/:name" element={<FilmDetailsPage />} />
+          <Route path="/movie/:id/:name" element={<ContentDetailsPage />} />
+          <Route path="/tv/:id/:name" element={<ContentDetailsPage />} />
           <Route path="/person/:id/:name" element={<PersonDetailsPage />} />
           <Route path="lists" element={<Lists />} />
           <Route path="news" element={<News />} />

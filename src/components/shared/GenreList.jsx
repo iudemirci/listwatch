@@ -11,7 +11,7 @@ function GenreList({ genres, max }) {
         genres?.slice(0, maxGenres)?.map((genre) => (
           <li
             key={genre.id}
-            className="2xl: border-primary hover:bg-primary pointer-events-auto cursor-pointer rounded-2xl border-1 px-1.5 py-0.5 text-xs duration-300 md:px-1.5 lg:py-1"
+            className="border-primary hover:bg-primary pointer-events-auto cursor-pointer rounded-lg border-1 px-1.5 py-0.5 text-xs duration-300 md:px-1.5 lg:py-1"
             onClick={(e) => {
               e.stopPropagation();
               e.preventDefault();

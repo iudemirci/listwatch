@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import Icon from "@mdi/react";
-import { mdiArrowUpBold } from "@mdi/js";
+import { mdiChevronUp } from "@mdi/js";
 
 function ScrollToTopButton() {
   const [visible, setVisible] = useState(false);
@@ -26,10 +26,11 @@ function ScrollToTopButton() {
   return (
     <button
       onClick={scrollToTop}
-      className={`bg-primary border-grey-primary-light fixed right-5 bottom-5 z-100 flex size-11 cursor-pointer items-center justify-center rounded-full border-2 duration-300 active:-translate-y-0.5 ${visible ? "opacity-100" : "opacity-0"}`}
+      className={`bg-primary border-grey-primary-light hover:bg-primary-dark pr-3p fixed top-5 left-1/2 z-100 flex -translate-x-1/2 cursor-pointer items-center justify-center rounded-xl py-0.5 pl-2 text-sm duration-300 active:-translate-y-0.5 ${visible ? "opacity-100" : "opacity-0"}`}
       aria-label="Scroll to top"
     >
-      <Icon path={mdiArrowUpBold} size={1} />
+      <Icon path={mdiChevronUp} size={1} />
+      Back to top
     </button>
   );
 }

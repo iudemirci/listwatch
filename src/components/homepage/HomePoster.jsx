@@ -7,19 +7,22 @@ function HomePoster({ path, movies, className }) {
     movies
       ?.map((movie) => movie?.backdrop_path)
       ?.filter((path) => path !== null);
+
   const randomPath =
     path ||
     (filteredPaths &&
       filteredPaths[Math.floor(Math.random() * filteredPaths?.length)]);
-
   return (
     <div
       className={twMerge(
-        `${styles.wrapper} w-[100%] pt-[50rem] sm:w-[125%] md:w-[130%] lg:w-[135%] 2xl:w-[140%]`,
+        `${styles.wrapper} bg-grey-secondary/50 w-[100%] pt-[50rem] sm:w-[125%] md:w-[130%] lg:w-[135%] 2xl:w-[140%]`,
         className,
       )}
       style={{
-        backgroundImage: `url(https://image.tmdb.org/t/p/w1280${randomPath})`,
+        backgroundImage:
+          path || randomPath
+            ? `url(https://image.tmdb.org/t/p/w1280${randomPath}`
+            : "none",
       }}
     ></div>
   );
