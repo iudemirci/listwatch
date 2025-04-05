@@ -75,3 +75,66 @@ export async function getFavouriteItem(userID) {
 
   return res;
 }
+
+export async function getLastVisited(userID) {
+  const { data: res, error } = await supabase
+    .from("last_visited")
+    .select("*")
+    .eq("userID", userID)
+    .order("createdAt", { ascending: false })
+    .limit(10);
+
+  if (error)
+    throw new Error("There was something wrong with fetching last visited");
+
+  return res;
+}
+
+export async function addLastVisited(item) {
+  // checking if exists
+  const { data: existing, error: fetchError } = await supabase
+    .from("last_visited")
+    .select("id")
+    .eq("userID", item.userID)
+    .eq("itemID", item.itemID)
+    .eq("itemType", item.itemType)
+    .limit(1)
+    .maybeSingle();
+
+  if (existing?.id) {
+    // updating the date
+    await supabase
+      .from("last_visited")
+      .update({ createdAt: new Date().toISOString() })
+      .eq("id", existing.id);
+    return;
+  }
+
+  // inserting if not exists
+  const { data, error } = await supabase
+    .from("last_visited")
+    .insert([item])
+    .select();
+
+  if (error)
+    throw new Error(
+      "There was something wrong with setting adding last visited",
+    );
+
+  // checking if more than 10 items
+  const { data: allVisits, error: readError } = await supabase
+    .from("last_visited")
+    .select("id")
+    .eq("userID", item.userID)
+    .order("createdAt", { ascending: false });
+
+  if (readError) {
+    console.error("Failed to fetch all visits:", readError);
+    return;
+  }
+
+  if (allVisits.length > 10) {
+    const idsToDelete = allVisits.slice(10).map((v) => v.id);
+    await supabase.from("last_visited").delete().in("id", idsToDelete);
+  }
+}

@@ -54,7 +54,11 @@ function ListPreviewCard({ listID }) {
         </div>
       </div>
       <div className="aspect-2/3">
-        <Poster path={results?.[0]?.poster_path} className="relative" />
+        <Poster
+          path={results?.[0]?.poster_path}
+          className="relative"
+          iconSize={1.5}
+        />
       </div>
     </div>
   );

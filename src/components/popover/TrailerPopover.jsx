@@ -21,7 +21,7 @@ function TrailerPopover() {
   );
   const movieTrailer =
     movieVideo?.find((video) => video.type === "Trailer" && "Clip") || [];
-  // if (movieTrailer?.length === 0) return null;
+  if (movieTrailer?.length === 0) return null;
   return (
     movieTrailer && (
       <>

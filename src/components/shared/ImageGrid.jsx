@@ -3,18 +3,19 @@ import Thumbnails from "yet-another-react-lightbox/plugins/thumbnails";
 import Zoom from "yet-another-react-lightbox/plugins/zoom";
 import "yet-another-react-lightbox/styles.css";
 import "yet-another-react-lightbox/plugins/thumbnails.css";
+import { mdiChevronRight } from "@mdi/js";
 import { useParams, useSearchParams } from "react-router-dom";
 import { useEffect, useRef, useState } from "react";
 
 import Skeleton from "../../ui/Skeleton";
 import Title from "../../ui/Title";
+import MdiIcon from "../../ui/MdiIcon";
+import ImageHoverMask from "../ImageHoverMask";
 
 import { useMovieDB } from "../../hooks/moviedb/useMovieDB";
-import ImageHoverMask from "../ImageHoverMask";
 
 function ImageGrid({ type }) {
   const { id } = useParams("id");
-  const [isLoaded, setIsLoaded] = useState(false);
   const [open, setOpen] = useState(false);
   const [index, setIndex] = useState(0);
   const [searchParams, setSearchParams] = useSearchParams();
@@ -42,10 +43,16 @@ function ImageGrid({ type }) {
     }
   }, [searchParams, backdropImages?.length]);
 
+  if (backdropImages?.length === 0) return null;
+
   return (
-    <>
-      <Title level={3} className="border-grey-primary/50 border-b-1 pb-0.5">
-        Photos
+    <section className="w-full">
+      <Title
+        level={3}
+        className="group border-grey-primary/50 hover:text-primary flex cursor-pointer items-center border-b-1 pb-0.5 duration-300"
+        onClick={() => setOpen(true)}
+      >
+        Photos <MdiIcon path={mdiChevronRight} size={1} />
       </Title>
 
       <div className="flex gap-x-2 py-2 lg:gap-x-3 lg:py-3">
@@ -64,7 +71,6 @@ function ImageGrid({ type }) {
                 <img
                   src={img.src}
                   className={`size-full object-cover duration-500`}
-                  onLoad={() => setIsLoaded(true)}
                   onClick={() => {
                     setIndex(i);
                     setOpen(true);
@@ -92,7 +98,6 @@ function ImageGrid({ type }) {
                 <img
                   src={img.src}
                   className={`size-full object-cover duration-500`}
-                  onLoad={() => setIsLoaded(true)}
                   onClick={() => {
                     setIndex(i + 3);
                     setOpen(true);
@@ -161,7 +166,7 @@ function ImageGrid({ type }) {
           }}
         />
       </div>
-    </>
+    </section>
   );
 }
 

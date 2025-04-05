@@ -6,7 +6,7 @@ function Videos({ movieTrailer }) {
   const [visible, setVisible] = useState(false);
 
   useEffect(() => {
-    setVisible(true); // Trigger animation on mount
+    setVisible(true);
   }, []);
 
   return (

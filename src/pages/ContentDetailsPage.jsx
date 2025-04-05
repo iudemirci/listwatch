@@ -1,6 +1,8 @@
 import "react-lite-youtube-embed/dist/LiteYouTubeEmbed.css";
 import { useLocation, useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
+import { useEffect } from "react";
+import { useQueryClient } from "@tanstack/react-query";
 
 import Poster from "../components/Poster";
 import TitleOverview from "../components/shared/TitleOverview";
@@ -10,7 +12,6 @@ import Title from "../ui/Title";
 import PeopleList from "../components/person/PeopleList";
 import ListDropdownButton from "../components/ListDropdownButton";
 import SetFavourite from "../components/SetFavourite";
-
 import Rating from "../components/shared/Rating";
 import Paragraph from "../ui/Paragraph";
 import Skeleton from "../ui/Skeleton";
@@ -24,14 +25,16 @@ import useDocumentTitle from "../hooks/useDocumentTitle";
 import { getYear } from "../utilities/getYear";
 import { useMovieDB } from "../hooks/moviedb/useMovieDB";
 import { useInsertReviews } from "../hooks/reviews/useInsertReviews";
-import { useEffect } from "react";
 import { useReadReviews } from "../hooks/reviews/useReadReviews";
-import { useQueryClient } from "@tanstack/react-query";
+import EpisodeInfo from "../components/series/EpisodeInfo";
+import { addLastVisited } from "../services/apiUser";
+import { useGetUser } from "../hooks/auth/useGetUser";
 
-function FilmDetailsPage() {
+function ContentDetailsPage() {
   const location = useLocation();
   const type = location.pathname.split("/")[1];
   const { id } = useParams("id");
+  const { user } = useGetUser();
   const token = localStorage.getItem("token");
   const queryClient = useQueryClient();
 
@@ -40,6 +43,18 @@ function FilmDetailsPage() {
     id,
     "item",
   );
+
+  useEffect(() => {
+    if (token && type && user?.id && movie) {
+      const item = {
+        userID: user.id,
+        itemType: type,
+        itemID: movie.id,
+        itemPath: movie.poster_path,
+      };
+      addLastVisited(item);
+    }
+  }, [token, type, movie, user?.id]);
 
   //document title
   useDocumentTitle(
@@ -51,11 +66,11 @@ function FilmDetailsPage() {
     id,
     "credits",
   );
-  const { data: movieVideo, isPending: isVideoPending } = useMovieDB(
-    type,
-    id,
-    "videos",
-  );
+  const {
+    data: movieVideo,
+    isPending: isVideoPending,
+    hasFetched: hasVideoFetched,
+  } = useMovieDB(type, id, "videos");
   const movieTrailer =
     movieVideo?.find((video) => video.type === "Trailer" && "Clip") || [];
   const { data: similarMovies, isPending: isSimilarPending } = useMovieDB(
@@ -100,11 +115,11 @@ function FilmDetailsPage() {
     <div className="mt-[23rem] flex flex-col items-start gap-x-3 gap-y-6 pt-4 md:gap-x-4 md:gap-y-8 md:pt-8 lg:gap-x-6 lg:gap-y-10 2xl:gap-y-12">
       <HomePoster path={movie?.backdrop_path} className="pt-[40rem]" />
       <div className="2xl-grid-cols-4 grid w-full grid-cols-3 gap-x-3 sm:grid-cols-4 md:grid-cols-3 md:gap-x-4 lg:gap-x-8">
-        <section className="row-span-2">
+        <section className="aspect-2/3">
           {isMoviePending ? (
-            <Skeleton className={"aspect-2/3 rounded-lg"} />
+            <Skeleton className={"aspect-2/3"} />
           ) : (
-            <Poster path={movie.poster_path} preview={true} />
+            <Poster path={movie.poster_path} preview={true} iconSize={2} />
           )}
           {isMoviePending ? (
             <Skeleton
@@ -131,7 +146,7 @@ function FilmDetailsPage() {
             )}
           </div>
 
-          <div className="hidden flex-col gap-2 lg:flex">
+          <div className="hidden flex-col gap-2 2xl:flex">
             {isMoviePending ? (
               [...Array(3)].map((_, i) => (
                 <Skeleton key={i} className={"aspect-50/1"} />
@@ -146,11 +161,9 @@ function FilmDetailsPage() {
         </section>
       </div>
 
-      <section className="col-span-full flex flex-col gap-1 lg:hidden 2xl:col-span-3">
+      <section className="flex w-full flex-col gap-1 2xl:col-span-3 2xl:hidden">
         {isMoviePending ? (
-          [...Array(3)].map((_, i) => (
-            <Skeleton key={i} className={"aspect-30/1"} />
-          ))
+          [...Array(3)].map((_, i) => <Skeleton key={i} className="mb-1 h-4" />)
         ) : (
           <>
             <Title level={5}>{movie?.tagline}</Title>
@@ -169,7 +182,7 @@ function FilmDetailsPage() {
       )}
 
       <section
-        className={`w-full lg:absolute lg:hidden ${movieTrailer?.length === 0 && "hidden"}`}
+        className={`w-full lg:absolute lg:hidden ${movieTrailer?.length === 0 && hasVideoFetched && "absolute hidden"}`}
       >
         {isVideoPending ? (
           <Skeleton className={"aspect-video rounded-2xl"} />
@@ -178,23 +191,33 @@ function FilmDetailsPage() {
         ) : null}
       </section>
 
-      <section>
-        <DetailedInformation item={movie} credits={credits} />
-      </section>
-
       <section className="w-full">
-        <PeopleList
-          people={credits?.cast}
-          isPending={isCreditsPending}
-          perItem={4}
-          maxItem={9}
-          buttons={credits?.cast?.length > 9}
+        <DetailedInformation
+          item={movie}
+          credits={credits}
+          isCreditsPending={isCreditsPending}
         />
       </section>
 
-      <section className="w-full">
-        <ImageGrid type={type} />
-      </section>
+      {type === "tv" && (
+        <section className="w-full">
+          <EpisodeInfo id={id} series={movie} isPending={isMoviePending} />
+        </section>
+      )}
+
+      {credits?.cast?.length > 0 && (
+        <section className="w-full">
+          <PeopleList
+            people={credits?.cast}
+            isPending={isCreditsPending}
+            perItem={4}
+            maxItem={9}
+            buttons={credits?.cast?.length > 9}
+          />
+        </section>
+      )}
+
+      <ImageGrid type={type} />
 
       {relatedMovies?.parts?.length > 0 && (
         <section className="divide-grey-primary/50 w-full divide-y-1">
@@ -211,10 +234,10 @@ function FilmDetailsPage() {
         </section>
       )}
 
-      {similarMovies?.length > 0 && (
+      {(isSimilarPending || similarMovies?.length > 0) && (
         <section className="divide-grey-primary/50 w-full divide-y-1">
           <Title level={3} className="pb-0.5">
-            Similar movies
+            Similar {type === "movie" ? "movies" : "shows"}
           </Title>
           <PosterList
             title={"Similar movies"}
@@ -222,6 +245,7 @@ function FilmDetailsPage() {
             movies={similarMovies || []}
             isPending={isSimilarPending}
             perItem={3}
+            buttons={!isSimilarPending}
           />
         </section>
       )}
@@ -261,4 +285,4 @@ function FilmDetailsPage() {
   );
 }
 
-export default FilmDetailsPage;
+export default ContentDetailsPage;

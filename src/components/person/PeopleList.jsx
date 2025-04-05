@@ -37,55 +37,54 @@ function PeopleList({
 
   return (
     <ul className={cn("pt-2 2xl:pt-4", className)}>
-      <div>
-        <CustomSwiper {...settings}>
-          {isPending &&
-            [...Array(8)].map((_, index) => (
-              <SwiperSlide key={index}>{skeleton}</SwiperSlide>
-            ))}
-          {!isPending &&
-            people?.slice(0, 20).map((person, i) => (
-              <SwiperSlide key={person.id}>
-                <Popover
-                  isOpen={isPopoverOpen === i}
-                  content={
-                    <div className="border-primary bg-background-default mx-1 rounded-lg border-2 px-2 py-1 text-center">
-                      <div className={"flex flex-col"}>
-                        <Paragraph type="primary">{person.name}</Paragraph>
-                        {person.character && (
-                          <Paragraph type="secondary">
-                            {person.character}
-                          </Paragraph>
-                        )}
-                      </div>
-                    </div>
-                  }
-                  positions={"bottom"}
-                  padding={4}
-                >
-                  <li
-                    className="hover:border-primary bg-grey-secondary flex aspect-square size-full cursor-pointer items-center justify-center overflow-hidden rounded-full border-2 border-transparent duration-300 hover:border-2"
-                    onMouseEnter={() => setIsPopoverOpen(i)}
-                    onMouseLeave={() => setIsPopoverOpen(null)}
-                  >
-                    <LinkToId type="person" item={person}>
-                      {!isLoaded && skeleton}
-                      {person.profile_path ? (
-                        <img
-                          src={`https://image.tmdb.org/t/p/w185${person.profile_path}`}
-                          className={`bg-grey-secondary pointer-events-none object-contain ${isLoaded ? "opacity-100" : "opacity-0"} duration-300`}
-                          onLoad={() => setIsLoaded(true)}
-                        />
-                      ) : (
-                        <Icon path={mdiAccount} size={1.8} />
+      <CustomSwiper {...settings}>
+        {isPending &&
+          [...Array(8)].map((_, index) => (
+            <SwiperSlide key={index}>{skeleton}</SwiperSlide>
+          ))}
+        {!isPending &&
+          people?.slice(0, 20).map((person, i) => (
+            <SwiperSlide key={person.id}>
+              <Popover
+                isOpen={isPopoverOpen === i}
+                content={
+                  <div className="border-primary bg-background-default mx-1 rounded-lg border-2 px-2 py-1 text-center">
+                    <div className={"flex flex-col"}>
+                      <Paragraph type="primary">{person.name}</Paragraph>
+                      {person.character && (
+                        <Paragraph type="secondary">
+                          {person.character}
+                        </Paragraph>
                       )}
-                    </LinkToId>
-                  </li>
-                </Popover>
-              </SwiperSlide>
-            ))}
-        </CustomSwiper>
-      </div>
+                    </div>
+                  </div>
+                }
+                positions={"bottom"}
+                reposition={true}
+                padding={4}
+              >
+                <li
+                  className="hover:border-primary bg-grey-secondary flex aspect-square size-full cursor-pointer items-center justify-center overflow-hidden rounded-full border-2 border-transparent duration-300 hover:border-2"
+                  onMouseEnter={() => setIsPopoverOpen(i)}
+                  onMouseLeave={() => setIsPopoverOpen(null)}
+                >
+                  <LinkToId type="person" item={person}>
+                    {!isLoaded && skeleton}
+                    {person.profile_path ? (
+                      <img
+                        src={`https://image.tmdb.org/t/p/w185${person.profile_path}`}
+                        className={`bg-grey-secondary pointer-events-none object-contain ${isLoaded ? "opacity-100" : "opacity-0"} duration-300`}
+                        onLoad={() => setIsLoaded(true)}
+                      />
+                    ) : (
+                      <Icon path={mdiAccount} size={1.8} />
+                    )}
+                  </LinkToId>
+                </li>
+              </Popover>
+            </SwiperSlide>
+          ))}
+      </CustomSwiper>
     </ul>
   );
 }

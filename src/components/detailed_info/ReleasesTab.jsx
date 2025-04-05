@@ -34,7 +34,7 @@ function ReleasesTab({ dates }) {
         countries,
       }));
 
-  if (!result)
+  if (!result?.length)
     return (
       <Paragraph type="tertiary" className="pt-2">
         No release information found

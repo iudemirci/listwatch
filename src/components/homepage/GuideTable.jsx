@@ -1,17 +1,38 @@
+import {
+  mdiInformation,
+  mdiListBox,
+  mdiMovie,
+  mdiNewspaper,
+  mdiShare,
+  mdiStar,
+} from "@mdi/js";
 import Paragraph from "../../ui/Paragraph";
+import Icon from "@mdi/react";
 
 function GuideTable() {
   const content = [
-    { icon: "📃", text: "Keep track by listing your favourite movies" },
-    { icon: "⭐", text: "Rate movies as you keep track and record" },
-    { icon: "↗️", text: "Share you watchlist with you friends" },
-    { icon: "📰", text: "Write reviews for the world if you need to" },
     {
-      icon: "ℹ️",
+      icon: <Icon path={mdiMovie} size={0.8} />,
+      text: "Keep track by listing your favourite movies",
+    },
+    {
+      icon: <Icon path={mdiStar} size={0.8} />,
+      text: "Rate movies as you keep track and record",
+    },
+    {
+      icon: <Icon path={mdiShare} size={0.8} />,
+      text: "Share you watchlist with you friends",
+    },
+    {
+      icon: <Icon path={mdiNewspaper} size={0.8} />,
+      text: "Write reviews for the world if you need to",
+    },
+    {
+      icon: <Icon path={mdiInformation} size={0.8} />,
       text: "Get quick and detailed information about any movie",
     },
     {
-      icon: "👯",
+      icon: <Icon path={mdiListBox} size={0.8} />,
       text: "Interact with you friends and others with you lists",
     },
   ];
@@ -25,7 +46,7 @@ function GuideTable() {
             key={i}
           >
             <Paragraph>
-              <span>{item.icon}</span>
+              <span className="text-primary">{item.icon}</span>
             </Paragraph>
             <Paragraph type={"primary"}>{item.text}</Paragraph>
           </div>

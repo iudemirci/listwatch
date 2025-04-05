@@ -7,7 +7,7 @@ function MdiIcon({ onClick, size = 1.1, path, className }) {
       path={path}
       size={size}
       className={twMerge(
-        `text-grey-primary-light hover:text-primary cursor-pointer duration-300`,
+        `text-grey-primary-light hover:text-primary group-hover:text-primary cursor-pointer duration-300`,
         className,
       )}
       onClick={onClick}

@@ -9,5 +9,6 @@ export function useMovieDB(type, id, endpoint) {
       if (endpoint === "collection") return !!endpoint && !!id;
       if (endpoint === "release_dates") return !!type;
     },
+    staleTime: 60 * 1000 * 5,
   });
 }
