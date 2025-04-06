@@ -59,5 +59,32 @@
     "Costume Design",
     "Makeup",
     "Hairstyling"
-  ]
+  ],
+  "composingJobs": [
+    "Music",
+    "Theme Music",
+    "Music Supervisor",
+    "Composer",
+    "Original Music Composer",
+    "Orchestrator",
+    "Soundtrack",
+    "Conductor",
+    "Arranger",
+    "Musical Director",
+    "Score",
+    "Music Editor",
+    "Music Producer",
+    "Lead Composer",
+    "Associate Composer",
+    "Music Consultant",
+    "Film Composer",
+    "Theme Song Performance",
+    "Main Title Theme Composer",
+    "Additional Music",
+    "Music Score Producer",
+    "Executive Music Producer",
+    "Musician",
+    "Sound"
+  ],
+  "writerJobs": ["Writer", "Screenplay", "Story", "Teleplay", "Creator"]
 }

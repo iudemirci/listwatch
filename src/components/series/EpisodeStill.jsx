@@ -6,7 +6,6 @@ import Skeleton from "../../ui/Skeleton";
 
 const IMAGE_BASE_URL = import.meta.env.VITE_BASE_IMAGE_URL;
 function EpisodeStill({ src, alt }) {
-  console.log(`${IMAGE_BASE_URL}/w500${src}`);
   const [imgLoaded, setImgLoaded] = useState(false);
 
   if (!src) {

@@ -10,6 +10,7 @@ import { useMovieDB } from "../hooks/moviedb/useMovieDB.js";
 import Title from "../ui/Title.jsx";
 import { useGetLastVisited } from "../hooks/user/useGetLastVisited.js";
 import { useGetUser } from "../hooks/auth/useGetUser.js";
+import ScrollToTopButton from "../ui/ScrollToTopButton.jsx";
 
 const adultKeywords =
   /adult|xxx|porn|erotic|av|idol|gravure|softcore|hardcore|nude|playboy|lingerie/i;
@@ -19,7 +20,10 @@ const blocklist = [5009810, 5009979, 5248794, 2710789];
 
 function Homepage() {
   const { user } = useGetUser();
+  const token = localStorage.getItem("token");
+
   useDocumentTitle("list&watch | Dicover new content.", false);
+
   const { data: popularMovies, isPending: isPopularMoviesPending } = useMovieDB(
     "movie",
     undefined,
@@ -28,7 +32,7 @@ function Homepage() {
   const { data: popularPeople, isPending: isPeoplePending } = useMovieDB(
     "person",
     undefined,
-    "trending",
+    "popular",
   );
   const filteredPeople =
     popularPeople?.filter((person) => {
@@ -56,6 +60,7 @@ function Homepage() {
   return (
     <>
       <HomePoster movies={popularMovies} />
+      <ScrollToTopButton />
       <div className="flex flex-col gap-8 lg:gap-12">
         <GreetingText />
         <section className="divide-grey-primary/40 divide-y-1">
@@ -76,8 +81,9 @@ function Homepage() {
             people={filteredPeople}
             isPending={isPeoplePending}
             title={"Trending People"}
-            perItem={4}
-            maxItem={9}
+            perItem={3}
+            maxItem={6}
+            space={10}
           />
         </section>
 
@@ -89,15 +95,24 @@ function Homepage() {
             isPending={isPopularSeriesPending}
           />
         </section>
-        <section>
-          <Title level={3}>Last visited</Title>
-          <PosterList movies={lastVisited} isPending={isLastPending} />
-        </section>
-        <section className="divide-grey-primary/40 divide-y-1">
+
+        <section className="divide-grey-primary/40 divide-y-1 overflow-hidden">
           <Title level={3}>In theaters</Title>
           <MovieDetailCard />
         </section>
       </div>
+      {token && (
+        <section className="full-width-component flex min-w-full items-center justify-center overflow-x-hidden bg-black/70">
+          <div className="w-sm px-4 sm:w-lg md:w-xl lg:w-3xl 2xl:w-5xl">
+            <Title level={3}>Last visited</Title>
+            <PosterList
+              movies={lastVisited}
+              isPending={isLastPending}
+              lastVisited={true}
+            />
+          </div>
+        </section>
+      )}
     </>
   );
 }

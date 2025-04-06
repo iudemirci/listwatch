@@ -1,15 +1,21 @@
-import Poster from "./Poster";
-import Flex from "../ui/Flex";
+import Poster from "../Poster";
+import Flex from "../../ui/Flex";
 import { mdiStar } from "@mdi/js";
 import Icon from "@mdi/react";
-import Title from "../ui/Title";
-import Paragraph from "../ui/Paragraph";
-import { getYear } from "../utilities/getYear";
+import Title from "../../ui/Title";
+import Paragraph from "../../ui/Paragraph";
+import { getYear } from "../../utilities/getYear";
 
 function CreditsItem({ item, ...props }) {
+  const year =
+    getYear(item?.release_date) ||
+    getYear(item?.first_air_date) ||
+    getYear(item?.air_date) ||
+    null;
+
   return (
     <li
-      className="border-grey-primary/50 group flex cursor-pointer gap-2 border-b-1 px-2 py-1.5 duration-300"
+      className="border-grey-primary/50 group flex cursor-pointer gap-2 border-b-1 py-1.5 duration-300"
       {...props}
     >
       <Poster
@@ -19,20 +25,25 @@ function CreditsItem({ item, ...props }) {
       <div className="flex flex-1 flex-col gap-0.5">
         <Flex className="justify-between pr-2">
           <Title
-            level={4}
+            level={6}
             className="group-hover:text-primary line-clamp-1 duration-300"
           >
             {item?.title || item?.name}
           </Title>
           <Paragraph type={"secondary"}>
-            {getYear(item?.release_date) ||
-              getYear(item?.first_air_date) ||
-              getYear(item?.air_date) ||
-              "UPCOMING"}
+            {year || (
+              <span className="rounded-lg border-1 px-1 text-[11px]">
+                UPCOMING
+              </span>
+            )}
           </Paragraph>
         </Flex>
 
-        {item?.job && <Paragraph type={"secondary"}>{item?.job}</Paragraph>}
+        {item?.job && (
+          <Paragraph type={"secondary"} className="line-clamp-1">
+            {item?.job?.join(" / ")}
+          </Paragraph>
+        )}
 
         <div className="flex gap-2">
           {item?.vote_average ? (
@@ -42,7 +53,9 @@ function CreditsItem({ item, ...props }) {
                 {item?.vote_average.toFixed(1)}
               </Paragraph>
             </Flex>
-          ) : null}
+          ) : (
+            <Icon path={mdiStar} size={0.5} className="text-grey-primary" />
+          )}
           <Paragraph type="secondary">
             {item?.media_type === "tv" && "TV Series"}
           </Paragraph>

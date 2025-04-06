@@ -94,19 +94,19 @@ export async function addLastVisited(item) {
   // checking if exists
   const { data: existing, error: fetchError } = await supabase
     .from("last_visited")
-    .select("id")
+    .select("lastID")
     .eq("userID", item.userID)
-    .eq("itemID", item.itemID)
-    .eq("itemType", item.itemType)
+    .eq("id", item.id)
+    .eq("type", item.type)
     .limit(1)
     .maybeSingle();
 
-  if (existing?.id) {
+  if (existing?.lastID) {
     // updating the date
     await supabase
       .from("last_visited")
       .update({ createdAt: new Date().toISOString() })
-      .eq("id", existing.id);
+      .eq("lastID", existing.lastID);
     return;
   }
 
@@ -124,7 +124,7 @@ export async function addLastVisited(item) {
   // checking if more than 10 items
   const { data: allVisits, error: readError } = await supabase
     .from("last_visited")
-    .select("id")
+    .select("lastID")
     .eq("userID", item.userID)
     .order("createdAt", { ascending: false });
 
@@ -134,7 +134,7 @@ export async function addLastVisited(item) {
   }
 
   if (allVisits.length > 10) {
-    const idsToDelete = allVisits.slice(10).map((v) => v.id);
-    await supabase.from("last_visited").delete().in("id", idsToDelete);
+    const idsToDelete = allVisits.slice(10).map((v) => v.lastID);
+    await supabase.from("last_visited").delete().in("lastID", idsToDelete);
   }
 }

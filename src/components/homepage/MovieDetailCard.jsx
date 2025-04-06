@@ -59,7 +59,7 @@ function MovieDetailCard() {
   }, [isLoading, visibleCount, movies?.length]);
 
   return (
-    <div className="grid gap-2 pt-4 pb-8 md:pb-8 lg:grid-cols-2 lg:pb-10">
+    <div className="grid gap-2 pt-4 pb-6 md:pb-6 lg:grid-cols-2 lg:pb-12">
       {isPending
         ? [...Array(visibleCount)].map((_, i) => (
             <Skeleton

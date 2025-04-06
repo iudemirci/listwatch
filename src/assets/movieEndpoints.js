@@ -13,6 +13,7 @@ const movieEndpoints = {
   list: (id) => `4/list/${id}?language=en-US&page=1`,
   now_playing: (type) => `3/${type}/now_playing?language=en-US`,
   trending: (type) => `3/trending/${type}/day?language=en-US`,
+  popular: (type) => `3/${type}/popular?language=en-US&page=1`,
   person_credits: (id) => `3/person/${id}/combined_credits?language=en-US`,
   tv_credits: (season, id) => `3/tv/${id}/season/${season}?language=en-US`,
 };
