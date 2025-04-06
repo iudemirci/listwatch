@@ -23,8 +23,8 @@ const sortReviews = (reviews, currentUserID) => {
 
 function Reviews({ reviews, isPending }) {
   const [edit, setEdit] = useState(false);
-  const token = localStorage.getItem("token");
   const { user } = useGetUser() || [];
+  const token = localStorage.getItem("token");
   const dispatch = useDispatch();
   const isUserReviewed =
     reviews?.filter((review) => review.userID === user?.id)?.length === 0;

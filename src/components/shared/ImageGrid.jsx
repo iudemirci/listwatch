@@ -63,7 +63,7 @@ function ImageGrid({ type }) {
                 className="aspect-8/6 flex-1 rounded-lg sm:aspect-8/5"
               />
             ))
-          : backdropImages?.slice(0, 3)?.map((img, i) => (
+          : backdropImages?.slice(0, 3).map((img, i) => (
               <div
                 key={i}
                 className="group relative aspect-8/6 flex-1 cursor-pointer overflow-hidden rounded-lg sm:aspect-8/5"
@@ -90,7 +90,7 @@ function ImageGrid({ type }) {
                 className="aspect-16/8 min-w-35 flex-2 rounded-lg"
               />
             ))
-          : backdropImages?.slice(3, 5)?.map((img, i) => (
+          : backdropImages?.slice(3, 5).map((img, i) => (
               <div
                 key={i}
                 className="group relative aspect-16/8 min-w-35 flex-2 cursor-pointer overflow-hidden rounded-lg"
@@ -107,65 +107,69 @@ function ImageGrid({ type }) {
                 <ImageHoverMask />
               </div>
             ))}
-        <div className="hover:border-primary relative hidden flex-1 overflow-hidden rounded-lg border-2 border-transparent duration-300 sm:inline-flex">
-          <div
-            className="bg-background-default/60 hover:text-primary absolute inset-0 z-2 flex cursor-pointer items-center justify-center text-white duration-300"
-            onClick={() => {
-              setIndex(5);
-              setOpen(true);
-            }}
-          >
-            {backdropImages?.length - 5 > 0
-              ? `+ ${backdropImages?.length - 5}`
-              : ""}
-          </div>
-          {isPending ? (
-            <Skeleton className="flex-1" />
-          ) : (
-            backdropImages?.[5]?.src && (
-              <img
-                src={backdropImages?.[5]?.src}
-                className={`size-full object-cover duration-500`}
-              />
-            )
-          )}
-        </div>
 
-        <Lightbox
-          slides={optimizedImg}
-          open={open}
-          index={index}
-          close={() => {
-            setOpen(false);
-            setSearchParams({});
-          }}
-          plugins={[Thumbnails, Zoom]}
-          thumbnails={{
-            height: 75,
-            border: 2,
-            padding: 0,
-            gap: 6,
-            imageFit: "cover",
-            borderColor: "var(--color-grey-primary)",
-            borderRadius: 10,
-          }}
-          zoom={{
-            maxZoomPixelRatio: 2,
-            scrollToZoom: true,
-          }}
-          controller={{ closeOnBackdropClick: true }}
-          on={{
-            view: ({ index }) => {
-              if (!isUpdating.current) {
-                isUpdating.current = true;
-                setIndex(index);
-                setSearchParams({ img: index });
-                setTimeout(() => (isUpdating.current = false), 100);
-              }
-            },
-          }}
-        />
+        {/* Render the "+ More" image only if there are extra images */}
+        {backdropImages?.length > 5 && (
+          <div className="hover:border-primary relative hidden flex-1 overflow-hidden rounded-lg border-2 border-transparent duration-300 sm:inline-flex">
+            <div
+              className="bg-background-default/60 hover:text-primary absolute inset-0 z-2 flex cursor-pointer items-center justify-center text-white duration-300"
+              onClick={() => {
+                setIndex(5);
+                setOpen(true);
+              }}
+            >
+              {backdropImages?.length - 5 > 0
+                ? `+ ${backdropImages?.length - 5}`
+                : ""}
+            </div>
+            {isPending ? (
+              <Skeleton className="flex-1" />
+            ) : (
+              backdropImages?.[5]?.src && (
+                <img
+                  src={backdropImages?.[5]?.src}
+                  className={`size-full object-cover duration-500`}
+                />
+              )
+            )}
+          </div>
+        )}
       </div>
+
+      <Lightbox
+        slides={optimizedImg}
+        open={open}
+        index={index}
+        close={() => {
+          setOpen(false);
+          setSearchParams({});
+        }}
+        plugins={[Thumbnails, Zoom]}
+        thumbnails={{
+          height: 75,
+          border: 2,
+          padding: 0,
+          gap: 6,
+          imageFit: "cover",
+          borderColor: "var(--color-grey-primary)",
+          borderRadius: 10,
+        }}
+        zoom={{
+          maxZoomPixelRatio: 2,
+          scrollToZoom: true,
+        }}
+        controller={{ closeOnBackdropClick: true }}
+        on={{
+          view: ({ index }) => {
+            if (!isUpdating.current) {
+              isUpdating.current = true;
+              setIndex(index);
+              setSearchParams({ img: index });
+              setTimeout(() => (isUpdating.current = false), 100);
+            }
+          },
+        }}
+      />
     </section>
   );
 }

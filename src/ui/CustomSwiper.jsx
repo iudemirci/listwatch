@@ -1,6 +1,7 @@
 import { Swiper } from "swiper/react";
-import { Autoplay, Mousewheel, Navigation } from "swiper/modules";
+import { Autoplay, FreeMode, Mousewheel, Navigation } from "swiper/modules";
 import "swiper/css/navigation";
+import "swiper/css/free-mode";
 
 import Paragraph from "./Paragraph";
 import { useState } from "react";
@@ -29,6 +30,7 @@ function CustomSwiper({
   loop = false,
   children,
   buttons = true,
+  ...props
 }) {
   const id = Math.floor(Math.random() * 100000);
   const [atStart, setAtStart] = useState(false);
@@ -42,9 +44,10 @@ function CustomSwiper({
   return (
     <div className="group relative">
       <Swiper
+        direction="horizontal"
         className="overflow-hidden rounded-lg"
         spaceBetween={space}
-        modules={[Autoplay, Mousewheel, Navigation]}
+        modules={[Autoplay, Mousewheel, Navigation, FreeMode]}
         onSlideChange={handleSlideChange}
         navigation={{
           prevEl: `.swiper-prev-${id}`,
@@ -52,11 +55,13 @@ function CustomSwiper({
         }}
         slidesPerView={perItem}
         slidesPerGroup={ItemToSlide}
+        freeMode={true}
         grabCursor={true}
         scrollbar={{ draggable: true }}
         speed={400}
         mousewheel={{
           forceToAxis: true,
+          sensitivity: 1,
           releaseOnEdges: true,
         }}
         loop={loop}
@@ -72,6 +77,7 @@ function CustomSwiper({
             slidesPerView: maxItem,
           },
         }}
+        {...props}
       >
         {children}
       </Swiper>

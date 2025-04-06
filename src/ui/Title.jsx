@@ -40,7 +40,6 @@ function Title({ level, type, children, className, ...props }) {
         )}
         {...props}
       >
-        {/* <span className="bg-primary mr-1 rounded-2xl pr-1"></span> */}
         {children}
       </h3>
     );
@@ -63,6 +62,18 @@ function Title({ level, type, children, className, ...props }) {
       <h5
         className={cn(
           `text-grey-primary-light text-sm font-medium tracking-wider uppercase lg:text-base ${colors[type]}`,
+          className,
+        )}
+        {...props}
+      >
+        {children}
+      </h5>
+    );
+  if (level === 6)
+    return (
+      <h5
+        className={cn(
+          `text-sm font-medium lg:text-base ${colors[type]}`,
           className,
         )}
         {...props}

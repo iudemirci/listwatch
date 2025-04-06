@@ -57,6 +57,7 @@
   justify-content: center;
   gap: 8px;
 }
+
 .pageClass {
   background-color: var(--color-grey-secondary);
   border: 2px solid var(--color-primary);
@@ -106,4 +107,11 @@ img {
   image-rendering: auto;
   -webkit-transform: translateZ(0);
   transform: translateZ(0);
+}
+
+.full-width-component {
+  width: 100vw;
+  margin-left: calc(-50vw + 50%);
+  padding: 20px;
+  box-sizing: border-box;
 }

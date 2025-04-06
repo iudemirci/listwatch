@@ -6,6 +6,10 @@ import Paragraph from "./Paragraph";
 import { getYear } from "../utilities/getYear";
 
 function SearchResultItem({ result }) {
+  const knownFor =
+    result?.known_for?.slice(0, 2).map((item) => item?.title || item?.name) ||
+    [];
+
   return (
     <li className="group/search bg-grey-tertiary hover:bg-grey-secondary cursor-pointer duration-300">
       <LinkToId
@@ -27,13 +31,11 @@ function SearchResultItem({ result }) {
             {getYear(result?.release_date || result?.first_air_date) ||
               result?.known_for_department}
           </Paragraph>
-          {result?.known_for?.length > 0 && (
+          {knownFor?.length > 0 && (
             <div className="flex flex-wrap">
-              {result?.known_for?.slice(0, 2)?.map((item) => (
-                <Paragraph key={item.id} type="secondary" className={"pr-2.5"}>
-                  {item?.title || item?.name}
-                </Paragraph>
-              ))}
+              <Paragraph type="secondary" className={"pr-2.5"}>
+                {knownFor.join(" / ")}
+              </Paragraph>
             </div>
           )}
           <Paragraph type="secondary" className={"line-clamp-2"}>
