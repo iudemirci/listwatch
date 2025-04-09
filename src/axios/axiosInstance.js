@@ -8,7 +8,8 @@ const api = axios.create({
 });
 
 api.interceptors.request.use((config) => {
-  config.headers.Authorization = `Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiIxZDYwMzU4ZmUyNWM0ZjY5YTY5YmM3NGFjZTU3MjYxZSIsIm5iZiI6MTc0MTM2Nzk1OC4yLCJzdWIiOiI2N2NiMmE5NjM2NTk4MjI2YTFhZmY2ZjgiLCJzY29wZXMiOlsiYXBpX3JlYWQiXSwidmVyc2lvbiI6MX0.TDmLILI7omrn_84HMyDayxqvweKk71icu1HOzsYxzEg`;
+  const API_KEY = import.meta.env.VITE_MOVIEDB_API_KEY;
+  config.headers.Authorization = `Bearer ${API_KEY}`;
   return config;
 });
 

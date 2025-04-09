@@ -1,5 +1,6 @@
 import { mdiArrowExpandAll } from "@mdi/js";
 import MdiIcon from "../ui/MdiIcon";
+import { memo } from "react";
 
 function ImageHoverMask() {
   return (
@@ -9,4 +10,4 @@ function ImageHoverMask() {
   );
 }
 
-export default ImageHoverMask;
+export default memo(ImageHoverMask);

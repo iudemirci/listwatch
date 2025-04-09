@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { memo, useState } from "react";
 import { mdiImageOff } from "@mdi/js";
 import Icon from "@mdi/react";
 import Zoom from "yet-another-react-lightbox/plugins/zoom";
@@ -13,7 +13,7 @@ import { cn } from "../utilities/cn";
 
 const BASE_URL = import.meta.env.VITE_BASE_IMAGE_URL;
 
-export default function Poster({
+function Poster({
   path,
   preview = false,
   title,
@@ -96,3 +96,5 @@ export default function Poster({
     </div>
   );
 }
+
+export default memo(Poster);

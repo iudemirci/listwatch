@@ -5,7 +5,7 @@ import "yet-another-react-lightbox/styles.css";
 import "yet-another-react-lightbox/plugins/thumbnails.css";
 import { mdiChevronRight } from "@mdi/js";
 import { useParams, useSearchParams } from "react-router-dom";
-import { useEffect, useRef, useState } from "react";
+import { memo, useEffect, useRef, useState } from "react";
 
 import Skeleton from "../../ui/Skeleton";
 import Title from "../../ui/Title";
@@ -13,6 +13,8 @@ import MdiIcon from "../../ui/MdiIcon";
 import ImageHoverMask from "../ImageHoverMask";
 
 import { useMovieDB } from "../../hooks/moviedb/useMovieDB";
+
+const BASE_URL = import.meta.env.VITE_BASE_IMAGE_URL;
 
 function ImageGrid({ type }) {
   const { id } = useParams("id");
@@ -22,12 +24,18 @@ function ImageGrid({ type }) {
   const isUpdating = useRef(false);
 
   const { data: movieImages, isPending } = useMovieDB(type, id, "images");
-  const backdropImages = movieImages?.backdrops?.map((img) => ({
-    src: `https://image.tmdb.org/t/p/w780${img.file_path}`,
-  }));
+
+  const backdropImages =
+    type === "person"
+      ? movieImages?.profiles?.map((img) => ({
+          src: `${BASE_URL}/h632${img.file_path}`,
+        }))
+      : movieImages?.backdrops?.map((img) => ({
+          src: `${BASE_URL}/w780${img.file_path}`,
+        }));
 
   const optimizedImg = backdropImages?.map((img) => ({
-    src: img.src.replace("/w780/", "/original/"),
+    src: img.src.replace(/\/(w780|h632)\//, "/original/"),
   }));
 
   useEffect(() => {
@@ -66,7 +74,7 @@ function ImageGrid({ type }) {
           : backdropImages?.slice(0, 3).map((img, i) => (
               <div
                 key={i}
-                className="group relative aspect-8/6 flex-1 cursor-pointer overflow-hidden rounded-lg sm:aspect-8/5"
+                className={`group relative aspect-8/6 flex-1 cursor-pointer overflow-hidden rounded-lg sm:aspect-8/5 ${type === "person" && "2xl:max-h-43"}`}
               >
                 <img
                   src={img.src}
@@ -93,7 +101,7 @@ function ImageGrid({ type }) {
           : backdropImages?.slice(3, 5).map((img, i) => (
               <div
                 key={i}
-                className="group relative aspect-16/8 min-w-35 flex-2 cursor-pointer overflow-hidden rounded-lg"
+                className={`group relative min-w-35 flex-2 cursor-pointer overflow-hidden rounded-lg ${type === "person" ? "max-h-25 md:max-h-30 lg:max-h-35 2xl:max-h-45" : "aspect-16/8"}`}
               >
                 <img
                   src={img.src}
@@ -108,9 +116,10 @@ function ImageGrid({ type }) {
               </div>
             ))}
 
-        {/* Render the "+ More" image only if there are extra images */}
         {backdropImages?.length > 5 && (
-          <div className="hover:border-primary relative hidden flex-1 overflow-hidden rounded-lg border-2 border-transparent duration-300 sm:inline-flex">
+          <div
+            className={`hover:border-primary relative hidden flex-1 overflow-hidden rounded-lg border-2 border-transparent duration-300 sm:inline-flex ${type === "person" ? "max-h-25 md:max-h-30 lg:max-h-35 2xl:max-h-45" : "aspect-16/8"}`}
+          >
             <div
               className="bg-background-default/60 hover:text-primary absolute inset-0 z-2 flex cursor-pointer items-center justify-center text-white duration-300"
               onClick={() => {
@@ -174,4 +183,4 @@ function ImageGrid({ type }) {
   );
 }
 
-export default ImageGrid;
+export default memo(ImageGrid);

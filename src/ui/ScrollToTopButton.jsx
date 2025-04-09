@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import Icon from "@mdi/react";
 import { mdiChevronUp } from "@mdi/js";
 
@@ -26,7 +26,7 @@ function ScrollToTopButton({ threshold = 1600 }) {
   return (
     <button
       onClick={scrollToTop}
-      className={`bg-primary border-grey-primary-light hover:bg-primary-dark fixed top-5 left-1/2 z-100 flex -translate-x-1/2 cursor-pointer items-center justify-center rounded-xl py-0.5 pr-3 pl-2 text-sm duration-300 active:-translate-y-0.5 ${visible ? "opacity-100" : "opacity-0"}`}
+      className={`bg-primary border-grey-primary-light hover:bg-primary-dark fixed top-5 left-1/2 z-100 flex -translate-x-1/2 cursor-pointer items-center justify-center rounded-xl py-0.5 pr-3 pl-2 text-sm duration-300 active:-translate-y-0.5 ${visible ? "pointer-events-auto opacity-100" : "pointer-events-none opacity-0"}`}
       aria-label="Scroll to top"
     >
       <Icon path={mdiChevronUp} size={1} />
@@ -35,4 +35,4 @@ function ScrollToTopButton({ threshold = 1600 }) {
   );
 }
 
-export default ScrollToTopButton;
+export default React.memo(ScrollToTopButton);

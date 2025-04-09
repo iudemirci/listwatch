@@ -1,7 +1,7 @@
 import { Swiper } from "swiper/react";
 import { Autoplay, FreeMode, Mousewheel, Navigation } from "swiper/modules";
-import "swiper/css/navigation";
 import "swiper/css/free-mode";
+import "swiper/css/navigation";
 
 import Paragraph from "./Paragraph";
 import { useState } from "react";

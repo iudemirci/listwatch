@@ -48,13 +48,15 @@ function PeopleList({
               <li>
                 <LinkToId type="person" item={person}>
                   <div className="bg-grey-secondary hover:border-primary flex aspect-square items-center justify-center overflow-hidden rounded-full border-2 border-transparent duration-300">
-                    {!isLoaded && skeleton}
                     {person.profile_path ? (
-                      <img
-                        src={`${BASE_URL}/w185${person.profile_path}`}
-                        className={`bg-grey-secondary pointer-events-none object-contain ${isLoaded ? "opacity-100" : "opacity-0"} duration-300`}
-                        onLoad={() => setIsLoaded(true)}
-                      />
+                      <>
+                        {!isLoaded && skeleton}
+                        <img
+                          src={`${BASE_URL}/w185${person.profile_path}`}
+                          className={`bg-grey-secondary pointer-events-none object-contain ${isLoaded ? "opacity-100" : "opacity-0"} duration-300`}
+                          onLoad={() => setIsLoaded(true)}
+                        />
+                      </>
                     ) : (
                       <Icon path={mdiAccount} size={1.8} />
                     )}

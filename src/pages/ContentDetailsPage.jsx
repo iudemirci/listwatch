@@ -21,6 +21,7 @@ import DetailedInformation from "../components/detailed_info/DetailedInformation
 import ListPreviewCard from "../components/shared/ListPreviewCard";
 import EpisodeInfo from "../components/series/EpisodeInfo";
 import PosterRibbon from "../components/PosterRibbon";
+import WhereToWatch from "../components/shared/WhereToWatch";
 
 import useDocumentTitle from "../hooks/useDocumentTitle";
 import { getYear } from "../utilities/getYear";
@@ -190,7 +191,9 @@ function ContentDetailsPage() {
             ))
           ) : (
             <>
-              <Title level={5}>{movie?.tagline}</Title>
+              <Title level={5}>
+                {movie?.tagline || movie?.title || movie?.name}
+              </Title>
               <Paragraph type={"secondary"}>{movie?.overview}</Paragraph>
             </>
           )}
@@ -216,6 +219,10 @@ function ContentDetailsPage() {
         </section>
 
         <section className="w-full">
+          <WhereToWatch />
+        </section>
+
+        <section className="w-full">
           <DetailedInformation
             item={movie}
             credits={credits}
@@ -235,7 +242,7 @@ function ContentDetailsPage() {
               people={credits?.cast}
               isPending={isCreditsPending}
               perItem={4}
-              maxItem={9}
+              maxItem={8}
               buttons={credits?.cast?.length > 9}
             />
           </section>

@@ -26,4 +26,4 @@ const ReadMoreLess = ({ children, charLimit = 100 }) => {
   );
 };
 
-export default ReadMoreLess;
+export default React.memo(ReadMoreLess);

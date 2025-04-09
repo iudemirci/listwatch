@@ -11,6 +11,7 @@ import Title from "../ui/Title.jsx";
 import { useGetLastVisited } from "../hooks/user/useGetLastVisited.js";
 import { useGetUser } from "../hooks/auth/useGetUser.js";
 import ScrollToTopButton from "../ui/ScrollToTopButton.jsx";
+import News from "../components/homepage/News.jsx";
 
 const adultKeywords =
   /adult|xxx|porn|erotic|av|idol|gravure|softcore|hardcore|nude|playboy|lingerie/i;
@@ -63,6 +64,10 @@ function Homepage() {
       <ScrollToTopButton />
       <div className="flex flex-col gap-8 lg:gap-12">
         <GreetingText />
+        <section>
+          <News />
+        </section>
+
         <section className="divide-grey-primary/40 divide-y-1">
           <Title level={3}>Trending Movies</Title>
           <PosterList

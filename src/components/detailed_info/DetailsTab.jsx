@@ -1,5 +1,6 @@
 import Title from "../../ui/Title";
 import DetailedInfoButton from "./DetailedInfoButton";
+
 import { getLanguageName } from "../../utilities/getIsoTo";
 
 function DetailsTab({ item, titles }) {
@@ -24,11 +25,14 @@ function DetailsTab({ item, titles }) {
             {tabs[tab].map((info, i) => {
               if (tab !== "Alternative Titles")
                 return <DetailedInfoButton key={i}>{info}</DetailedInfoButton>;
-              return (
-                <span key={i} className="text-grey-primary-light text-xs">
-                  {info}
-                </span>
-              );
+              if (tab === "Alternative Titles") {
+                return (
+                  <span key={i} className="text-grey-primary-light text-xs">
+                    {info}
+                    {i < tabs["Alternative Titles"]?.length - 1 && ", "}
+                  </span>
+                );
+              }
             })}
           </div>
         </div>

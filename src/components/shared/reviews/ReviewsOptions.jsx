@@ -14,6 +14,7 @@ import {
   resetSelectedReview,
   setSelectedReview,
 } from "../../../store/userSlice";
+import toast from "react-hot-toast";
 
 function ReviewsOptions({ review, userID, setEdit }) {
   const reviewID = review?.reviewID || null;
@@ -29,6 +30,8 @@ function ReviewsOptions({ review, userID, setEdit }) {
           queryClient.invalidateQueries("reviews");
           setEdit(false);
           dispatch(resetSelectedReview());
+          toast.dismiss();
+          toast.success("Review deleted successfully");
         },
       },
     );
