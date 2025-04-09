@@ -1,17 +1,27 @@
 import { twMerge } from "tailwind-merge";
 import styles from "./HomePoster.module.css";
+import { useMemo } from "react";
+
+const BASE_URL = import.meta.env.VITE_BASE_IMAGE_URL;
 
 function HomePoster({ path, movies, className }) {
-  const filteredPaths =
-    path ||
-    movies
+  const filteredPaths = useMemo(() => {
+    if (path) return path;
+
+    return movies
       ?.map((movie) => movie?.backdrop_path)
       ?.filter((path) => path !== null);
+  }, [path, movies]);
 
-  const randomPath =
-    path ||
-    (filteredPaths &&
-      filteredPaths[Math.floor(Math.random() * filteredPaths?.length)]);
+  const randomPath = useMemo(() => {
+    if (path) return path;
+    if (filteredPaths) {
+      const index = Math.floor(Math.random() * filteredPaths?.length);
+      return filteredPaths[index];
+    }
+    return null;
+  }, [path, filteredPaths]);
+
   return (
     <div
       className={twMerge(
@@ -20,9 +30,7 @@ function HomePoster({ path, movies, className }) {
       )}
       style={{
         backgroundImage:
-          path || randomPath
-            ? `url(https://image.tmdb.org/t/p/w1280${randomPath}`
-            : "none",
+          path || randomPath ? `url(${BASE_URL}/w1280${randomPath}` : "none",
       }}
     ></div>
   );

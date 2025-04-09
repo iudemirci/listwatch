@@ -56,7 +56,7 @@ function Search() {
     setInputValue("");
     setSearchTerm("");
     setIsOpen(false);
-  }, [location.pathname]);
+  }, [location.pathname, debouncedSearchTerm]);
 
   function handleSearchInputChange(e) {
     setInputValue(e.target.value);
@@ -96,7 +96,6 @@ function Search() {
         {isOpen && searchTerm.length > 2 && (
           <motion.ul
             className="divide-grey-primary outline-grey-primary/50 absolute bottom-0 left-0 z-200 w-full translate-y-1/1 divide-y-1 overflow-hidden rounded-lg outline-1 sm:-bottom-2 sm:left-1/2 sm:w-90 sm:-translate-x-1/2"
-            // className="divide-grey-primary outline-grey-primary absolute -bottom-1 left-1/2 z-200 w-90 -translate-x-1/2 translate-y-1/1 divide-y-1 rounded-lg outline-1"
             ref={searchRef}
             initial={{ opacity: 0, y: -10 }}
             animate={{ opacity: 1, y: 0 }}

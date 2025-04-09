@@ -3,6 +3,7 @@ import { cn } from "../utilities/cn";
 import { kebabCase } from "lodash";
 import { useQueryClient } from "@tanstack/react-query";
 import { getMovieItem } from "../services/apiMoviedb";
+import { memo, useCallback, useMemo } from "react";
 
 function LinkToId({ item, children, type = "movie", className, ...props }) {
   const queryClient = useQueryClient();
@@ -28,15 +29,23 @@ function LinkToId({ item, children, type = "movie", className, ...props }) {
     });
   };
 
+  const handleMouseEnter = useCallback(() => {
+    prefetchMovie();
+    if (type === "movie") prefetchCredits();
+    if (type === "person") prefetchPersonCredits();
+  }, [type]);
+
+  const slug = useMemo(() => {
+    return kebabCase(item?.title || item?.name).replace(/-/g, "_");
+  }, [item?.title, item?.name]);
+
+  const path = `/${type}/${item?.id}/${slug}`;
+
   return (
     <Link
-      to={`/${type}/${item?.id}/${kebabCase(item?.title || item?.name).replace(/-/g, "_")}`}
-      className={cn("cursor-pointer", className)}
-      onMouseEnter={() => {
-        prefetchMovie();
-        if (type === "movie") prefetchCredits();
-        if (type === "person") prefetchPersonCredits();
-      }}
+      to={path}
+      className={cn("block cursor-pointer", className)}
+      onMouseEnter={handleMouseEnter}
       {...props}
     >
       {children}
@@ -44,4 +53,4 @@ function LinkToId({ item, children, type = "movie", className, ...props }) {
   );
 }
 
-export default LinkToId;
+export default memo(LinkToId);

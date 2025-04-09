@@ -71,7 +71,7 @@ function Title({ level, type, children, className, ...props }) {
     );
   if (level === 6)
     return (
-      <h5
+      <h6
         className={cn(
           `text-sm font-medium lg:text-base ${colors[type]}`,
           className,
@@ -79,7 +79,7 @@ function Title({ level, type, children, className, ...props }) {
         {...props}
       >
         {children}
-      </h5>
+      </h6>
     );
 }
 

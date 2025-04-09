@@ -19,13 +19,13 @@ const queryClient = new QueryClient({
 });
 
 createRoot(document.getElementById("root")).render(
-  // <StrictMode>
-  <QueryClientProvider client={queryClient}>
-    <ReactQueryDevtools />
-    <Provider store={store}>
-      <Toaster toastOptions={toaster} containerStyle={toasterContainer} />
-      <App />
-    </Provider>
-  </QueryClientProvider>,
-  // </StrictMode>,
+  <StrictMode>
+    <QueryClientProvider client={queryClient}>
+      <ReactQueryDevtools />
+      <Provider store={store}>
+        <Toaster toastOptions={toaster} containerStyle={toasterContainer} />
+        <App />
+      </Provider>
+    </QueryClientProvider>
+  </StrictMode>,
 );

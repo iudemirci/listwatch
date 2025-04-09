@@ -1,3 +1,4 @@
+import { memo } from "react";
 import { twMerge } from "tailwind-merge";
 
 function Skeleton({ className, children }) {
@@ -13,4 +14,4 @@ function Skeleton({ className, children }) {
   );
 }
 
-export default Skeleton;
+export default memo(Skeleton);

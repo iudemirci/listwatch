@@ -5,6 +5,7 @@ import Icon from "@mdi/react";
 import Title from "../../ui/Title";
 import Paragraph from "../../ui/Paragraph";
 import { getYear } from "../../utilities/getYear";
+import { memo } from "react";
 
 function CreditsItem({ item, ...props }) {
   const year =
@@ -15,7 +16,7 @@ function CreditsItem({ item, ...props }) {
 
   return (
     <li
-      className="border-grey-primary/50 group flex cursor-pointer gap-2 border-b-1 py-1.5 duration-300"
+      className="hover:bg-grey-secondary/30 group flex cursor-pointer gap-2 py-1.5 duration-300"
       {...props}
     >
       <Poster
@@ -39,15 +40,9 @@ function CreditsItem({ item, ...props }) {
           </Paragraph>
         </Flex>
 
-        {item?.job && (
-          <Paragraph type={"secondary"} className="line-clamp-1">
-            {item?.job?.join(" / ")}
-          </Paragraph>
-        )}
-
-        <div className="flex gap-2">
+        <div className="flex items-center gap-2">
           {item?.vote_average ? (
-            <Flex className={"items-center gap-0"}>
+            <Flex className={"items-center gap-0.5"}>
               <Icon path={mdiStar} size={0.5} className="text-primary" />
               <Paragraph type="secondary">
                 {item?.vote_average.toFixed(1)}
@@ -64,9 +59,14 @@ function CreditsItem({ item, ...props }) {
         {item?.character && (
           <Paragraph type={"secondary"}>{item?.character}</Paragraph>
         )}
+        {item?.job && (
+          <Paragraph type={"secondary"} className="line-clamp-1">
+            {item?.job?.join(" / ")}
+          </Paragraph>
+        )}
       </div>
     </li>
   );
 }
 
-export default CreditsItem;
+export default memo(CreditsItem);

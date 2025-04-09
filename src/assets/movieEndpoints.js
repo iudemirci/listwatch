@@ -16,6 +16,8 @@ const movieEndpoints = {
   popular: (type) => `3/${type}/popular?language=en-US&page=1`,
   person_credits: (id) => `3/person/${id}/combined_credits?language=en-US`,
   tv_credits: (season, id) => `3/tv/${id}/season/${season}?language=en-US`,
+  external_ids: (type, id) => `3/${type}/${id}/external_ids`,
+  where_to_watch: (type, id) => `/3/${type}/${id}/watch/providers`,
 };
 
 export default movieEndpoints;
