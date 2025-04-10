@@ -12,6 +12,11 @@ import { useGetLastVisited } from "../hooks/user/useGetLastVisited.js";
 import { useGetUser } from "../hooks/auth/useGetUser.js";
 import ScrollToTopButton from "../ui/ScrollToTopButton.jsx";
 import News from "../components/homepage/News.jsx";
+import InTheatersList from "../components/homepage/InTheatersList.jsx";
+import { useMemo } from "react";
+import { mergeRandomAndShuffle } from "../utilities/mergeRandomAndShuffle.js";
+import BudgetAndRevenue from "../components/homepage/BudgetAndRevenue.jsx";
+import { deleteLastVisited } from "../services/apiUser.js";
 
 const adultKeywords =
   /adult|xxx|porn|erotic|av|idol|gravure|softcore|hardcore|nude|playboy|lingerie/i;
@@ -23,7 +28,7 @@ function Homepage() {
   const { user } = useGetUser();
   const token = localStorage.getItem("token");
 
-  useDocumentTitle("list&watch | Dicover new content.", false);
+  useDocumentTitle("list&watch | Discover new content.", false);
 
   const { data: popularMovies, isPending: isPopularMoviesPending } = useMovieDB(
     "movie",
@@ -35,8 +40,10 @@ function Homepage() {
     undefined,
     "popular",
   );
-  const filteredPeople =
-    popularPeople?.filter((person) => {
+
+  const filteredPeople = useMemo(() => {
+    if (!popularPeople) return [];
+    return popularPeople.filter((person) => {
       const isCJK = cjkRegex.test(person.name);
       const isAdultMovie = person.known_for?.some((work) =>
         adultKeywords.test(work.title || work.name || work.overview),
@@ -46,7 +53,8 @@ function Homepage() {
       const isBlocked = blocklist.includes(person.id);
 
       return !isCJK && !isAdultMovie && !isLowPopularityFemale && !isBlocked;
-    }) || [];
+    });
+  }, [popularPeople]);
 
   const { data: popularSeries, isPending: isPopularSeriesPending } = useMovieDB(
     "tv",
@@ -54,9 +62,42 @@ function Homepage() {
     "trending",
   );
 
+  //top series merge
+  const { data: topSeries, isPending: isTopSeriesPending } = useMovieDB(
+    "tv",
+    undefined,
+    "top_rated",
+  );
+  const { data: topMovies, isPending: isTopMoviesPending } = useMovieDB(
+    "movie",
+    undefined,
+    "top_rated",
+  );
+  const isTopContentPending = isTopMoviesPending || isTopSeriesPending;
+  const mergedTopContent = useMemo(() => {
+    return mergeRandomAndShuffle(topMovies, topSeries, 10);
+  }, [topMovies, topSeries]);
+
+  //last visited
   const { data: lastVisited, isPending: isLastPending } = useGetLastVisited(
     user?.id,
   );
+
+  const { data: onTheAir, isPending: isAiringPending } = useMovieDB(
+    "tv",
+    undefined,
+    "on_the_air",
+  );
+
+  const { data: nowPlaying, isPending: isNowPlayingPending } = useMovieDB(
+    "movie",
+    undefined,
+    "now_playing",
+  );
+
+  const nowPlayingIDs = useMemo(() => {
+    return nowPlaying?.slice(0, 6)?.map((movie) => movie.id) || [];
+  }, [nowPlaying]);
 
   return (
     <>
@@ -73,19 +114,14 @@ function Homepage() {
           <PosterList
             movies={popularMovies}
             isPending={isPopularMoviesPending}
-            title={"Trending Movies"}
           />
         </section>
-        <section className="divide-grey-primary/40 divide-y-1">
-          <Title level={3}>In list&watch you can;</Title>
-          <GuideTable />
-        </section>
+
         <section className="divide-grey-primary/40 divide-y-1">
           <Title level={3}>Trending People</Title>
           <PeopleList
             people={filteredPeople}
             isPending={isPeoplePending}
-            title={"Trending People"}
             perItem={3}
             maxItem={6}
             space={10}
@@ -95,20 +131,46 @@ function Homepage() {
         <section className="divide-grey-primary/40 divide-y-1">
           <Title level={3}>Trending Shows</Title>
           <PosterList
-            type="tv"
             movies={popularSeries}
             isPending={isPopularSeriesPending}
           />
         </section>
 
-        <section className="divide-grey-primary/40 divide-y-1 overflow-hidden">
+        <section className="divide-grey-primary/40 divide-y-1">
+          <Title level={3}>In list&watch you can;</Title>
+          <GuideTable />
+        </section>
+
+        <section className="divide-grey-primary/40 divide-y-1">
+          <Title level={3}>On the Air</Title>
+          <PosterList movies={onTheAir} isPending={isAiringPending} />
+        </section>
+
+        <section className="divide-grey-primary/40 flex flex-col gap-2 divide-y-1 2xl:gap-4">
           <Title level={3}>In theaters</Title>
-          <MovieDetailCard />
+          <InTheatersList movies={nowPlaying} isPending={isNowPlayingPending} />
+        </section>
+
+        <section className="divide-grey-primary/40 divide-y-1">
+          <BudgetAndRevenue
+            ids={nowPlayingIDs}
+            isPending={isNowPlayingPending}
+          />
+        </section>
+
+        <section className="divide-grey-primary/40 divide-y-1">
+          <Title level={3}>Fan Favourites</Title>
+          <PosterList
+            movies={mergedTopContent}
+            isPending={isTopContentPending}
+          />
         </section>
       </div>
-      {token && (
+
+      {token && lastVisited?.length > 0 && (
         <section className="full-width-component flex min-w-full items-center justify-center overflow-x-hidden bg-black/70">
           <div className="w-sm px-4 sm:w-lg md:w-xl lg:w-3xl 2xl:w-5xl">
+            <button onClick={() => deleteLastVisited(user?.id)}>TEST</button>
             <Title level={3}>Last visited</Title>
             <PosterList
               movies={lastVisited}

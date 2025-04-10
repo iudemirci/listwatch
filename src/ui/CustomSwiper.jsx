@@ -5,19 +5,30 @@ import "swiper/css/navigation";
 
 import Paragraph from "./Paragraph";
 import { useState } from "react";
+import { twMerge } from "tailwind-merge";
 
-function NextArrow() {
+export function PrevArrow({ className }) {
   return (
-    <button className="bg-background-default hover:bg-primary border-primary absolute top-[50%] right-0 block translate-x-[50%] translate-y-[-50%] cursor-pointer rounded-lg border-2 px-1.5 py-2.5 text-[12px] duration-300 2xl:px-1.5 2xl:py-3">
-      <Paragraph>&rarr;</Paragraph>
+    <button
+      className={twMerge(
+        `bg-background-default hover:bg-primary border-primary absolute top-[50%] left-0 z-20 block translate-x-[-50%] translate-y-[-50%] cursor-pointer rounded-lg border-2 px-1.5 py-2.5 text-sm opacity-0 duration-300 group-hover:opacity-100`,
+        className,
+      )}
+    >
+      <Paragraph>&larr;</Paragraph>
     </button>
   );
 }
 
-function PrevArrow() {
+export function NextArrow({ className }) {
   return (
-    <button className="bg-background-default hover:bg-primary border-primary absolute top-[50%] left-0 z-1 block translate-x-[-50%] translate-y-[-50%] cursor-pointer rounded-lg border-2 px-1.5 py-2.5 text-sm duration-300">
-      <Paragraph>&larr;</Paragraph>
+    <button
+      className={twMerge(
+        `bg-background-default hover:bg-primary border-primary absolute top-[50%] right-0 z-20 block translate-x-[50%] translate-y-[-50%] cursor-pointer rounded-lg border-2 px-1.5 py-2.5 text-[12px] opacity-50 duration-300 group-hover:opacity-100 2xl:px-1.5 2xl:py-3`,
+        className,
+      )}
+    >
+      <Paragraph>&rarr;</Paragraph>
     </button>
   );
 }
@@ -62,7 +73,7 @@ function CustomSwiper({
         mousewheel={{
           forceToAxis: true,
           sensitivity: 1,
-          releaseOnEdges: true,
+          releaseOnEdges: false,
         }}
         loop={loop}
         breakpoints={{
@@ -73,7 +84,7 @@ function CustomSwiper({
             slidesPerView: perItem + 2,
             slidesPerGroup: perItem + 1,
           },
-          1024: {
+          1440: {
             slidesPerView: maxItem,
           },
         }}
@@ -84,16 +95,12 @@ function CustomSwiper({
 
       {buttons ? (
         <>
-          <button
-            className={`swiper-prev-${id} bg-background-default hover:bg-primary border-primary absolute top-[50%] left-0 z-20 block translate-x-[-50%] translate-y-[-50%] cursor-pointer rounded-lg border-2 px-1.5 py-2.5 text-sm opacity-0 duration-300 group-hover:opacity-100 ${atStart ? "!opacity-0" : ""}`}
-          >
-            <Paragraph>&larr;</Paragraph>
-          </button>
-          <button
-            className={`swiper-next-${id} bg-background-default hover:bg-primary border-primary absolute top-[50%] right-0 z-20 block translate-x-[50%] translate-y-[-50%] cursor-pointer rounded-lg border-2 px-1.5 py-2.5 text-[12px] opacity-50 duration-300 group-hover:opacity-100 2xl:px-1.5 2xl:py-3 ${atEnd ? "!opacity-0" : ""}`}
-          >
-            <Paragraph>&rarr;</Paragraph>
-          </button>
+          <PrevArrow
+            className={`swiper-prev-${id} ${atStart ? "!opacity-0" : ""}`}
+          />
+          <NextArrow
+            className={`swiper-next-${id} ${atEnd ? "!opacity-0" : ""}`}
+          />
         </>
       ) : null}
     </div>

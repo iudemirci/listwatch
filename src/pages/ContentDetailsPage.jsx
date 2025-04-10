@@ -53,12 +53,13 @@ function ContentDetailsPage() {
         userID: user.id,
         title: movie?.title || movie?.name,
         type: type,
-        id: movie.id,
+        id: movie?.id,
         poster_path: movie.poster_path,
       };
+      console.log("triggered");
       addLastVisited(item);
     }
-  }, [token, type, movie, user?.id]);
+  }, [id, type, token, user?.id, movie]);
 
   //document title
   useDocumentTitle(
@@ -257,7 +258,6 @@ function ContentDetailsPage() {
             </Title>
             <PosterList
               title={"related movies"}
-              type={type}
               movies={relatedMovies?.parts || []}
               isPending={isSimilarPending}
               buttons={false}
@@ -272,7 +272,6 @@ function ContentDetailsPage() {
             </Title>
             <PosterList
               title={"Similar movies"}
-              type={type}
               movies={similarMovies || []}
               isPending={isSimilarPending}
               perItem={3}

@@ -131,7 +131,7 @@ function EpisodeInfo({ series, isPending, id }) {
                           />
                         </div>
                         <div className="flex flex-2 flex-col gap-1">
-                          <Title level={3}>{episode?.name}</Title>
+                          <Title level={4}>{episode?.name}</Title>
                           <div className="flex items-center gap-1.5">
                             {episode?.vote_average ? (
                               <span className="flex gap-2">

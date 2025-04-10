@@ -55,13 +55,13 @@ function ImageGrid({ type }) {
 
   return (
     <section className="w-full">
-      <Title
-        level={3}
+      <div
         className="group border-grey-primary/50 hover:text-primary flex cursor-pointer items-center border-b-1 pb-0.5 duration-300"
         onClick={() => setOpen(true)}
       >
-        Photos <MdiIcon path={mdiChevronRight} size={1} />
-      </Title>
+        <Title level={3}>Photos</Title>
+        <MdiIcon path={mdiChevronRight} size={1} />
+      </div>
 
       <div className="flex gap-x-2 py-2 lg:gap-x-3 lg:py-3">
         {isPending

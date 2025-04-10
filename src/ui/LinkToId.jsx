@@ -11,20 +11,20 @@ function LinkToId({ item, children, type = "movie", className, ...props }) {
   //prefetch
   const prefetchMovie = async () => {
     await queryClient.prefetchQuery({
-      queryKey: [type, item?.id, "item"],
+      queryKey: ["movieDB", type, item?.id + "", "item"],
       queryFn: () => getMovieItem(type, item?.id, "item"),
     });
   };
 
   const prefetchCredits = async () => {
     await queryClient.prefetchQuery({
-      queryKey: [type, item?.id, "credits"],
+      queryKey: ["movieDB", type, item?.id + "", "credits"],
       queryFn: () => getMovieItem(type, item?.id, "credits"),
     });
   };
   const prefetchPersonCredits = async () => {
     await queryClient.prefetchQuery({
-      queryKey: ["movieDB", item?.id, "person_credits"],
+      queryKey: ["movieDB", item?.id + "", "person_credits"],
       queryFn: () => getMovieItem(undefined, item?.id, "person_credits"),
     });
   };

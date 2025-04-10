@@ -8,12 +8,16 @@ import Paragraph from "../../ui/Paragraph";
 
 function KnownForItem({ item }) {
   return (
-    <LinkToId item={item} type={item?.type === "Tv Show" ? "tv" : "movie"}>
+    <LinkToId
+      item={item}
+      type={item?.type === "Tv Show" ? "tv" : "movie"}
+      className="size-full"
+    >
       <div className="border-grey-primary/50 group hover:bg-grey-secondary/30 flex cursor-pointer rounded-lg border-1 duration-300">
-        <div className="aspect-2/3 max-w-15 min-w-15 flex-1 lg:max-w-18">
+        <div className="aspect-2/3 max-w-15 min-w-15 flex-2 lg:max-w-18">
           <Poster path={item?.poster} />
         </div>
-        <div className="group-hover:text-primary px-3 py-2 duration-300">
+        <div className="group-hover:text-primary flex-1 px-3 py-2 duration-300">
           <Title level={6} className="line-clamp-1">
             {item?.title}
           </Title>
