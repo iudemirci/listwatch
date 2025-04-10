@@ -9,10 +9,8 @@ function Rating({ rating, className }) {
   return (
     <div className={twMerge("flex items-center", className)}>
       <Icon path={mdiStar} size={0.7} className="text-primary" />
-      <Title level={4}>{rating?.toFixed(1) / 2}</Title>
-      <Title level={5} className="-ml-1.5">
-        /5
-      </Title>
+      <Title level={4}>{(rating / 2)?.toFixed(1)}</Title>
+      <Title level={5}>/5</Title>
     </div>
   );
 }

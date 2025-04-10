@@ -1,132 +1,68 @@
-import { useEffect, useState } from "react";
 import { mdiShare } from "@mdi/js";
 import Icon from "@mdi/react";
+import dayjs from "dayjs";
 
-import Paragraph from "../../ui/Paragraph";
 import Title from "../../ui/Title";
-import MoviePoster from "../Poster";
 import LinkToId from "../../ui/LinkToId";
 import GenreList from "../shared/GenreList";
+import VoteCountPopularity from "./VoteCountPopularity";
 
-import Skeleton from "../../ui/Skeleton";
 import { useFetchGenres } from "../../hooks/moviedb/useFetchGenres";
-import { useMovieDB } from "../../hooks/moviedb/useMovieDB";
+import PosterRibbon from "../PosterRibbon";
 
-const moviesLoadedPerScroll = 2;
+const BASE_URL = import.meta.env.VITE_BASE_IMAGE_URL;
+const SIZE = "/w780";
 
-function MovieDetailCard() {
-  const [visibleCount, setVisibleCount] = useState(6);
-  const [isLoading, setIsLoading] = useState(false);
-
+function MovieDetailCard({ movie }) {
   const { data: genres, isPending: isGenresPending } = useFetchGenres();
 
-  const { data: movies, isPending } = useMovieDB(
-    "movie",
-    undefined,
-    "now_playing",
-  );
-  // adding to the count with a timeout to imitate lazy loading
-  function loadMoreItems() {
-    if (isLoading || visibleCount >= movies.length) return;
-    setIsLoading(true);
-    setTimeout(() => {
-      setVisibleCount((prevCount) =>
-        Math.min(prevCount + moviesLoadedPerScroll, movies.length),
-      );
-      setIsLoading(false);
-    }, 200);
-  }
-
-  // listening window
-  useEffect(() => {
-    const handleScroll = () => {
-      const scrollBottomThreshold = 50;
-
-      const isNearBottom =
-        window.innerHeight + document.documentElement.scrollTop >=
-        document.documentElement.scrollHeight - scrollBottomThreshold;
-
-      if (isNearBottom && !isLoading && visibleCount < movies?.length) {
-        loadMoreItems();
-      }
-    };
-
-    window.addEventListener("scroll", handleScroll);
-
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, [isLoading, visibleCount, movies?.length]);
+  const movieGenres =
+    !isGenresPending &&
+    genres.filter((genre) => movie.genre_ids.includes(genre.id));
 
   return (
-    <div className="grid gap-2 pt-4 pb-6 md:pb-6 lg:grid-cols-2 lg:pb-12">
-      {isPending
-        ? [...Array(visibleCount)].map((_, i) => (
-            <Skeleton
-              key={i}
-              className={
-                "aspect-video rounded-xl sm:aspect-3/1 lg:aspect-2/1 2xl:aspect-3/1"
-              }
-            />
-          ))
-        : movies?.slice(0, visibleCount).map((movie, i) => {
-            // Destructring genres
-            const movieGenres =
-              !isGenresPending &&
-              genres.filter((genre) => movie.genre_ids.includes(genre.id));
-
-            return (
-              <LinkToId key={movie.id} type={"movie"} item={movie}>
-                <div className="group bg-grey-secondary/75 hover:bg-grey-secondary relative grid h-full cursor-pointer grid-cols-5 gap-2 rounded-xl p-3 duration-300 2xl:gap-4">
-                  <MoviePoster
-                    path={movie?.poster_path}
-                    className={"col-span-2 sm:col-span-1"}
-                  />
-                  <div className="col-span-3 flex flex-col gap-1.5 sm:col-span-4">
-                    <div className="gap-1">
-                      <Title level={4} className={"line-clamp-1"}>
-                        {movie?.title}
-                      </Title>
-                    </div>
-
-                    <div className="flex gap-1 lg:gap-1.5">
-                      <GenreList genres={movieGenres} max={2} />
-                    </div>
-
-                    <div>
-                      <Paragraph
-                        type={"secondary"}
-                        className={"line-clamp-7 sm:line-clamp-3"}
-                      >
-                        {movie?.overview}
-                      </Paragraph>
-                    </div>
-                    <div className="flex items-center gap-1">
-                      <Paragraph type={"secondary"}>Release Date:</Paragraph>
-                      <Paragraph type={"primary"}>
-                        {movie?.release_date}
-                      </Paragraph>
-                    </div>
-                    <Icon
-                      path={mdiShare}
-                      size={1}
-                      className="text-grey-primary group-hover:text-primary absolute right-3 bottom-3 duration-300"
-                    />
-                  </div>
-                </div>
-              </LinkToId>
-            );
-          })}
-      {isLoading &&
-        [...Array(moviesLoadedPerScroll)].map((_, i) => (
-          <Skeleton
-            key={i}
-            className={
-              "aspect-video rounded-xl sm:aspect-3/1 lg:aspect-2/1 2xl:aspect-3/1"
-            }
+    <LinkToId type={"movie"} item={movie} className="relative">
+      <div className="group bg-grey-secondary/70 hover:bg-grey-secondary h-full cursor-pointer rounded-xl duration-300">
+        <div className="h-40 w-full overflow-hidden rounded-lg sm:h-50 md:h-35 lg:h-40 2xl:h-45">
+          <img
+            src={`${BASE_URL}${SIZE}${movie?.backdrop_path}`}
+            alt={`${movie?.title} backdrop`}
+            loading="lazy"
+            className="size-full object-cover"
           />
-        ))}
-    </div>
+          <PosterRibbon size="big" />
+        </div>
+
+        <div className="col-span-3 flex flex-col p-3 sm:col-span-4">
+          <Title level={7} type="grey">
+            {dayjs(movie?.release_date).format("MMM DD")}
+          </Title>
+
+          <div className="gap-1">
+            <Title level={6} className={"line-clamp-1 hover:underline"}>
+              {movie?.title}
+            </Title>
+          </div>
+
+          <div className="pt-3">
+            <VoteCountPopularity
+              popularity={movie?.popularity}
+              vote={movie?.vote_count}
+            />
+          </div>
+
+          <div className="pt-1">
+            <GenreList genres={movieGenres} max={2} />
+          </div>
+
+          <Icon
+            path={mdiShare}
+            size={1}
+            className="text-grey-primary group-hover:text-primary absolute right-3 bottom-3 duration-300"
+          />
+        </div>
+      </div>
+    </LinkToId>
   );
 }
 

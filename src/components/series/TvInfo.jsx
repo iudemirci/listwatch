@@ -175,7 +175,6 @@ function TvInfo() {
         <PosterList
           title={"Similar series"}
           movies={similarSeries || []}
-          type="tv"
           isPending={isSimilarPending}
         />
       </section>

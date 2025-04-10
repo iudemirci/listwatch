@@ -58,7 +58,7 @@ function Poster({
 
       <img
         src={`${BASE_URL}${preview ? "/w780" : "/w342"}${path}`}
-        className={`pointer-events-none size-full rounded-lg object-cover transition-opacity duration-500 ${isLoaded ? "opacity-100" : "opacity-0"}`}
+        className={`pointer-events-none size-full object-cover transition-opacity duration-500 ${isLoaded ? "opacity-100" : "opacity-0"}`}
         alt={`Movie Poster`}
         {...props}
         loading="lazy"

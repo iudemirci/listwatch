@@ -35,11 +35,12 @@ function Title({ level, type, children, className, ...props }) {
     return (
       <h3
         className={cn(
-          `text-sm font-semibold tracking-wide uppercase lg:text-base ${colors[type]}`,
+          `text-base font-semibold tracking-wide uppercase lg:text-lg ${colors[type]}`,
           className,
         )}
         {...props}
       >
+        <span className="bg-primary mr-1 rounded-sm px-0.5"></span>
         {children}
       </h3>
     );
@@ -74,6 +75,18 @@ function Title({ level, type, children, className, ...props }) {
       <h6
         className={cn(
           `text-sm font-medium lg:text-base ${colors[type]}`,
+          className,
+        )}
+        {...props}
+      >
+        {children}
+      </h6>
+    );
+  if (level === 7)
+    return (
+      <h6
+        className={cn(
+          `text-[11px] font-bold tracking-widest uppercase lg:text-xs ${colors[type]}`,
           className,
         )}
         {...props}

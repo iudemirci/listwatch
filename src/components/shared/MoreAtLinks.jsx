@@ -65,7 +65,7 @@ function MoreAtLinks() {
   }, [type, externalIDs, id]);
 
   return (
-    <div className="flex items-center gap-1 text-nowrap">
+    <div className="flex items-center gap-1.5 text-nowrap">
       <Paragraph type="tertiary" className="flex items-center gap-1">
         More at
       </Paragraph>

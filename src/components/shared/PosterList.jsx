@@ -14,14 +14,13 @@ import PosterRibbon from "../PosterRibbon";
 function PosterList({
   movies,
   isPending,
-  type,
   perItem = 3,
   buttons = true,
   lastVisited = false,
 }) {
   var settings = {
     perItem: perItem,
-    space: 6,
+    space: 12,
     loop: false,
     ItemToSlide: 2,
     buttons: buttons,
@@ -37,15 +36,16 @@ function PosterList({
               </SwiperSlide>
             ))
           : movies?.map((movie, index) => {
-              const finalType = type ?? movie?.type;
+              const finalType =
+                movie?.type ?? (movie?.release_date ? "movie" : "tv");
               return (
-                <SwiperSlide key={movie?.id} virtualIndex={index}>
+                <SwiperSlide key={index} virtualIndex={index}>
                   <li className="relative flex size-full flex-col overflow-hidden rounded-lg">
                     <LinkToId item={movie} type={finalType}>
                       <Poster
                         path={movie?.poster_path}
                         iconSize={2}
-                        className="rounded-b-none"
+                        className="!rounded-b-none"
                       />
                       {movie?.type !== "person" && (
                         <PosterRibbon size="small" />

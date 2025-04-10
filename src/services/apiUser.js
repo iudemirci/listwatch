@@ -138,3 +138,15 @@ export async function addLastVisited(item) {
     await supabase.from("last_visited").delete().in("lastID", idsToDelete);
   }
 }
+
+export async function deleteLastVisited(userID) {
+  const { error } = await supabase
+    .from("last_visited")
+    .delete()
+    .eq("userID", userID);
+
+  if (error)
+    throw new Error("There was something wrong with deleting last visited");
+
+  return true;
+}
