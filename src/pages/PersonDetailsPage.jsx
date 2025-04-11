@@ -1,5 +1,6 @@
 import { useEffect } from "react";
 import { useParams } from "react-router-dom";
+import { useDispatch } from "react-redux";
 
 import Title from "../ui/Title";
 import Poster from "../components/Poster";
@@ -8,21 +9,20 @@ import CreditsInfo from "../components/person/CreditsInfo";
 import Skeleton from "../ui/Skeleton";
 import PersonOverview from "../components/person/PersonOverview";
 import ImageGrid from "../components/shared/ImageGrid";
+import ScrollToTopButton from "../ui/ScrollToTopButton";
+import KnownForList from "../components/person/KnownForList";
+import MoreAtLinks from "../components/shared/MoreAtLinks";
+import LastVisited from "../components/shared/LastVisited";
 
 import useDocumentTitle from "../hooks/useDocumentTitle";
 import { useMovieDB } from "../hooks/moviedb/useMovieDB";
 import ReadMoreLess from "../utilities/ReadMore";
-import { useGetUser } from "../hooks/auth/useGetUser";
-import { addLastVisited } from "../services/apiUser";
-import ScrollToTopButton from "../ui/ScrollToTopButton";
-import KnownForList from "../components/person/KnownForList";
-import MoreAtLinks from "../components/shared/MoreAtLinks";
+import { addLastVisited } from "../store/lastVisitedSlice";
 
 function PersonDetailsPage() {
   const { id } = useParams("id");
-  const token = localStorage.getItem("token");
+  const dispatch = useDispatch();
   const type = location.pathname.split("/")[1];
-  const { user } = useGetUser();
 
   const { data: person, isPending: isPersonPending } = useMovieDB(
     "person",
@@ -38,17 +38,18 @@ function PersonDetailsPage() {
   useDocumentTitle(`${person?.name} | list&watch`, isPersonPending);
 
   useEffect(() => {
-    if (token && type && user?.id && person) {
-      const item = {
-        userID: user.id,
-        title: person.name,
-        type: type,
-        id: person.id,
-        poster_path: person.profile_path,
-      };
-      addLastVisited(item);
+    if (type && person) {
+      dispatch(
+        addLastVisited({
+          title: person?.name,
+          type,
+          id: person?.id,
+          poster_path: person.profile_path,
+          date: new Date().toISOString(),
+        }),
+      );
     }
-  }, [token, type, person, user?.id]);
+  }, [dispatch, type, person]);
 
   return (
     <div className="flex flex-col items-start gap-x-3 gap-y-6 pt-4 md:gap-x-4 md:gap-y-8 md:pt-8 lg:gap-x-6 lg:gap-y-10 2xl:gap-y-12">
@@ -127,6 +128,8 @@ function PersonDetailsPage() {
       <section className="w-full">
         <ImageGrid type="person" />
       </section>
+
+      <LastVisited />
     </div>
   );
 }

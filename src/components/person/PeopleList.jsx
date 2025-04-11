@@ -22,7 +22,6 @@ function PeopleList({
   className,
   perItem,
   maxItem,
-  buttons = true,
   space = 2,
 }) {
   const [isLoaded, setIsLoaded] = useState(false);
@@ -32,7 +31,6 @@ function PeopleList({
     maxItem: maxItem,
     space: space,
     ItemToSlide: 3,
-    buttons: buttons,
   };
 
   return (

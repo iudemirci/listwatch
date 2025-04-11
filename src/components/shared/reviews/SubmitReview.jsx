@@ -16,9 +16,7 @@ import { useUpdateReview } from "../../../hooks/reviews/useUpdateReview";
 const reviewID = uuidv4();
 
 function SubmitReview({ token, isReviewed, edit, setEdit }) {
-  const { selectedReview, selectedRating, selectedReviewID } = useSelector(
-    (state) => state.user,
-  );
+  const { selectedReviewID } = useSelector((state) => state.user);
   const [text, setText] = useState("");
   const [rating, setRating] = useState(0);
   const queryClient = useQueryClient();

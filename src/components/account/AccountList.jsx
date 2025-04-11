@@ -19,7 +19,6 @@ import Skeleton from "../../ui/Skeleton";
 
 import { useDeleteList } from "../../hooks/lists/useDeleteList";
 import { useGetListItems } from "../../hooks/lists/useGetListItems";
-import useWindowWith from "../../hooks/useWindowWidth";
 
 let itemsInListCount = 3;
 
@@ -27,24 +26,7 @@ function AccountList({ currentList }) {
   const [settings, setSettings] = useState(false);
   const [edit, setEdit] = useState(false);
   const [offset, setOffset] = useState(0);
-  const width = useWindowWith();
   let itemsPerPage = 8;
-
-  if (width >= 1536) {
-    itemsPerPage = 10;
-    itemsInListCount = 7;
-  } else if (width >= 1024) {
-    itemsPerPage = 10;
-    itemsInListCount = 7;
-  } else if (width >= 768) {
-    itemsPerPage = 10;
-    itemsInListCount = 5;
-  } else if (width >= 640) {
-    itemsPerPage = 10;
-  } else {
-    itemsPerPage = 8;
-    itemsInListCount = 3;
-  }
 
   const queryClient = useQueryClient();
   const { deleteList, isPending: isDeleting } = useDeleteList();

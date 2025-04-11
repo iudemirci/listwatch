@@ -94,7 +94,7 @@ function News() {
                         backgroundSize: "cover",
                         backgroundPosition: "center bottom",
                       }}
-                      className="group relative z-1 flex aspect-video size-full cursor-pointer items-end gap-2 rounded-xl px-3 md:px-6"
+                      className="group relative z-1 flex aspect-video size-full h-55 cursor-pointer items-end gap-2 rounded-xl px-3 sm:h-fit md:px-6"
                     >
                       <div
                         className="absolute inset-0 z-1"

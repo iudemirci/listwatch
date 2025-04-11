@@ -19,7 +19,7 @@ function Header() {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.3 }}
-            className="flex items-center gap-2 transition 2xl:gap-4"
+            className="flex items-center gap-2 2xl:gap-4"
           >
             <Search />
             <PageNavList />

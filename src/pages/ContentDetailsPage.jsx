@@ -1,7 +1,7 @@
-import "react-lite-youtube-embed/dist/LiteYouTubeEmbed.css";
 import { useLocation, useParams } from "react-router-dom";
 import { useEffect } from "react";
 import { useQueryClient } from "@tanstack/react-query";
+import { useDispatch } from "react-redux";
 
 import Poster from "../components/Poster";
 import TitleOverview from "../components/shared/TitleOverview";
@@ -22,24 +22,23 @@ import ListPreviewCard from "../components/shared/ListPreviewCard";
 import EpisodeInfo from "../components/series/EpisodeInfo";
 import PosterRibbon from "../components/PosterRibbon";
 import WhereToWatch from "../components/shared/WhereToWatch";
+import ScrollToTopButton from "../ui/ScrollToTopButton";
 
 import useDocumentTitle from "../hooks/useDocumentTitle";
 import { getYear } from "../utilities/getYear";
 import { useMovieDB } from "../hooks/moviedb/useMovieDB";
 import { useInsertReviews } from "../hooks/reviews/useInsertReviews";
 import { useReadReviews } from "../hooks/reviews/useReadReviews";
-import { addLastVisited } from "../services/apiUser";
-import { useGetUser } from "../hooks/auth/useGetUser";
-import { useGetLastVisited } from "../hooks/user/useGetLastVisited";
-import ScrollToTopButton from "../ui/ScrollToTopButton";
+import LastVisited from "../components/shared/LastVisited";
+import { addLastVisited } from "../store/lastVisitedSlice";
 
 function ContentDetailsPage() {
   const location = useLocation();
   const type = location.pathname.split("/")[1];
   const { id } = useParams("id");
-  const { user } = useGetUser();
   const token = localStorage.getItem("token");
   const queryClient = useQueryClient();
+  const dispatch = useDispatch();
 
   const { data: movie, isPending: isMoviePending } = useMovieDB(
     type,
@@ -48,18 +47,18 @@ function ContentDetailsPage() {
   );
 
   useEffect(() => {
-    if (token && type && user?.id && movie) {
-      const item = {
-        userID: user.id,
-        title: movie?.title || movie?.name,
-        type: type,
-        id: movie?.id,
-        poster_path: movie.poster_path,
-      };
-      console.log("triggered");
-      addLastVisited(item);
+    if (type && movie) {
+      dispatch(
+        addLastVisited({
+          title: movie?.title || movie?.name,
+          type,
+          id: movie?.id,
+          poster_path: movie.poster_path,
+          date: new Date().toISOString(),
+        }),
+      );
     }
-  }, [id, type, token, user?.id, movie]);
+  }, [dispatch, type, movie]);
 
   //document title
   useDocumentTitle(
@@ -99,10 +98,6 @@ function ContentDetailsPage() {
   const { data: reviewsMovieDB } = useMovieDB(type, id, "reviews");
 
   const { data: reviews, isPending: isReviewsPending } = useReadReviews(id);
-
-  const { data: lastVisited, isPending: isLastPending } = useGetLastVisited(
-    user?.id,
-  );
 
   // sending reviews to supabase
   const { mutate: insertReviews } = useInsertReviews();
@@ -244,7 +239,6 @@ function ContentDetailsPage() {
               isPending={isCreditsPending}
               perItem={4}
               maxItem={8}
-              buttons={credits?.cast?.length > 9}
             />
           </section>
         )}
@@ -260,7 +254,6 @@ function ContentDetailsPage() {
               title={"related movies"}
               movies={relatedMovies?.parts || []}
               isPending={isSimilarPending}
-              buttons={false}
             />
           </section>
         )}
@@ -275,7 +268,6 @@ function ContentDetailsPage() {
               movies={similarMovies || []}
               isPending={isSimilarPending}
               perItem={3}
-              buttons={!isSimilarPending}
             />
           </section>
         )}
@@ -312,18 +304,8 @@ function ContentDetailsPage() {
           )}
         </div>
       </div>
-      {token && (
-        <section className="full-width-component flex min-w-full items-center justify-center overflow-x-hidden bg-black/70">
-          <div className="w-sm px-4 sm:w-lg md:w-xl lg:w-3xl 2xl:w-5xl">
-            <Title level={3}>Last visited</Title>
-            <PosterList
-              movies={lastVisited}
-              isPending={isLastPending}
-              lastVisited={true}
-            />
-          </div>
-        </section>
-      )}
+
+      <LastVisited />
     </>
   );
 }

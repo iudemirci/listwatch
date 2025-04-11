@@ -4,7 +4,7 @@ import "swiper/css/free-mode";
 import "swiper/css/navigation";
 
 import Paragraph from "./Paragraph";
-import { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { twMerge } from "tailwind-merge";
 
 export function PrevArrow({ className }) {
@@ -40,17 +40,48 @@ function CustomSwiper({
   space = 5,
   loop = false,
   children,
-  buttons = true,
   ...props
 }) {
   const id = Math.floor(Math.random() * 100000);
   const [atStart, setAtStart] = useState(false);
   const [atEnd, setAtEnd] = useState(false);
+  const [showButtons, setShowButtons] = useState(true);
+  const [slidesPerView, setSlidesPerView] = useState(perItem);
 
   const handleSlideChange = (swiper) => {
     setAtStart(swiper.isBeginning);
     setAtEnd(swiper.isEnd);
   };
+
+  const updateSlidesPerView = () => {
+    if (window.innerWidth >= 1440) {
+      setSlidesPerView(maxItem);
+    } else if (window.innerWidth >= 768) {
+      setSlidesPerView(perItem + 2);
+    } else if (window.innerWidth >= 640) {
+      setSlidesPerView(perItem + 1);
+    } else {
+      setSlidesPerView(perItem);
+    }
+  };
+
+  useEffect(() => {
+    updateSlidesPerView();
+    window.addEventListener("resize", updateSlidesPerView);
+
+    return () => {
+      window.removeEventListener("resize", updateSlidesPerView);
+    };
+  }, [perItem, maxItem]);
+
+  useEffect(() => {
+    const totalItems = React.Children.count(children);
+    if (totalItems <= slidesPerView) {
+      setShowButtons(false);
+    } else {
+      setShowButtons(true);
+    }
+  }, [children, slidesPerView]);
 
   return (
     <div className="group relative">
@@ -93,7 +124,7 @@ function CustomSwiper({
         {children}
       </Swiper>
 
-      {buttons ? (
+      {showButtons ? (
         <>
           <PrevArrow
             className={`swiper-prev-${id} ${atStart ? "!opacity-0" : ""}`}

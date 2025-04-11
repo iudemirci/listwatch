@@ -10,7 +10,7 @@ const skeletonItems = [...Array(20)].map((_, index) => (
 function DiscoverList({ movies, isPending, isFetchingNextPage }) {
   return (
     <div className="lg:pb8 flex flex-col items-center gap-4 pb-6">
-      <ul className="grid w-[100%] grid-cols-4 gap-2 lg:grid-cols-5">
+      <ul className="grid w-[100%] grid-cols-3 gap-2 sm:grid-cols-4 md:grid-cols-5 2xl:grid-cols-10">
         {isPending
           ? skeletonItems
           : movies.map((movie, i) => {

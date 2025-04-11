@@ -39,9 +39,7 @@ function ReviewsOptions({ review, userID, setEdit }) {
 
   function handleEdit() {
     setEdit((s) => !s);
-    dispatch(
-      setSelectedReview(review?.review, review?.rating, review?.reviewID),
-    );
+    dispatch(setSelectedReview(review?.reviewID));
   }
 
   return (

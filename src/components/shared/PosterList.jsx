@@ -11,19 +11,12 @@ import Paragraph from "../../ui/Paragraph";
 
 import PosterRibbon from "../PosterRibbon";
 
-function PosterList({
-  movies,
-  isPending,
-  perItem = 3,
-  buttons = true,
-  lastVisited = false,
-}) {
+function PosterList({ movies, isPending, perItem = 3, lastVisited = false }) {
   var settings = {
     perItem: perItem,
     space: 12,
     loop: false,
     ItemToSlide: 2,
-    buttons: buttons,
   };
 
   return (

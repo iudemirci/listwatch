@@ -41,7 +41,7 @@ function Reviews({ reviews, isPending }) {
           {!token ? (
             <span
               onClick={() => dispatch(openSignupPopup())}
-              className="cursor-pointer"
+              className="cursor-pointer hover:underline"
             >
               Sign in to share your opinion with the world!
             </span>
