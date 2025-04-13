@@ -5,12 +5,12 @@ import Icon from "@mdi/react";
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
 import { AnimatePresence, motion } from "framer-motion";
 
-import AddItemPopup from "./popover/AddItemPopup";
 import ListButton from "./ListButton";
 import NewListPopup from "./NewListPopup";
 
 import { useGetLists } from "../hooks/lists/useGetLists";
 import { setSelectedList } from "../store/userSlice";
+import AddItemPopover from "./popover/AddItemPopover";
 
 function ListDropdownButton({ item }) {
   const [popupType, setPopupType] = useState(null);
@@ -84,7 +84,7 @@ function ListDropdownButton({ item }) {
       {popupType === "create" && <NewListPopup handlePopup={handlePopup} />}
 
       {popupType === "list" && (
-        <AddItemPopup
+        <AddItemPopover
           item={item}
           listName={popupType}
           handlePopup={handlePopup}

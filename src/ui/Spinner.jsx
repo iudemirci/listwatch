@@ -10,7 +10,7 @@ const dotVariants = {
     },
   },
 };
-const dot = "bg-primary size-2.5 rounded-full will-change-transform";
+const dot = "bg-primary size-2 rounded-full will-change-transform";
 
 function Spinner() {
   return (

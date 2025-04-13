@@ -3,6 +3,9 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
   isLoginOpen: false,
   isSignupOpen: false,
+  isAddItemOpen: false,
+  addListName: "",
+  addItem: {},
 };
 
 const popupSlice = createSlice({
@@ -21,6 +24,27 @@ const popupSlice = createSlice({
     closeSignupPopup(state) {
       state.isSignupOpen = false;
     },
+    openAddItemPopup: {
+      prepare(listName, item) {
+        return {
+          payload: {
+            listName,
+            item,
+          },
+        };
+      },
+
+      reducer(state, action) {
+        state.isAddItemOpen = true;
+        state.addItem = action.payload.item;
+        state.addListName = action.payload.listName;
+      },
+    },
+    closeAddItemPopup(state) {
+      state.isAddItemOpen = false;
+      state.addItem = null;
+      state.listName = "";
+    },
   },
 });
 
@@ -29,5 +53,7 @@ export const {
   openSignupPopup,
   closeLoginPopup,
   closeSignupPopup,
+  openAddItemPopup,
+  closeAddItemPopup,
 } = popupSlice.actions;
 export default popupSlice.reducer;

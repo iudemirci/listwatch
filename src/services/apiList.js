@@ -42,13 +42,43 @@ export async function getListItems(listID) {
   return items;
 }
 
-export async function addItemToList(item) {
-  const { data, error } = await supabase.from("items").insert([item]).select();
+export async function addItemToList({ listName, item }) {
+  const data = await supabase.auth.getUser();
+  const userID = data.data.user.id;
 
-  if (error)
-    throw new Error("There was something wrong with adding item to the list");
+  const { data: list, error } = await supabase
+    .from("lists")
+    .select("*")
+    .eq("userID", userID)
+    .eq("listName", listName)
+    .single();
 
-  return data;
+  const listID = list.listID;
+
+  const { data: existingItem } = await supabase
+    .from("items")
+    .select("id")
+    .eq("listID", listID)
+    .eq("id", item.id)
+    .maybeSingle();
+
+  if (existingItem) {
+    throw new Error(`Item already in ${listName}`);
+  } else if (list) {
+    const { error: insertError } = await supabase.from("items").upsert(
+      [
+        {
+          listID: listID,
+          ...item,
+        },
+      ],
+      {
+        onConflict: "listID,id",
+      },
+    );
+
+    if (insertError) console.error(insertError);
+  }
 }
 
 export async function deleteItem(id) {

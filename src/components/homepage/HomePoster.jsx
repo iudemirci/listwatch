@@ -1,13 +1,13 @@
+import { useEffect, useMemo, useState } from "react";
 import { twMerge } from "tailwind-merge";
 import styles from "./HomePoster.module.css";
-import { useEffect, useMemo, useState } from "react";
 
 const BASE_URL = import.meta.env.VITE_BASE_IMAGE_URL;
 
 function HomePoster({ path, movies, className }) {
   const [imageLoaded, setImageLoaded] = useState(false);
 
-  const filteredPaths = useMemo(() => {
+  const filteredItems = useMemo(() => {
     if (path) return path;
 
     return movies
@@ -15,14 +15,22 @@ function HomePoster({ path, movies, className }) {
       ?.filter((path) => path !== null);
   }, [path, movies]);
 
-  const randomPath = useMemo(() => {
+  const randomItem = useMemo(() => {
     if (path) return path;
-    if (filteredPaths) {
-      const index = Math.floor(Math.random() * filteredPaths?.length);
-      return filteredPaths[index];
+    if (filteredItems) {
+      const index = Math.floor(Math.random() * filteredItems?.length);
+      return filteredItems[index];
     }
     return null;
-  }, [path, filteredPaths]);
+  }, [path, filteredItems]);
+
+  useEffect(() => {
+    if (randomItem) {
+      const img = new Image();
+      img.src = `${BASE_URL}/w1280${randomItem}`;
+      img.onload = () => setImageLoaded(true);
+    }
+  }, [randomItem]);
 
   return (
     <div
@@ -31,12 +39,14 @@ function HomePoster({ path, movies, className }) {
         className,
       )}
     >
-      {randomPath && (
-        <img
-          src={randomPath && `${BASE_URL}/w1280${randomPath}`}
-          alt="backdrop"
-          className={`absolute inset-0 -z-1 h-full w-full object-cover object-center transition-opacity duration-200 ${imageLoaded ? "opacity-100" : "opacity-0"}`}
-          onLoad={() => setImageLoaded(true)}
+      {randomItem && (
+        <div
+          className={`pointer-events-none fixed inset-0 -z-1 h-full w-full bg-cover bg-center transition-opacity duration-200 select-none ${
+            imageLoaded ? "opacity-100" : "opacity-0"
+          }`}
+          style={{
+            backgroundImage: `url(${BASE_URL}/w1280${randomItem})`,
+          }}
         />
       )}
     </div>

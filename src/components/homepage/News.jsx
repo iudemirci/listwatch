@@ -1,6 +1,3 @@
-import { mdiPlayCircleOutline } from "@mdi/js";
-import Icon from "@mdi/react";
-import { sampleSize, shuffle } from "lodash";
 import { useMemo, useRef } from "react";
 import { useMediaQuery } from "react-responsive";
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -16,18 +13,15 @@ import "swiper/css/free-mode";
 import "swiper/css/navigation";
 
 import Title from "../../ui/Title";
-import Poster from "../Poster";
-import Paragraph from "../../ui/Paragraph";
 import { NextArrow, PrevArrow } from "../../ui/CustomSwiper";
 import Skeleton from "../../ui/Skeleton";
 import VoteCountPopularity from "./VoteCountPopularity";
+import NewsSlide from "./NewsSlide";
 
 import { useMovieDB } from "../../hooks/moviedb/useMovieDB";
 import { mergeRandomAndShuffle } from "../../utilities/mergeRandomAndShuffle";
-import LinkToId from "../../ui/LinkToId";
 
 const BASE_URL = import.meta.env.VITE_BASE_IMAGE_URL;
-const SIZE = "/w1280";
 
 function News() {
   const isScreenBig = useMediaQuery({
@@ -84,51 +78,7 @@ function News() {
             ) : (
               shuffledItems?.map((movie, i) => (
                 <SwiperSlide key={i}>
-                  <LinkToId
-                    item={movie}
-                    type={movie?.media_type === "tv" ? "tv" : "movie"}
-                  >
-                    <div
-                      style={{
-                        backgroundImage: `url(${BASE_URL}${SIZE}${movie?.backdrop_path})`,
-                        backgroundSize: "cover",
-                        backgroundPosition: "center bottom",
-                      }}
-                      className="group relative z-1 flex aspect-video size-full h-55 cursor-pointer items-end gap-2 rounded-xl px-3 sm:h-fit md:px-6"
-                    >
-                      <div
-                        className="absolute inset-0 z-1"
-                        style={{
-                          background: `linear-gradient(to bottom, rgba(0,0,0,0) 0%, rgba(19,19,20,0.8) 70%, var(--color-background-default) 90%, var(--color-background-default) 100%)`,
-                        }}
-                      />
-
-                      <div className="z-3 max-w-15 md:max-w-25 lg:max-w-30">
-                        <Poster path={movie?.poster_path} />
-                      </div>
-
-                      <div className="z-3 flex items-center">
-                        <Icon
-                          path={mdiPlayCircleOutline}
-                          size={isScreenBig ? 2.5 : 1.5}
-                          className="group-hover:text-primary mr-2 mb-2 shrink-0 duration-300"
-                        />
-                        <div className="z-3 flex flex-col gap-0.5">
-                          <Title
-                            level={2}
-                            className="text-xl leading-5.5 font-normal sm:text-2xl lg:text-3xl lg:leading-7 2xl:text-3xl"
-                          >
-                            '{movie?.title || movie?.name}'
-                          </Title>
-                          <Paragraph type="tertiary">See more</Paragraph>
-                          <VoteCountPopularity
-                            popularity={movie?.popularity}
-                            vote={movie?.vote_count}
-                          />
-                        </div>
-                      </div>
-                    </div>
-                  </LinkToId>
+                  <NewsSlide movie={movie} />
                 </SwiperSlide>
               ))
             )}

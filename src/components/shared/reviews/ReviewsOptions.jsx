@@ -27,7 +27,7 @@ function ReviewsOptions({ review, userID, setEdit }) {
       { reviewID, userID },
       {
         onSuccess: () => {
-          queryClient.invalidateQueries("reviews");
+          queryClient.invalidateQueries(["reviews"]);
           setEdit(false);
           dispatch(resetSelectedReview());
           toast.dismiss();
@@ -59,7 +59,7 @@ function ReviewsOptions({ review, userID, setEdit }) {
                   animate={{ opacity: 1, scale: 1, x: 0, y: 0 }}
                   exit={{ opacity: 0, scale: 0, x: 40, y: 20 }}
                   transition={{ type: "spring", stiffness: 300, damping: 30 }}
-                  anchor="left end"
+                  anchor="top"
                   className="bg-grey-secondary flex flex-col rounded-lg p-1.5 text-xs font-semibold"
                 >
                   <CloseButton disabled={isDeleting} onClick={handleEdit}>

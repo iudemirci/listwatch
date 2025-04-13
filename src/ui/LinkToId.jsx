@@ -1,9 +1,10 @@
 import { Link } from "react-router-dom";
-import { cn } from "../utilities/cn";
+import { memo, useCallback, useMemo } from "react";
+import { twMerge } from "tailwind-merge";
 import { kebabCase } from "lodash";
 import { useQueryClient } from "@tanstack/react-query";
+
 import { getMovieItem } from "../services/apiMoviedb";
-import { memo, useCallback, useMemo } from "react";
 
 function LinkToId({ item, children, type = "movie", className, ...props }) {
   const queryClient = useQueryClient();
@@ -44,7 +45,7 @@ function LinkToId({ item, children, type = "movie", className, ...props }) {
   return (
     <Link
       to={path}
-      className={cn("block cursor-pointer", className)}
+      className={twMerge("block cursor-pointer", className)}
       onMouseEnter={handleMouseEnter}
       {...props}
     >

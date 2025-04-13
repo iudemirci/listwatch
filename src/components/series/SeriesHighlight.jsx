@@ -2,7 +2,7 @@ import LinkToId from "../../ui/LinkToId";
 import Paragraph from "../../ui/Paragraph";
 import TrailerPopover from "../popover/TrailerPopover";
 
-function SeriesHighlight({ series, producer }) {
+function SeriesHighlight({ series }) {
   return (
     <div className="flex flex-col flex-wrap justify-between md:flex-wrap md:gap-1.5 lg:gap-y-0">
       <div className="flex items-center gap-2 pb-2">
@@ -21,7 +21,10 @@ function SeriesHighlight({ series, producer }) {
           {series?.original_language?.toUpperCase()}
         </Paragraph>
       </div>
-      <TrailerPopover />
+      <TrailerPopover
+        id={series?.id}
+        type={series?.release_date ? "movie" : "tv"}
+      />
     </div>
   );
 }

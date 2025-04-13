@@ -37,7 +37,10 @@ function MovieHighlight({ movie, director }) {
           </Paragraph>
         </div>
       </div>
-      <TrailerPopover />
+      <TrailerPopover
+        id={movie?.id}
+        type={movie?.release_date ? "movie" : "tv"}
+      />
     </>
   );
 }

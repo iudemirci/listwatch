@@ -1,4 +1,4 @@
-import { mdiPlus, mdiStar } from "@mdi/js";
+import { mdiStar } from "@mdi/js";
 import Icon from "@mdi/react";
 import { SwiperSlide } from "swiper/react";
 import "swiper/css";
@@ -8,10 +8,18 @@ import LinkToId from "../../ui/LinkToId";
 import CustomSwiper from "../../ui/CustomSwiper";
 import Skeleton from "../../ui/Skeleton";
 import Paragraph from "../../ui/Paragraph";
-
 import PosterRibbon from "../PosterRibbon";
+import TrailerPopover from "../popover/TrailerPopover";
+import WatchlistButton from "../WatchlistButton";
+import PosterLike from "../PosterLike";
 
-function PosterList({ movies, isPending, perItem = 3, lastVisited = false }) {
+function PosterList({
+  movies,
+  isPending,
+  perItem = 3,
+  lastVisited = false,
+  watchlist = false,
+}) {
   var settings = {
     perItem: perItem,
     space: 12,
@@ -30,20 +38,23 @@ function PosterList({ movies, isPending, perItem = 3, lastVisited = false }) {
             ))
           : movies?.map((movie, index) => {
               const finalType =
-                movie?.type ?? (movie?.release_date ? "movie" : "tv");
+                movie?.type ??
+                (movie?.release_date || movie?.release_date === ""
+                  ? "movie"
+                  : "tv");
               return (
                 <SwiperSlide key={index} virtualIndex={index}>
-                  <li className="relative flex size-full flex-col overflow-hidden rounded-lg">
+                  <li className="relative flex size-full flex-col rounded-lg">
                     <LinkToId item={movie} type={finalType}>
                       <Poster
                         path={movie?.poster_path}
                         iconSize={2}
                         className="!rounded-b-none"
                       />
-                      {movie?.type !== "person" && (
-                        <PosterRibbon size="small" />
+                      {movie?.type !== "person" && !watchlist && (
+                        <PosterRibbon size="small" poster={true} />
                       )}
-                      <div className="bg-grey-secondary/50 flex flex-col gap-1 rounded-b-lg px-1.5 py-2">
+                      <div className="bg-grey-secondary/50 relative flex flex-col gap-1 rounded-b-lg px-1.5 py-2">
                         {!lastVisited &&
                           (movie?.vote_average ? (
                             <span className="text-grey-primary-light flex text-xs">
@@ -61,16 +72,36 @@ function PosterList({ movies, isPending, perItem = 3, lastVisited = false }) {
                               className="text-grey-primary-light"
                             />
                           ))}
-
+                        {!lastVisited && (
+                          <div className="absolute top-1 right-1">
+                            <PosterLike item={movie} />
+                          </div>
+                        )}
                         <Paragraph type="primary" className="line-clamp-1">
                           {movie?.title || movie?.name}
                         </Paragraph>
 
-                        {!lastVisited && (
-                          <button className="bg-grey-secondary text-grey-primary-light hover:bg-primary hover:text-text-default mt-1 flex w-full cursor-pointer items-center justify-center gap-1 self-center rounded-lg py-1.5 pr-1 text-xs duration-300">
-                            <Icon path={mdiPlus} size={0.7} />
-                            Watchlist
-                          </button>
+                        {!lastVisited && !watchlist && (
+                          <div className="pt-2">
+                            <WatchlistButton item={movie} />
+                            <div
+                              onClick={(e) => {
+                                e.preventDefault();
+                                e.stopPropagation();
+                              }}
+                            >
+                              <TrailerPopover
+                                id={movie?.id}
+                                type={
+                                  movie?.release_date ||
+                                  movie?.release_date === ""
+                                    ? "movie"
+                                    : "tv"
+                                }
+                                className="mt-1.5 flex w-full items-center justify-center gap-1 py-1.5 2xl:py-1.5"
+                              />
+                            </div>
+                          </div>
                         )}
                       </div>
                     </LinkToId>

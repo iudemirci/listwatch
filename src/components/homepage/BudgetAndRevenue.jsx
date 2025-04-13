@@ -52,7 +52,7 @@ function BudgetAndRevenue({ ids = [], isPending }) {
   return (
     <ul className="border-grey-primary/50 overflow-hidden rounded-lg border-1">
       <div className="bg-grey-secondary flex items-center justify-between px-2 py-1">
-        <Title level={5}>Budgets and Revenues</Title>
+        <Title level={5}> Revenues and Budgets</Title>
       </div>
       <div className="grid gap-y-3 px-2.5 py-3 md:grid-cols-2 md:gap-x-2 lg:gap-x-4 2xl:gap-x-8 2xl:gap-y-4 2xl:px-4 2xl:py-4">
         {isPendingAll
@@ -61,13 +61,16 @@ function BudgetAndRevenue({ ids = [], isPending }) {
             ))
           : formattedData?.map((item, i) => (
               <LinkToId key={i} item={item} type="movie">
-                <li className="flex cursor-pointer items-center">
+                <li className="group flex cursor-pointer items-center">
                   <span className="w-2">{i + 1}</span>
 
                   <span className="bg-primary mx-2 rounded-sm py-2.5 pl-0.5" />
 
                   <div>
-                    <Title level={6} className="line-clamp-1 font-semibold">
+                    <Title
+                      level={6}
+                      className="line-clamp-1 font-semibold group-hover:underline"
+                    >
                       {item?.name}
                     </Title>
                     <Title level={7} type="grey">

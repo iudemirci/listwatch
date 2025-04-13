@@ -3,13 +3,14 @@ import { Link, useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import { mdiArrowLeft } from "@mdi/js";
 
+import MdiIcon from "../ui/MdiIcon";
 import Button from "../ui/Button";
 import Title from "../ui/Title";
 import LogoIcon from "../ui/LogoIcon";
 import InputField from "../ui/InputField";
+import SignupPopover from "../components/popover/SignupPopover";
 
 import { useLogin } from "../hooks/auth/useLogin";
-import MdiIcon from "../ui/MdiIcon";
 
 function Login() {
   const token = localStorage.getItem("token");
@@ -76,11 +77,15 @@ function Login() {
           <p className="text-grey-primary-light text-sm">
             Dont't have an account?
           </p>
-          <span className="hover:text-primary cursor-pointer text-sm duration-300">
+          <span
+            className="text-primary cursor-pointer text-sm duration-300"
+            onClick={() => navigate("/signup")}
+          >
             Sign up
           </span>
         </div>
       </form>
+      <SignupPopover />
     </div>
   );
 }

@@ -27,18 +27,18 @@ function SearchResultItem({ result }) {
           >
             {result?.title || result?.name}
           </Title>
-          <Paragraph type="secondary">
+          <Paragraph type="tertiary">
             {getYear(result?.release_date || result?.first_air_date) ||
               result?.known_for_department}
           </Paragraph>
           {knownFor?.length > 0 && (
             <div className="flex flex-wrap">
-              <Paragraph type="secondary" className={"pr-2.5"}>
+              <Paragraph type="secondary" className={"pr-2.5 lg:text-xs"}>
                 {knownFor.join(" / ")}
               </Paragraph>
             </div>
           )}
-          <Paragraph type="secondary" className={"line-clamp-2"}>
+          <Paragraph type="secondary" className={"line-clamp-2 lg:text-xs"}>
             {result?.overview}
           </Paragraph>
         </div>

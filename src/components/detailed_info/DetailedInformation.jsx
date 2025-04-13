@@ -19,12 +19,12 @@ function DetailedInformation({ item, credits, isCreditsPending }) {
   const type = useLocation().pathname.split("/")[1];
   const [expanded, setExpanded] = useState(false);
 
+  const isType = type === "movie" ? type : undefined;
+
   const { data: titles } = useMovieDB(type, id, "alternative_titles");
-  const { data: dates } = useMovieDB(
-    type === "movie" ? type : undefined,
-    id,
-    "release_dates",
-  );
+  const { data: dates } = useMovieDB(isType, id, "release_dates", {
+    enabled: !!isType,
+  });
   const { data: keywords, isPending: isKeywordsLoading } = useMovieDB(
     type,
     id,

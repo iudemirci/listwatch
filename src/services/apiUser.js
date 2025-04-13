@@ -28,7 +28,7 @@ export async function logout() {
 }
 
 export async function signup(info) {
-  const { data, error } = await supabase.auth.signUp({
+  const { data: user, error } = await supabase.auth.signUp({
     email: info.email,
     password: info.password,
     options: {
@@ -42,13 +42,36 @@ export async function signup(info) {
 
   const { error: profileError } = await supabase.from("users").insert([
     {
-      userID: data.user.id,
+      userID: user.user.id,
       username: info.username,
     },
   ]);
   if (profileError) throw new Error(profileError.message);
 
-  return data;
+  if (user) {
+    const { error: insertWatchlistError } = await supabase
+      .from("lists")
+      .insert([
+        {
+          userID: user.user.id,
+          listName: "Watchlist",
+          username: info.username,
+          source: "user",
+        },
+      ]);
+    const { error: insertWatchedError } = await supabase.from("lists").insert([
+      {
+        userID: user.user.id,
+        listName: "Watched",
+        username: info.username,
+        source: "user",
+      },
+    ]);
+    if (insertWatchlistError || insertWatchedError)
+      console.error(insertWatchedError, insertWatchlistError);
+  }
+
+  return user;
 }
 
 export async function updateFavouriteItem(item) {

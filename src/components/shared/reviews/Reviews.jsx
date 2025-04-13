@@ -43,7 +43,7 @@ function Reviews({ reviews, isPending }) {
               onClick={() => dispatch(openSignupPopup())}
               className="cursor-pointer hover:underline"
             >
-              Sign in to share your opinion with the world!
+              Sign in to share your thoughts!
             </span>
           ) : (
             "Latest reviews"

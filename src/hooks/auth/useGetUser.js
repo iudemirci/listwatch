@@ -9,7 +9,7 @@ export function useGetUser() {
     error,
     data: user,
   } = useQuery({
-    queryKey: ["user"],
+    queryKey: ["user", "info"],
     queryFn: getUserInfo,
     enabled: !!token,
     gcTime: Infinity,

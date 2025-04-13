@@ -7,15 +7,18 @@ import PosterList from "../components/shared/PosterList";
 import PeopleList from "../components/person/PeopleList";
 import News from "../components/homepage/News.jsx";
 import InTheatersList from "../components/homepage/InTheatersList.jsx";
-import Title from "../ui/Title.jsx";
 import ScrollToTopButton from "../ui/ScrollToTopButton.jsx";
 import BudgetAndRevenue from "../components/homepage/BudgetAndRevenue.jsx";
 import LastVisited from "../components/shared/LastVisited.jsx";
+import Watchlist from "../components/homepage/Watchlist.jsx";
+import Section from "../components/homepage/Section.jsx";
 
 import useDocumentTitle from "../hooks/useDocumentTitle.js";
 import { useMovieDB } from "../hooks/moviedb/useMovieDB.js";
 import { mergeRandomAndShuffle } from "../utilities/mergeRandomAndShuffle.js";
-import Section from "../components/homepage/Section.jsx";
+import AddItemPopover from "../components/popover/AddItemPopover.jsx";
+import { useGetLists } from "../hooks/lists/useGetLists.js";
+import { useGetListItems } from "../hooks/lists/useGetListItems.js";
 
 const adultKeywords =
   /adult|xxx|porn|erotic|av|idol|gravure|softcore|hardcore|nude|playboy|lingerie/i;
@@ -24,6 +27,7 @@ const cjkRegex =
 const blocklist = [5009810, 5009979, 5248794, 2710789];
 
 function Homepage() {
+  const token = localStorage.getItem("token");
   useDocumentTitle("list&watch | Discover new content.", false);
 
   const { data: popularMovies, isPending: isPopularMoviesPending } = useMovieDB(
@@ -90,10 +94,16 @@ function Homepage() {
     return nowPlaying?.slice(0, 6)?.map((movie) => movie.id) || [];
   }, [nowPlaying]);
 
+  const { data: userLists } = useGetLists();
+  const watchlist = userLists?.find((list) => list.listName === "Watchlist");
+  const { data: watchlistItems } = useGetListItems(watchlist?.listID);
+
   return (
     <>
       <HomePoster movies={popularMovies} />
       <ScrollToTopButton />
+      <AddItemPopover />
+
       <div className="flex flex-col gap-8 lg:gap-12">
         <GreetingText />
 
@@ -118,6 +128,10 @@ function Homepage() {
           />
         </Section>
 
+        <Section title="list&watch lets you...">
+          <GuideTable />
+        </Section>
+
         <Section title="Trending Shows">
           <PosterList
             movies={popularSeries}
@@ -125,8 +139,19 @@ function Homepage() {
           />
         </Section>
 
-        <Section title="In list&watch you can;">
-          <GuideTable />
+        <Section title="From your Watchlist">
+          {token ? (
+            watchlistItems?.length > 0 ? (
+              <PosterList
+                movies={watchlistItems?.slice(0, 20)}
+                watchlist={true}
+              />
+            ) : (
+              <Watchlist logged={true} />
+            )
+          ) : (
+            <Watchlist />
+          )}
         </Section>
 
         <Section title="On the Air">
@@ -149,6 +174,7 @@ function Homepage() {
             isPending={isTopContentPending}
           />
         </Section>
+
         <LastVisited />
       </div>
     </>

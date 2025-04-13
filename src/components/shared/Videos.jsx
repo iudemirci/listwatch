@@ -1,6 +1,7 @@
 import { memo, useEffect, useState } from "react";
 import LiteYouTubeEmbed from "react-lite-youtube-embed";
 import "react-lite-youtube-embed/dist/LiteYouTubeEmbed.css";
+import Title from "../../ui/Title";
 
 function Videos({ movieTrailer }) {
   const [visible, setVisible] = useState(false);
@@ -11,16 +12,25 @@ function Videos({ movieTrailer }) {
 
   return (
     <div
-      className={`bg-grey-secondary aspect-video items-center justify-center overflow-hidden rounded-2xl transition-opacity duration-500 ${
+      className={`bg-grey-secondary shadow-grey-secondary aspect-video items-center justify-center overflow-hidden rounded-2xl shadow-2xl transition-opacity duration-500 ${
         visible ? "opacity-100" : "opacity-0"
       }`}
     >
-      <LiteYouTubeEmbed
-        id={movieTrailer.key}
-        playlist={false}
-        noCookie={true}
-        title={`Trailer ${movieTrailer.name}`}
-      />
+      {movieTrailer?.length !== 0 ? (
+        <LiteYouTubeEmbed
+          rel="prefetch"
+          id={movieTrailer.key}
+          playlist={false}
+          noCookie={true}
+          title={`Trailer ${movieTrailer.name}`}
+        />
+      ) : (
+        <div className="flex size-full items-center justify-center">
+          <Title level={5} type="white">
+            No trailer found
+          </Title>
+        </div>
+      )}
     </div>
   );
 }

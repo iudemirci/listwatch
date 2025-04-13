@@ -1,5 +1,5 @@
 import { useLocation, useParams } from "react-router-dom";
-import { useEffect } from "react";
+import { useEffect, useMemo } from "react";
 import { useQueryClient } from "@tanstack/react-query";
 import { useDispatch } from "react-redux";
 
@@ -78,8 +78,13 @@ function ContentDetailsPage() {
     hasFetched: hasVideoFetched,
   } = useMovieDB(type, id, "videos");
 
-  const movieTrailer =
-    movieVideo?.find((video) => video.type === "Trailer" && "Clip") || [];
+  const movieTrailer = useMemo(() => {
+    return (
+      movieVideo?.find((video) => video.type === "Trailer" && "Clip") ||
+      movieVideo?.[0] ||
+      []
+    );
+  }, [movieVideo]);
 
   const { data: similarMovies, isPending: isSimilarPending } = useMovieDB(
     type,
@@ -93,12 +98,11 @@ function ContentDetailsPage() {
     "collection",
   );
 
-  const { data: userLists } = useMovieDB(type, id, "lists");
+  const { data: userListsMovieDB } = useMovieDB(type, id, "lists");
 
   const { data: reviewsMovieDB } = useMovieDB(type, id, "reviews");
 
   const { data: reviews, isPending: isReviewsPending } = useReadReviews(id);
-
   // sending reviews to supabase
   const { mutate: insertReviews } = useInsertReviews();
   useEffect(() => {
@@ -137,7 +141,7 @@ function ContentDetailsPage() {
                   iconSize={2}
                   className="outline-grey-secondary/75 shadow-grey-secondary/50 shadow-md outline-1"
                 />
-                <PosterRibbon size="big" />
+                <PosterRibbon size="big" poster={true} />
               </div>
             )}
             {isMoviePending ? (
@@ -195,14 +199,14 @@ function ContentDetailsPage() {
           )}
         </section>
 
-        {token && (
+        {/* {token && (
           <section className="flex flex-wrap items-center gap-2">
             <>
               <ListDropdownButton item={movie || []} />
               <SetFavourite item={movie || []} />
             </>
           </section>
-        )}
+        )} */}
 
         <section
           className={`w-full lg:absolute lg:hidden ${movieTrailer?.length === 0 && hasVideoFetched && "absolute hidden"}`}
@@ -278,15 +282,15 @@ function ContentDetailsPage() {
               <Title level={3} className="pb-1">
                 Popular lists
               </Title>
-              {userLists?.length !== 0 && (
+              {userListsMovieDB?.length !== 0 && (
                 <span className="text-grey-primary-light hover:text-text-default cursor-pointer text-sm duration-300">
                   MORE+
                 </span>
               )}
             </div>
-            {userLists?.length !== 0 ? (
+            {userListsMovieDB?.length !== 0 ? (
               <div className="grid gap-2 pt-2 sm:grid-cols-2 lg:grid-cols-1 lg:pt-4">
-                {userLists?.slice(0, 4)?.map((l) => (
+                {userListsMovieDB?.slice(0, 4)?.map((l) => (
                   <ListPreviewCard key={l.id} listID={l?.id} />
                 ))}
               </div>

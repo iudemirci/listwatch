@@ -6,7 +6,6 @@ import {
   mdiAccountBoxPlusOutline,
   mdiLogin,
   mdiLogout,
-  mdiNewspaperVariantOutline,
   mdiListBoxOutline,
   mdiClose,
 } from "@mdi/js";
@@ -44,11 +43,6 @@ function PageNavList() {
       label: "lists",
       path: "/lists",
       icon: <Icon path={mdiListBoxOutline} size={1} />,
-    },
-    {
-      label: "News",
-      path: "/news",
-      icon: <Icon path={mdiNewspaperVariantOutline} size={1} />,
     },
   ];
 

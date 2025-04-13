@@ -28,12 +28,6 @@ function Discover() {
         return currentPage < totalPages ? currentPage + 1 : undefined;
       },
     });
-
-  //debounce to reduce unnecessary calls
-  const debouncedFetch = debounce(() => {
-    fetchNextPage();
-  }, 250);
-
   const movies = useMemo(
     () => data?.pages.flatMap((page) => page.movies.results) || [],
     [data],
@@ -53,7 +47,7 @@ function Discover() {
     if (loadMoreRef.current) observer.observe(loadMoreRef.current);
 
     return () => observer.disconnect();
-  }, [fetchNextPage, hasNextPage, isFetchingNextPage, debouncedFetch]);
+  }, [fetchNextPage, hasNextPage, isFetchingNextPage]);
 
   return (
     <section>

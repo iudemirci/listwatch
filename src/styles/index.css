@@ -58,19 +58,6 @@
   gap: 8px;
 }
 
-.pageClass {
-  background-color: var(--color-grey-secondary);
-  border: 2px solid var(--color-primary);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 30px;
-  height: 25px;
-  border-radius: var(--radius-lg);
-  cursor: pointer;
-  transition-duration: 300ms;
-}
-
 .activeClass {
   background-color: var(--color-primary) !important;
 }

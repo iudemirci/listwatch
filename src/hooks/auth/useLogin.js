@@ -17,6 +17,7 @@ export function useLogin() {
     mutationFn: loginApi,
     onSuccess: (res) => {
       dispatch(setToken(res.session.access_token));
+      toast.dismiss();
       toast.success("Login Success");
       navigate("/", {
         replace: true,
