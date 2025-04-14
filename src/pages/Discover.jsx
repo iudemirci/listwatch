@@ -50,7 +50,7 @@ function Discover() {
   }, [fetchNextPage, hasNextPage, isFetchingNextPage]);
 
   return (
-    <section>
+    <section className="pt-6">
       {<SortingBar type={type} setFilter={setFilter} />}
       <DiscoverList
         movies={movies}

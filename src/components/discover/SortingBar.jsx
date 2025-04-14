@@ -34,7 +34,7 @@ const sortFilters = [
 const tabStyle =
   "cursor-pointer data-[selected]:bg-grey-primary/40 data-[hover]:bg-grey-primary/40 rounded-2xl px-2 py-1 duration-300 data-[selected]:text-white";
 const sortStyle =
-  "bg-grey-secondary rounded-2xl p-1.5 text-sm font-semibold w-40";
+  "text-grey-primary hover:text-text-default duration-300 cursor-pointer truncate rounded-lg p-1.5 text-sm font-semibold focus:outline-none";
 
 function SortingBar({ type, setFilter }) {
   const { genre } = useFilters();
@@ -49,7 +49,7 @@ function SortingBar({ type, setFilter }) {
   }, [currentGenres, genre]);
 
   return (
-    <div className="flex flex-wrap items-center justify-between gap-2 py-4">
+    <div className="border-grey-primary/50 mb-4 flex flex-wrap items-center justify-between gap-2 py-0.5 sm:border-y-1">
       <TabGroup
         onChange={(i) => {
           setFilter({
@@ -70,8 +70,7 @@ function SortingBar({ type, setFilter }) {
           </Tab>
         </TabList>
       </TabGroup>
-
-      <div className="flex gap-2">
+      <div className="border-grey-primary/50 flex w-full gap-2 border-y-1 py-1 sm:w-auto sm:border-none">
         {/* Sorting By */}
         <select
           value={selectedSort}
@@ -82,7 +81,11 @@ function SortingBar({ type, setFilter }) {
           }}
         >
           {sortFilters.map((filter) => (
-            <option key={filter.value} value={filter.value}>
+            <option
+              key={filter.value}
+              value={filter.value}
+              className="bg-grey-secondary text-text-default"
+            >
               {filter.name}
             </option>
           ))}
@@ -97,15 +100,25 @@ function SortingBar({ type, setFilter }) {
             setSelectedGenre(e.target.value);
           }}
         >
-          <option value="">Select a genre</option>
+          <option value="" className="bg-grey-secondary text-text-default">
+            Select a genre
+          </option>
           {currentGenres === 0
             ? genres.movie_genres.map((genre) => (
-                <option key={genre.id} value={genre.id}>
+                <option
+                  key={genre.id}
+                  value={genre.id}
+                  className="bg-grey-secondary text-text-default"
+                >
                   {genre.name}
                 </option>
               ))
             : genres.tv_genres.map((genre) => (
-                <option key={genre.id} value={genre.id}>
+                <option
+                  key={genre.id}
+                  value={genre.id}
+                  className="bg-grey-secondary text-text-default"
+                >
                   {genre.name}
                 </option>
               ))}

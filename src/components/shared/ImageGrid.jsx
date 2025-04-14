@@ -82,7 +82,7 @@ function ImageGrid({ type }) {
                   onClick={() => {
                     setIndex(i);
                     setOpen(true);
-                    setSearchParams({ img: i });
+                    setSearchParams({ img: i }, { replace: true });
                   }}
                 />
                 <ImageHoverMask />
@@ -109,7 +109,7 @@ function ImageGrid({ type }) {
                   onClick={() => {
                     setIndex(i + 3);
                     setOpen(true);
-                    setSearchParams({ img: i + 3 });
+                    setSearchParams({ img: i + 3 }, { replace: true });
                   }}
                 />
                 <ImageHoverMask />
@@ -151,7 +151,7 @@ function ImageGrid({ type }) {
         index={index}
         close={() => {
           setOpen(false);
-          setSearchParams({});
+          setSearchParams({}, { replace: true });
         }}
         plugins={[Thumbnails, Zoom]}
         thumbnails={{
@@ -173,7 +173,7 @@ function ImageGrid({ type }) {
             if (!isUpdating.current) {
               isUpdating.current = true;
               setIndex(index);
-              setSearchParams({ img: index });
+              setSearchParams({ img: index }, { replace: true });
               setTimeout(() => (isUpdating.current = false), 100);
             }
           },

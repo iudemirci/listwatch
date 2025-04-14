@@ -1,9 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import supabase from "../../services/supabase";
 
-const token = localStorage.getItem("token");
-const isLoggedIn = Boolean(token);
-
 async function getLikes() {
   const data = await supabase.auth.getUser();
   const userID = data.data.user.id;
@@ -19,6 +16,9 @@ async function getLikes() {
 }
 
 export function useGetLikes() {
+  const token = localStorage.getItem("token");
+  const isLoggedIn = Boolean(token);
+
   const { data, isPending } = useQuery({
     queryKey: ["user", "likes"],
     queryFn: getLikes,
@@ -26,5 +26,8 @@ export function useGetLikes() {
     staleTime: Infinity,
     gcTime: Infinity,
   });
-  return { data, isPending };
+
+  const shouldShowLoading = isLoggedIn && isPending;
+
+  return { data, isPending: shouldShowLoading };
 }

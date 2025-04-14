@@ -1,4 +1,3 @@
-import { twMerge } from "tailwind-merge";
 import { cn } from "../utilities/cn";
 
 function Button({

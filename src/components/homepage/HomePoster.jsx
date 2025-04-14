@@ -4,7 +4,7 @@ import styles from "./HomePoster.module.css";
 
 const BASE_URL = import.meta.env.VITE_BASE_IMAGE_URL;
 
-function HomePoster({ path, movies, className }) {
+function HomePoster({ path, short, movies, className }) {
   const [imageLoaded, setImageLoaded] = useState(false);
 
   const filteredItems = useMemo(() => {
@@ -32,20 +32,23 @@ function HomePoster({ path, movies, className }) {
     }
   }, [randomItem]);
 
+  const height = short ? "pt-[30rem]" : "pt-[50rem]";
   return (
     <div
       className={twMerge(
-        `${styles.wrapper} bg-grey-secondary/50 relative w-full pt-[50rem] duration-200 sm:w-[125%] md:w-[130%] lg:w-[135%] 2xl:w-[140%]`,
+        `${styles.wrapper} bg-grey-secondary/50 relative w-full ${height} duration-200 sm:w-[125%] md:w-[130%] lg:w-[135%] 2xl:w-[140%]`,
         className,
       )}
     >
       {randomItem && (
         <div
-          className={`pointer-events-none fixed inset-0 -z-1 h-full w-full bg-cover bg-center transition-opacity duration-200 select-none ${
+          className={`pointer-events-none fixed inset-0 -z-1 h-full w-full transition-opacity duration-200 select-none ${
             imageLoaded ? "opacity-100" : "opacity-0"
           }`}
           style={{
             backgroundImage: `url(${BASE_URL}/w1280${randomItem})`,
+            backgroundPosition: short ? "top" : "center",
+            backgroundSize: "cover",
           }}
         />
       )}

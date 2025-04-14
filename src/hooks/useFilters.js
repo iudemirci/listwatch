@@ -15,7 +15,7 @@ export const useFilters = () => {
         newParams.delete(key);
       }
     });
-    setSearchParams(newParams);
+    setSearchParams(newParams, { replace: true });
   };
 
   return {

@@ -1,3 +1,4 @@
+import toast from "react-hot-toast";
 import supabase from "./supabase";
 
 export async function getUserInfo() {
@@ -59,42 +60,61 @@ export async function signup(info) {
           source: "user",
         },
       ]);
-    const { error: insertWatchedError } = await supabase.from("lists").insert([
-      {
-        userID: user.user.id,
-        listName: "Watched",
-        username: info.username,
-        source: "user",
-      },
-    ]);
-    if (insertWatchlistError || insertWatchedError)
-      console.error(insertWatchedError, insertWatchlistError);
+
+    if (insertWatchlistError) console.error(insertWatchlistError);
   }
 
   return user;
 }
 
-export async function updateFavouriteItem(item) {
-  const { data: res, error } = await supabase
-    .from("users")
-    .update({ favouriteItem: item.i })
-    .eq("userID", item.userID)
-    .select();
+export async function setFavouriteItem(item) {
+  const data = await supabase.auth.getUser();
+  const userID = data.data.user.id;
 
-  if (error)
-    throw new Error("There was something wrong with updating favourite item");
+  if (!userID) return;
 
-  return res;
+  const { error } = await supabase.rpc("insert_favorite", {
+    p_user_id: userID,
+    p_movie_id: item.id,
+    p_title: item?.title || item?.name,
+    p_poster_path: item.poster_path,
+    p_type: item?.release_date || item?.release_date === "" ? "movie" : "tv",
+  });
+
+  if (error) {
+    toast.dismiss();
+    toast.error(error.message);
+    return;
+  }
+
+  toast.dismiss();
+  toast.success(`${item.title || item?.name} successfully added`);
 }
 
-export async function getFavouriteItem(userID) {
-  let { data: res, error } = await supabase
-    .from("users")
-    .select("favouriteItem")
+export async function getFavouriteItems() {
+  const data = await supabase.auth.getUser();
+  const userID = data.data.user.id;
+
+  const { data: favourites, error } = await supabase
+    .from("favourites")
+    .select("*")
     .eq("userID", userID);
 
   if (error)
-    throw new Error("There was something wrong with setting favourite item");
+    throw new Error("There was something wrong with getting favourite items");
 
-  return res;
+  return favourites;
+}
+
+export async function deleteFavouriteItem(id) {
+  const data = await supabase.auth.getUser();
+  const userID = data.data.user.id;
+
+  const { error } = await supabase
+    .from("favourites")
+    .delete()
+    .eq("userID", userID)
+    .eq("id", id);
+
+  if (error) toast.error("There was something wrong with removing item");
 }

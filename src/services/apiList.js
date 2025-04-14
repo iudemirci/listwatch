@@ -19,8 +19,8 @@ export async function deletelist(id) {
 export async function getLists() {
   const data = await supabase.auth.getUser();
   const userID = data.data.user.id;
-
   const { data: lists, error } = await supabase
+
     .from("lists")
     .select("*")
     .eq("userID", userID);

@@ -31,6 +31,7 @@ import { useInsertReviews } from "../hooks/reviews/useInsertReviews";
 import { useReadReviews } from "../hooks/reviews/useReadReviews";
 import LastVisited from "../components/shared/LastVisited";
 import { addLastVisited } from "../store/lastVisitedSlice";
+import PosterLike from "../components/PosterLike";
 
 function ContentDetailsPage() {
   const location = useLocation();
@@ -99,7 +100,6 @@ function ContentDetailsPage() {
   );
 
   const { data: userListsMovieDB } = useMovieDB(type, id, "lists");
-
   const { data: reviewsMovieDB } = useMovieDB(type, id, "reviews");
 
   const { data: reviews, isPending: isReviewsPending } = useReadReviews(id);
@@ -151,10 +151,10 @@ function ContentDetailsPage() {
                 }
               />
             ) : (
-              <Rating
-                rating={movie?.vote_average}
-                className={"justify-self-center pt-2"}
-              />
+              <div className="flex items-center gap-1 justify-self-center pt-2">
+                <Rating rating={movie?.vote_average} />
+                <PosterLike item={movie} />
+              </div>
             )}
           </section>
 
@@ -204,10 +204,11 @@ function ContentDetailsPage() {
             <>
               <ListDropdownButton item={movie || []} />
               <SetFavourite item={movie || []} />
-            </>
-          </section>
-        )} */}
+              </>
+              </section>
+              )} */}
 
+        <SetFavourite item={movie || []} />
         <section
           className={`w-full lg:absolute lg:hidden ${movieTrailer?.length === 0 && hasVideoFetched && "absolute hidden"}`}
         >
