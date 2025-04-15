@@ -199,16 +199,8 @@ function ContentDetailsPage() {
           )}
         </section>
 
-        {/* {token && (
-          <section className="flex flex-wrap items-center gap-2">
-            <>
-              <ListDropdownButton item={movie || []} />
-              <SetFavourite item={movie || []} />
-              </>
-              </section>
-              )} */}
-
         <SetFavourite item={movie || []} />
+
         <section
           className={`w-full lg:absolute lg:hidden ${movieTrailer?.length === 0 && hasVideoFetched && "absolute hidden"}`}
         >

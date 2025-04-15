@@ -28,6 +28,11 @@ function PosterLike({ item }) {
             id: item?.id,
             title: item?.title || item?.name,
             poster_path: item?.poster_path,
+            type:
+              ((item.type === "movie" || item.type === "tv") && item.type) ||
+              (item?.release_date || item?.release_date === ""
+                ? "movie"
+                : "tv"),
           },
           {
             onSettled: () => {

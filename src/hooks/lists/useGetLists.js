@@ -8,8 +8,9 @@ export function useGetLists() {
   const { isPending, data, isFetched } = useQuery({
     queryKey: ["user", "lists"],
     queryFn: getLists,
-    initialData: [],
     enabled: !!isLoggedIn,
+    placeholderData: [],
+    staleTime: 10 * 60 * 1000,
   });
 
   return { isPending, data, isFetched };

@@ -4,6 +4,7 @@ const initialState = {
   isLoginOpen: false,
   isSignupOpen: false,
   isAddItemOpen: false,
+  isRibbonOpen: false,
   addListName: "",
   addItem: {},
 };
@@ -23,6 +24,14 @@ const popupSlice = createSlice({
     },
     closeSignupPopup(state) {
       state.isSignupOpen = false;
+    },
+    openRibbon(state, action) {
+      state.isRibbonOpen = true;
+      state.addItem = action.payload;
+    },
+    closeRibbon(state) {
+      state.isRibbonOpen = false;
+      state.addItem = {};
     },
     openAddItemPopup: {
       prepare(listName, item) {
@@ -55,5 +64,7 @@ export const {
   closeSignupPopup,
   openAddItemPopup,
   closeAddItemPopup,
+  openRibbon,
+  closeRibbon,
 } = popupSlice.actions;
 export default popupSlice.reducer;

@@ -52,7 +52,7 @@ function PosterList({
                         className="!rounded-b-none"
                       />
                       {movie?.type !== "person" && !watchlist && (
-                        <PosterRibbon size="small" poster={true} />
+                        <PosterRibbon size="small" poster={true} item={movie} />
                       )}
                       <div className="bg-grey-secondary/50 relative flex flex-col gap-1 rounded-b-lg px-1.5 py-2">
                         {!lastVisited &&

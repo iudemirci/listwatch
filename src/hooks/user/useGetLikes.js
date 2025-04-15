@@ -8,7 +8,8 @@ async function getLikes() {
   const { data: likes, error } = await supabase
     .from("likes")
     .select("*")
-    .eq("userID", userID);
+    .eq("userID", userID)
+    .order("createdAt", { ascending: false });
 
   if (error) throw new Error("There was something wrong with getting likes");
 

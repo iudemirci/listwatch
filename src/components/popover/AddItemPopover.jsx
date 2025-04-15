@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import Icon from "@mdi/react";
 import { mdiClose } from "@mdi/js";
 import { debounce } from "lodash";
-import { useState } from "react";
+import { memo, useState } from "react";
 import toast from "react-hot-toast";
 
 import PopupBlur from "../../ui/PopupBlur";
@@ -127,4 +127,4 @@ function AddItemPopover() {
   );
 }
 
-export default AddItemPopover;
+export default memo(AddItemPopover);

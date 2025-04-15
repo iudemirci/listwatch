@@ -8,6 +8,8 @@ import { useGetListItems } from "../hooks/lists/useGetListItems";
 import Section from "../components/homepage/Section";
 import PosterList from "../components/shared/PosterList";
 import Watchlist from "../components/homepage/Watchlist";
+import LastVisited from "../components/shared/LastVisited";
+import LikesList from "../components/account/LikesList";
 
 function Account() {
   const token = localStorage.getItem("token");
@@ -21,7 +23,7 @@ function Account() {
   const { data: watchlistItems } = useGetListItems(watchlist?.listID);
 
   return (
-    <div className="flex flex-col gap-8 pt-12 pb-6">
+    <div className="flex flex-col gap-8 pt-12">
       <Title level={2}>Hello, {username}</Title>
 
       <Section title="Favourite Items" mount={true}>
@@ -39,6 +41,12 @@ function Account() {
           <Watchlist />
         )}
       </Section>
+
+      <Section title="Likes" mount={true}>
+        <LikesList />
+      </Section>
+
+      <LastVisited />
     </div>
   );
 }

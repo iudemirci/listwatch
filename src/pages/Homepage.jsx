@@ -19,6 +19,7 @@ import { mergeRandomAndShuffle } from "../utilities/mergeRandomAndShuffle.js";
 import AddItemPopover from "../components/popover/AddItemPopover.jsx";
 import { useGetLists } from "../hooks/lists/useGetLists.js";
 import { useGetListItems } from "../hooks/lists/useGetListItems.js";
+import RibbonModal from "../components/popover/RibbonModal.jsx";
 
 const adultKeywords =
   /adult|xxx|porn|erotic|av|idol|gravure|softcore|hardcore|nude|playboy|lingerie/i;
@@ -103,6 +104,7 @@ function Homepage() {
       <HomePoster movies={popularMovies} />
       <ScrollToTopButton />
       <AddItemPopover />
+      <RibbonModal />
 
       <div className="flex flex-col gap-8 lg:gap-12">
         <GreetingText />

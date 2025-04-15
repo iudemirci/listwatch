@@ -83,6 +83,10 @@
   transition-duration: 300ms;
 }
 
+html[style*="padding-right: 10px"] {
+  padding-right: 0 !important;
+}
+
 .fi,
 .fi::before {
   width: 40px;

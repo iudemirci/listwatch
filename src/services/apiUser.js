@@ -70,8 +70,21 @@ export async function signup(info) {
 export async function setFavouriteItem(item) {
   const data = await supabase.auth.getUser();
   const userID = data.data.user.id;
-
   if (!userID) return;
+
+  if (item.replace_id) {
+    const { error: deleteError } = await supabase
+      .from("favourites")
+      .delete()
+      .eq("userID", userID)
+      .eq("id", item.replace_id);
+
+    if (deleteError) {
+      toast.dismiss();
+      toast.error("Failed to replace favorite item.");
+      return;
+    }
+  }
 
   const { error } = await supabase.rpc("insert_favorite", {
     p_user_id: userID,

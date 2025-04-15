@@ -1,8 +1,18 @@
-function PosterRibbon({ size, poster }) {
-  const sizes = {
-    big: "h-8 w-7  lg:h-10 pb-2 lg:w-9 lg:text-2xl",
-    small: "h-8 w-7 lg:text-lg",
-  };
+import { useDispatch } from "react-redux";
+import { openRibbon } from "../store/popupSlice";
+
+const sizes = {
+  big: "h-8 w-7  lg:h-10 pb-2 lg:w-9 lg:text-2xl",
+  small: "h-8 w-7 lg:text-lg",
+};
+
+function PosterRibbon({ size, poster, item }) {
+  const dispatch = useDispatch();
+
+  function handleClick(e) {
+    e.preventDefault();
+    dispatch(openRibbon(item));
+  }
 
   if (poster)
     return (
@@ -11,6 +21,7 @@ function PosterRibbon({ size, poster }) {
         style={{
           clipPath: "polygon(0 0, 100% 0, 100% 70%, 50% 100%, 0 70%)",
         }}
+        onClick={handleClick}
       >
         +
       </div>

@@ -1,10 +1,5 @@
-import { Link } from "react-router-dom";
-import Icon from "@mdi/react";
-import { mdiPlusBoxOutline } from "@mdi/js";
-
 import { useGetFavouriteItems } from "../../hooks/user/useGetFavouriteItems.js";
-import Poster from "../Poster";
-import LinkToId from "../../ui/LinkToId";
+import Skeleton from "../../ui/Skeleton.jsx";
 import FavouriteContentItem from "./FavouriteContentItem";
 
 function FavouriteContent() {
@@ -17,10 +12,13 @@ function FavouriteContent() {
 
   return (
     <div className="flex w-full items-start gap-2 pt-2 lg:gap-3">
-      {filledFavourites.map((movie, idx) => (
-        <FavouriteContentItem key={idx} movie={movie} />
-      ))}
-      {/* <div className="group absolute inset-0 flex items-center justify-center before:absolute before:inset-0"></div> */}
+      {isPending
+        ? [...Array(4)].map((_, idx) => (
+            <Skeleton key={idx} className="aspect-2/3" />
+          ))
+        : filledFavourites.map((movie, idx) => (
+            <FavouriteContentItem key={idx} movie={movie} />
+          ))}
     </div>
   );
 }
