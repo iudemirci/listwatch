@@ -5,7 +5,6 @@ const initialState = {
   isSignupOpen: false,
   isAddItemOpen: false,
   isRibbonOpen: false,
-  addListName: "",
   addItem: {},
 };
 
@@ -33,26 +32,13 @@ const popupSlice = createSlice({
       state.isRibbonOpen = false;
       state.addItem = {};
     },
-    openAddItemPopup: {
-      prepare(listName, item) {
-        return {
-          payload: {
-            listName,
-            item,
-          },
-        };
-      },
-
-      reducer(state, action) {
-        state.isAddItemOpen = true;
-        state.addItem = action.payload.item;
-        state.addListName = action.payload.listName;
-      },
+    openAddItemPopup(state, action) {
+      state.isAddItemOpen = true;
+      state.addItem = action.payload;
     },
     closeAddItemPopup(state) {
       state.isAddItemOpen = false;
       state.addItem = null;
-      state.listName = "";
     },
   },
 });

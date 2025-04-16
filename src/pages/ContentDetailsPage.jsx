@@ -9,7 +9,6 @@ import Videos from "../components/shared/Videos";
 import ImageGrid from "../components/shared/ImageGrid";
 import Title from "../ui/Title";
 import PeopleList from "../components/person/PeopleList";
-import ListDropdownButton from "../components/ListDropdownButton";
 import SetFavourite from "../components/SetFavourite";
 import Rating from "../components/shared/Rating";
 import Paragraph from "../ui/Paragraph";

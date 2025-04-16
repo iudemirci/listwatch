@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { memo, useEffect, useMemo, useState } from "react";
 import { twMerge } from "tailwind-merge";
 import styles from "./HomePoster.module.css";
 
@@ -56,4 +56,4 @@ function HomePoster({ path, short, movies, className }) {
   );
 }
 
-export default HomePoster;
+export default memo(HomePoster);

@@ -2,21 +2,39 @@ import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 dayjs.extend(relativeTime);
 
-import { useGetLikes } from "../../hooks/user/useGetLikes";
 import Paragraph from "../../ui/Paragraph";
 import PosterLike from "../PosterLike";
 import LinkToId from "../../ui/LinkToId";
 import Icon from "@mdi/react";
-import { mdiChevronDown } from "@mdi/js";
+import { mdiChevronDown, mdiHeart } from "@mdi/js";
 import { useState } from "react";
+import { Link } from "react-router-dom";
+import Button from "../../ui/Button";
+import Skeleton from "../../ui/Skeleton";
 
 const MAX_ITEMS = 10;
 
-function LikesList() {
+function LikesList({ likes, isLikesPending }) {
   const [showAll, setShowAll] = useState(false);
-  const { data: likes, isPending: isLikesPending } = useGetLikes();
 
-  return (
+  return isLikesPending ? (
+    [...Array(5)].map((_, idx) => <Skeleton key={idx} className="mt-1 h-6" />)
+  ) : likes?.length === 0 ? (
+    <div className="flex w-full flex-col items-center pt-8 text-center">
+      <Icon path={mdiHeart} size={1} className="text-grey-primary/50" />
+      <Paragraph type="primary" className="mt-2 font-extrabold">
+        Start liking items
+      </Paragraph>
+      <Paragraph type="tertiary">
+        Give quick likes to shows and movies and keep track.
+      </Paragraph>
+      <Link to="/discover" className="mt-6">
+        <Button type="secondary" size="default_wide">
+          Discover
+        </Button>
+      </Link>
+    </div>
+  ) : (
     <ul
       className={`divide-grey-primary/50 line border-grey-primary/50 divide-y-1 ${showAll && "border-b-1"}`}
     >

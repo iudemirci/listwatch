@@ -1,10 +1,7 @@
-import { useGetFavouriteItems } from "../../hooks/user/useGetFavouriteItems.js";
 import Skeleton from "../../ui/Skeleton.jsx";
 import FavouriteContentItem from "./FavouriteContentItem";
 
-function FavouriteContent() {
-  const { favouriteItems, isPending, isFetched } = useGetFavouriteItems();
-
+function FavouriteContent({ favouriteItems, isPending }) {
   const filledFavourites = [...(favouriteItems ?? [])];
   while (filledFavourites?.length < 4) {
     filledFavourites.push(null);

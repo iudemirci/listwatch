@@ -7,7 +7,7 @@ export function useCreateList() {
     mutationFn: createListApi,
     onSuccess: () =>
       queryClient.invalidateQueries({
-        queryKey: ["lists"],
+        queryKey: ["user", "lists"],
       }),
   });
 

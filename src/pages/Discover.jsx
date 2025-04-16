@@ -1,5 +1,5 @@
 import { keepPreviousData, useInfiniteQuery } from "@tanstack/react-query";
-import { useEffect, useMemo, useRef } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { debounce } from "lodash";
 
 import DiscoverList from "../components/discover/DiscoverList";
@@ -14,6 +14,7 @@ function Discover() {
   useDocumentTitle("Discover | list&watch", false);
 
   const { genre, sort, type, setFilter } = useFilters();
+  const [selectedDisplay, setSelectedDisplay] = useState(0);
   const loadMoreRef = useRef(null);
 
   // infinite fetching
@@ -51,11 +52,19 @@ function Discover() {
 
   return (
     <section className="pt-6">
-      {<SortingBar type={type} setFilter={setFilter} />}
+      {
+        <SortingBar
+          type={type}
+          setFilter={setFilter}
+          selectedDisplay={selectedDisplay}
+          setSelectedDisplay={setSelectedDisplay}
+        />
+      }
       <DiscoverList
         movies={movies}
         isPending={isPending}
         isFetchingNextPage={isFetchingNextPage}
+        selectedDisplay={selectedDisplay}
       />
       <ScrollToTopButton />
       <div ref={loadMoreRef} style={{ height: 1, visibility: "hidden" }} />

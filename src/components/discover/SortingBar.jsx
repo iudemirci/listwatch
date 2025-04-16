@@ -2,6 +2,8 @@ import { Tab, TabGroup, TabList } from "@headlessui/react";
 import { useEffect, useState } from "react";
 import genres from "../../assets/genres.json";
 import { useFilters } from "../../hooks/useFilters";
+import { mdiFormatAlignJustify, mdiTableLarge } from "@mdi/js";
+import Icon from "@mdi/react";
 
 const sortFilters = [
   {
@@ -31,12 +33,21 @@ const sortFilters = [
   },
 ];
 
+const display = [
+  {
+    path: mdiTableLarge,
+  },
+  {
+    path: mdiFormatAlignJustify,
+  },
+];
+
 const tabStyle =
   "cursor-pointer data-[selected]:bg-grey-primary/40 data-[hover]:bg-grey-primary/40 rounded-2xl px-2 py-1 duration-300 data-[selected]:text-white";
 const sortStyle =
   "text-grey-primary hover:text-text-default duration-300 cursor-pointer truncate rounded-lg p-1.5 text-sm font-semibold focus:outline-none";
 
-function SortingBar({ type, setFilter }) {
+function SortingBar({ type, setFilter, selectedDisplay, setSelectedDisplay }) {
   const { genre } = useFilters();
 
   const [selectedGenre, setSelectedGenre] = useState("");
@@ -123,6 +134,16 @@ function SortingBar({ type, setFilter }) {
                 </option>
               ))}
         </select>
+
+        {display.map((icon, idx) => (
+          <div
+            key={idx}
+            className={`hover:bg-grey-secondary cursor-pointer rounded-sm p-0.5 duration-300 ${selectedDisplay === idx && "text-primary"}`}
+            onClick={() => setSelectedDisplay(idx)}
+          >
+            <Icon path={icon.path} size={1} />
+          </div>
+        ))}
       </div>
     </div>
   );

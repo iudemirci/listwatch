@@ -1,20 +1,26 @@
 import { mdiFormatAlignJustify, mdiTableLarge } from "@mdi/js";
 import Icon from "@mdi/react";
 import ListCustomSort from "./ListCustomSort";
-import dayjs from "dayjs";
-import Paragraph from "../../ui/Paragraph";
+
 import Skeleton from "../../ui/Skeleton";
 
 const display = [
   {
-    path: mdiFormatAlignJustify,
+    path: mdiTableLarge,
   },
   {
-    path: mdiTableLarge,
+    path: mdiFormatAlignJustify,
   },
 ];
 
-function ListBar({ options, setOptions, item, isPending }) {
+function ListBar({
+  options,
+  setOptions,
+  item,
+  isPending,
+  setSelectedDisplay,
+  selectedDisplay,
+}) {
   return (
     <div className="border-grey-primary/50 flex items-center justify-between border-y-1 py-1">
       {isPending ? (
@@ -30,7 +36,8 @@ function ListBar({ options, setOptions, item, isPending }) {
           {display.map((icon, idx) => (
             <div
               key={idx}
-              className="hover:bg-grey-secondary hover:text-text-default text-grey-primary cursor-pointer rounded-sm p-0.5 duration-300"
+              className={`hover:bg-grey-secondary cursor-pointer rounded-sm p-0.5 duration-300 ${selectedDisplay === idx && "text-primary"}`}
+              onClick={() => setSelectedDisplay(idx)}
             >
               <Icon path={icon.path} size={1} />
             </div>

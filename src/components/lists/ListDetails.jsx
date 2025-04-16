@@ -11,9 +11,11 @@ import AccountIcon from "../AccountIcon";
 import Paragraph from "../../ui/Paragraph";
 import ListBar from "./ListBar";
 import HomePoster from "../homepage/HomePoster";
+import dayjs from "dayjs";
 
 function ListDetails() {
   const { id } = useParams("id");
+  const [selectedDisplay, setSelectedDisplay] = useState(0);
   const [options, setOptions] = useState({
     offset: 1,
     sort: "vote_average_desc",
@@ -80,41 +82,92 @@ function ListDetails() {
         options={options}
         item={nonStatic}
         isPending={isNonStaticPending}
+        setSelectedDisplay={setSelectedDisplay}
+        selectedDisplay={selectedDisplay}
       />
       {isNonStaticPending ? (
         <Skeleton className="h-6" />
       ) : (
         <Title level={2}>{listName}</Title>
       )}
-      <ul className="grid grid-cols-4 gap-2 pt-4 text-center lg:grid-cols-5 lg:gap-3 2xl:gap-4">
+      <ul
+        className={`mt-4 ${selectedDisplay === 0 ? "grid grid-cols-4 gap-2 text-center lg:grid-cols-5 lg:gap-3 2xl:gap-4" : "divide-grey-primary/50 flex flex-col divide-y-1 overflow-hidden rounded-lg"}`}
+      >
         {isPending || isNonStaticPending
-          ? [...Array(20)].map((_, i) => (
-              <li key={i} className="flex flex-col gap-1">
-                <div className="aspect-2/3">
-                  <Skeleton />
-                </div>
-                <Paragraph type="primary">
-                  {i + 1 + (options.offset - 1) * 20}
-                </Paragraph>
-              </li>
-            ))
-          : data?.results?.map((item, i) => (
-              <li key={item?.id} className="flex flex-col gap-1">
-                <LinkToId
-                  item={item}
-                  type={
-                    item?.release_date || item?.release_date === ""
-                      ? "movie"
-                      : "tv"
-                  }
-                >
-                  <Poster path={item?.poster_path} />
-                </LinkToId>
-                <Paragraph type="primary">
-                  {i + 1 + (options.offset - 1) * 20}
-                </Paragraph>
-              </li>
-            ))}
+          ? [...Array(20)].map((_, idx) => {
+              if (selectedDisplay === 0) {
+                return (
+                  <li key={idx} className="flex flex-col gap-1">
+                    <div className="aspect-2/3">
+                      <Skeleton />
+                    </div>
+                    <Paragraph type="primary">
+                      {idx + 1 + (options.offset - 1) * 20}
+                    </Paragraph>
+                  </li>
+                );
+              } else {
+                return (
+                  <li key={idx} className="mt-1 h-18 pb-1">
+                    <Skeleton />
+                  </li>
+                );
+              }
+            })
+          : data?.results?.map((item, i) => {
+              if (selectedDisplay === 0) {
+                return (
+                  <li key={item?.id} className="flex flex-col gap-1">
+                    <LinkToId
+                      item={item}
+                      type={
+                        item?.release_date || item?.release_date === ""
+                          ? "movie"
+                          : "tv"
+                      }
+                    >
+                      <Poster path={item?.poster_path} />
+                    </LinkToId>
+                    <Paragraph type="tertiary">
+                      {i + 1 + (options.offset - 1) * 20}
+                    </Paragraph>
+                  </li>
+                );
+              } else {
+                return (
+                  <li
+                    key={item?.id}
+                    className="hover:bg-grey-secondary px-1 py-2 duration-100"
+                  >
+                    <LinkToId
+                      item={item}
+                      type={
+                        item?.release_date || item?.release_date === ""
+                          ? "movie"
+                          : "tv"
+                      }
+                    >
+                      <div className="flex gap-2">
+                        <Paragraph type="tertiary">
+                          {i + 1 + (options.offset - 1) * 20}
+                        </Paragraph>
+                        <div className="w-10">
+                          <Poster path={item?.poster_path} />
+                        </div>
+                        <div className="line-clamp-1 flex flex-col gap-0.5 2xl:pl-1">
+                          <Title level={4}>{item?.title || item?.name}</Title>
+                          <Paragraph type="secondary">
+                            {dayjs(
+                              item?.release_date || item?.first_air_date,
+                            ).format("YYYY")}
+                          </Paragraph>
+                        </div>
+                      </div>
+                    </LinkToId>
+                  </li>
+                );
+              }
+            })}
       </ul>
       <div className="flex items-center justify-center">
         <ReactPaginate

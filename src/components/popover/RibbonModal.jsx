@@ -6,7 +6,6 @@ import Title from "../../ui/Title";
 
 function RibbonModal() {
   const isOpen = useSelector((state) => state.popup.isRibbonOpen);
-  console.log(isOpen);
   const item = useSelector((state) => state.popup.addItem);
   const dispatch = useDispatch();
 

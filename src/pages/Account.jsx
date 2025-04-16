@@ -10,6 +10,9 @@ import PosterList from "../components/shared/PosterList";
 import Watchlist from "../components/homepage/Watchlist";
 import LastVisited from "../components/shared/LastVisited";
 import LikesList from "../components/account/LikesList";
+import { useGetFavouriteItems } from "../hooks/user/useGetFavouriteItems";
+import HomePoster from "../components/homepage/HomePoster";
+import { useGetLikes } from "../hooks/user/useGetLikes";
 
 function Account() {
   const token = localStorage.getItem("token");
@@ -18,22 +21,36 @@ function Account() {
   const username = user && user?.user_metadata?.username;
   useDocumentTitle("Account | list&watch", false);
 
-  const { data: userLists } = useGetLists();
+  const { data: userLists, isPending: isListsPending } = useGetLists();
   const watchlist = userLists?.find((list) => list.listName === "Watchlist");
-  const { data: watchlistItems } = useGetListItems(watchlist?.listID);
+  const { data: watchlistItems, isPending: isWatchlistPending } =
+    useGetListItems(watchlist?.listID);
+
+  const { favouriteItems, isPending: isFavouritePending } =
+    useGetFavouriteItems();
+
+  const { data: likes, isPending: isLikesPending } = useGetLikes();
 
   return (
-    <div className="flex flex-col gap-8 pt-12">
+    <div className="mt-[16rem] flex flex-col gap-8 pt-12">
+      <HomePoster movies={favouriteItems} short={true} />
       <Title level={2}>Hello, {username}</Title>
 
       <Section title="Favourite Items" mount={true}>
-        <FavouriteContent />
+        <FavouriteContent
+          favouriteItems={favouriteItems}
+          isPending={isFavouritePending}
+        />
       </Section>
 
       <Section title="From your Watchlist" mount={true}>
         {token ? (
           watchlistItems?.length > 0 ? (
-            <PosterList movies={watchlistItems} watchlist={true} />
+            <PosterList
+              movies={watchlistItems}
+              watchlist={true}
+              isPending={isWatchlistPending || isLikesPending}
+            />
           ) : (
             <Watchlist logged={true} />
           )
@@ -43,7 +60,7 @@ function Account() {
       </Section>
 
       <Section title="Likes" mount={true}>
-        <LikesList />
+        <LikesList likes={likes} isLikesPending={isLikesPending} />
       </Section>
 
       <LastVisited />

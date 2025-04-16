@@ -1,8 +1,6 @@
 import { useQueryClient } from "@tanstack/react-query";
 import { AnimatePresence, motion } from "motion/react";
 import { useDispatch, useSelector } from "react-redux";
-import Icon from "@mdi/react";
-import { mdiClose } from "@mdi/js";
 import { debounce } from "lodash";
 import { memo, useState } from "react";
 import toast from "react-hot-toast";
@@ -19,21 +17,35 @@ import Poster from "../Poster";
 import { closeAddItemPopup } from "../../store/popupSlice";
 import { getYear } from "../../utilities/getYear";
 import { useAddItemToList } from "../../hooks/lists/useAddItemToList";
+import { useCreateList } from "../../hooks/lists/useCreateList";
+import { useGetLists } from "../../hooks/lists/useGetLists";
 
 function AddItemPopover() {
   const [rating, setRating] = useState(null);
+  const [createListName, setCreateListName] = useState("");
+  const [isCreate, setIsCreate] = useState(false);
+  const [listName, setListName] = useState("");
   const dispatch = useDispatch();
   const queryClient = useQueryClient();
-  const listName = useSelector((state) => state.popup.addListName);
   const isAddItemOpen = useSelector((state) => state.popup.isAddItemOpen);
   const item = useSelector((state) => state.popup.addItem);
   const year = getYear(item?.release_date || item?.first_air_date) || "";
   const type = item?.release_date || item?.release_date === "" ? "movie" : "tv";
   const { addItem, isPending: isAddingPending } = useAddItemToList();
+  const { isPending: isCreatingPending, createList } = useCreateList();
+  const { isPending: isListsPending, data: lists } = useGetLists();
 
   const debouncedHandleClick = debounce(() => {
-    if (listName !== "Watchlist" && !rating)
-      return toast.error("Give it a rating!");
+    if (listName === "") {
+      toast.dismiss();
+      toast.error("Select a list first!");
+      return;
+    }
+    if (listName !== "Watchlist" && !rating) {
+      toast.dismiss();
+      toast.error("Give it a rating!");
+      return;
+    }
 
     const savedItem = {
       id: item?.id,
@@ -57,49 +69,67 @@ function AddItemPopover() {
         onError: (e) => {
           toast.dismiss();
           toast.error(e.message);
-          setRating(null);
+        },
+        onSettled: () => {
+          setListName("");
         },
       },
     );
   }, 300);
 
+  function handleCreate() {
+    createList(createListName, {
+      onSuccess: () => {
+        toast.dismiss();
+        toast.success(`${createListName} created`);
+        setIsCreate(false);
+        setCreateListName("");
+        setRating(null);
+      },
+      onError: (e) => {
+        toast.dismiss();
+        toast.error(e.message);
+      },
+      onSettled: () => queryClient.invalidateQueries("lists"),
+    });
+  }
+
   return (
     <AnimatePresence>
       {isAddItemOpen && (
         <PopupBlur
-          setIsOpen={() => dispatch(closeAddItemPopup())}
+          setIsOpen={() => {
+            dispatch(closeAddItemPopup());
+            setListName("");
+          }}
           isOpen={isAddItemOpen}
           reset={() => setRating(null)}
         >
           <motion.div
-            initial={{ scale: 0 }}
-            animate={{ scale: 1 }}
-            exit={{ scale: 0 }}
+            initial={{ y: "100%" }}
+            animate={{ y: 0 }}
+            exit={{ y: "100%" }}
             transition={{ ease: "easeInOut", duration: 0.3 }}
             onClick={(e) => e.stopPropagation()}
-            className="bg-grey-tertiary border-grey-secondary relative m-3 flex w-130 flex-col gap-2.5 rounded-lg border-1 p-8"
+            className="bg-grey-tertiary border-grey-secondary absolute bottom-0 mx-4 flex w-full max-w-90 flex-col gap-2.5 rounded-lg border-1 px-4 py-6 sm:max-w-110 lg:max-w-140"
           >
-            <Icon
-              path={mdiClose}
-              size={1.2}
-              className="text-grey-primary-light hover:text-text-default absolute top-4 right-4 cursor-pointer duration-300"
-              onClick={() => {
-                dispatch(closeAddItemPopup());
-              }}
-            />
-            <div className="flex gap-4">
-              <div className="w-25">
+            <div className="bg-grey-secondary/70 flex gap-4 rounded-lg p-2">
+              <div className="w-15">
                 <Poster path={item?.poster_path} />
               </div>
               <div className="flex flex-1 flex-col justify-between">
                 <div className="flex flex-1 flex-col gap-2">
-                  <Title level={5}>
-                    {listName === "Watched" && "I watched..."}
-                    {listName === "Watchlist" && "I want to watch..."}
+                  <Title level={5} className="text-nowrap">
+                    {listName === "Watchlist"
+                      ? "I want to watch..."
+                      : "I watched..."}
                   </Title>
                   <div className="flex items-baseline gap-1 2xl:gap-0">
                     <LinkToId type={type} item={item}>
-                      <Title level={4} className="font-bold hover:underline">
+                      <Title
+                        level={4}
+                        className="line-clamp-1 font-bold hover:underline"
+                      >
                         {item?.title || item?.name}
                       </Title>
                     </LinkToId>
@@ -113,13 +143,57 @@ function AddItemPopover() {
                     />
                   )}
                 </div>
-
-                <div className="flex gap-2">
-                  <Button onClick={debouncedHandleClick}>Save</Button>
-                  {isAddingPending && <Spinner />}
-                </div>
               </div>
             </div>
+            <ul className="divide-grey-primary/50 flex flex-col divide-y overflow-hidden rounded-lg">
+              {!isCreate && (
+                <li
+                  className="bg-grey-secondary/70 hover:bg-grey-secondary cursor-pointer p-2 duration-300"
+                  onClick={() => setIsCreate(true)}
+                >
+                  <Title level={4}>Create new list</Title>
+                </li>
+              )}
+              {!isCreate &&
+                lists?.map((list) => (
+                  <li
+                    key={list?.id}
+                    className={`bg-grey-secondary/70 hover:bg-grey-secondary cursor-pointer p-2 duration-300 ${listName === list?.listName && "bg-primary hover:bg-primary"}`}
+                    onClick={() => setListName(list?.listName)}
+                  >
+                    <Title level={4}>{list?.listName}</Title>
+                  </li>
+                ))}
+              {isCreate && (
+                <li className="bg-grey-secondary/70 flex flex-col gap-2 rounded-lg p-2">
+                  <input
+                    value={createListName}
+                    onChange={(e) => setCreateListName(e.target.value)}
+                    className="bg-grey-primary/50 w-full rounded-lg px-2 py-0.5"
+                  />
+                  <div className="flex gap-2 self-start">
+                    <button
+                      className="bg-primary hover:bg-primary-dark cursor-pointer rounded-lg px-2 py-1 text-xs duration-300 lg:text-sm"
+                      onClick={handleCreate}
+                    >
+                      Create
+                    </button>
+                    <button
+                      className="bg-grey-secondary border-grey-primary/50 hover:border-primary cursor-pointer rounded-lg border px-2 py-1 text-xs duration-300 lg:text-sm"
+                      onClick={() => setIsCreate(false)}
+                    >
+                      Cancel
+                    </button>
+                  </div>
+                </li>
+              )}
+            </ul>
+            {!isCreate && (
+              <div className="flex gap-2">
+                <Button onClick={debouncedHandleClick}>Save</Button>
+                {isAddingPending && <Spinner />}
+              </div>
+            )}
           </motion.div>
         </PopupBlur>
       )}

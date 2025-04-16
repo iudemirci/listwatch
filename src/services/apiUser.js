@@ -91,6 +91,7 @@ export async function setFavouriteItem(item) {
     p_movie_id: item.id,
     p_title: item?.title || item?.name,
     p_poster_path: item.poster_path,
+    p_backdrop_path: item.backdrop_path,
     p_type: item?.release_date || item?.release_date === "" ? "movie" : "tv",
   });
 

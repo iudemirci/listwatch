@@ -1,12 +1,17 @@
 import supabase from "./supabase";
 
 export async function createList(list) {
-  const { data, error } = await supabase.from("lists").insert([list]).select();
+  const data = await supabase.auth.getUser();
+  const userID = data.data.user.id;
 
-  if (error)
-    throw new Error("There was something wrong with creating the list");
+  const { data: listData, error } = await supabase.rpc("create_list", {
+    list_name: list,
+    user_id: userID,
+  });
 
-  return data;
+  if (error) throw new Error(error.message);
+
+  return listData;
 }
 
 export async function deletelist(id) {

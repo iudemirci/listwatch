@@ -17,8 +17,8 @@ function Watchlist({ logged }) {
         Save shows and movies to keep track of what you want to watch.
       </Paragraph>
       {logged ? (
-        <Link to="/discover">
-          <Button className="mt-6" type="secondary" size="default_wide">
+        <Link to="/discover" className="mt-6">
+          <Button type="secondary" size="default_wide">
             Discover
           </Button>
         </Link>
