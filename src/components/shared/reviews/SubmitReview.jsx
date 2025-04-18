@@ -1,7 +1,6 @@
 import Button from "../../../ui/Button";
 import AccountIcon from "../../AccountIcon";
 import StarRating from "../../StarRating";
-import { v4 as uuidv4 } from "uuid";
 import { useParams } from "react-router-dom";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
@@ -13,8 +12,6 @@ import { useGetUser } from "../../../hooks/auth/useGetUser";
 import { useDispatch, useSelector } from "react-redux";
 import { useUpdateReview } from "../../../hooks/reviews/useUpdateReview";
 import { resetSelectedReview } from "../../../store/userSlice";
-
-const reviewID = uuidv4();
 
 function SubmitReview({ token, isReviewed, edit, setEdit }) {
   const selectedReviewID = useSelector((state) => state.user.selectedReviewID);

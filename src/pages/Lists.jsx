@@ -9,6 +9,7 @@ import ScrollToTopButton from "../ui/ScrollToTopButton";
 import ListCard from "../components/lists/ListCard";
 
 import { useGetLists } from "../hooks/lists/useGetLists";
+import TopLoadingBar from "../ui/TopLoadingBar";
 
 const breakpointColumnsObj = {
   default: 3,
@@ -18,11 +19,12 @@ const breakpointColumnsObj = {
 
 function Lists() {
   const { data: lists, isPending } = useGetLists(true);
-
+  console.log(isPending);
   return (
     <div className="mt-12 flex flex-col gap-y-6 md:gap-y-8 lg:gap-y-10 2xl:gap-y-12">
       <AddItemPopover />
       <ScrollToTopButton />
+      <TopLoadingBar isLoading={isPending} />
 
       <ListsTitle />
 

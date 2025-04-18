@@ -100,13 +100,12 @@ function Homepage() {
   const watchlist = userLists?.find((list) => list.listName === "Watchlist");
 
   const { data: lists, isPending } = useGetLists(true);
-
   const isPendingAll =
     isPending ||
-    isListsPending ||
     isNowPlayingPending ||
     isAiringPending ||
-    isTopContentPending ||
+    isTopMoviesPending ||
+    isTopSeriesPending ||
     isPeoplePending ||
     isPopularMoviesPending ||
     isPopularSeriesPending;

@@ -8,7 +8,7 @@ import Button from "../../ui/Button";
 import StarRating from "../StarRating";
 
 import { useUpdateRating } from "../../hooks/lists/useUpdateRating";
-import { closeListDeletePopup, closeStarEdit } from "../../store/popupSlice";
+import { closeStarEdit } from "../../store/popupSlice";
 import toast from "react-hot-toast";
 import Spinner from "../../ui/Spinner";
 import { useParams } from "react-router-dom";

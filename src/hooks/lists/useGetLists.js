@@ -5,7 +5,7 @@ export function useGetLists(global = false) {
   const token = localStorage.getItem("token");
   const isLoggedIn = Boolean(token);
 
-  const { isPending, data, isFetched } = useQuery({
+  const { data, isPending, isFetched } = useQuery({
     queryKey: ["user", "lists", global ? "global" : "personal"],
     queryFn: () => getLists(global),
     enabled: global ? true : !!isLoggedIn,
