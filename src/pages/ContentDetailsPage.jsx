@@ -116,6 +116,7 @@ function ContentDetailsPage() {
   useEffect(() => {
     if (reviewsMovieDB && reviewsMovieDB.length > 0) {
       const formattedReview = reviewsMovieDB?.slice(0, 10).map((review) => ({
+        reviewID_movieDB: review.id,
         movieID: id,
         userID: null,
         username: review.author_details.username,
