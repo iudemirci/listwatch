@@ -31,20 +31,21 @@ import { useReadReviews } from "../hooks/reviews/useReadReviews";
 import LastVisited from "../components/shared/LastVisited";
 import { addLastVisited } from "../store/lastVisitedSlice";
 import PosterLike from "../components/PosterLike";
+import AddItemPopover from "../components/popover/AddItemPopover";
+import { createPortal } from "react-dom";
 
 function ContentDetailsPage() {
   const location = useLocation();
   const type = location.pathname.split("/")[1];
   const { id } = useParams("id");
-  const token = localStorage.getItem("token");
   const queryClient = useQueryClient();
   const dispatch = useDispatch();
 
-  const { data: movie, isPending: isMoviePending } = useMovieDB(
-    type,
-    id,
-    "item",
-  );
+  const {
+    data: movie,
+    isPending: isMoviePending,
+    isError: isMovieError,
+  } = useMovieDB(type, id, "item");
 
   useEffect(() => {
     if (type && movie) {
@@ -123,9 +124,18 @@ function ContentDetailsPage() {
     }
   }, [id, reviewsMovieDB, insertReviews, queryClient]);
 
+  if (isMovieError)
+    return createPortal(
+      <div className="absolute top-1/2 left-1/2 -translate-1/2">
+        Content not found :(
+      </div>,
+      document.body,
+    );
+
   return (
     <>
       <ScrollToTopButton threshold={2000} />
+      <AddItemPopover />
       <div className="mt-[23rem] flex flex-col items-start gap-x-3 gap-y-6 pt-4 md:gap-x-4 md:gap-y-8 md:pt-8 lg:gap-x-6 lg:gap-y-10 2xl:gap-y-12">
         <HomePoster path={movie?.backdrop_path} className="pt-[40rem]" />
         <div className="2xl-grid-cols-4 grid w-full grid-cols-3 gap-x-3 sm:grid-cols-4 md:grid-cols-3 md:gap-x-4 lg:gap-x-8">
@@ -138,9 +148,10 @@ function ContentDetailsPage() {
                   path={movie.poster_path}
                   preview={true}
                   iconSize={2}
+                  type="big"
                   className="outline-grey-secondary/75 shadow-grey-secondary/50 shadow-md outline-1"
                 />
-                <PosterRibbon size="big" poster={true} />
+                <PosterRibbon size="big" poster={true} item={movie} />
               </div>
             )}
             {isMoviePending ? (
@@ -197,8 +208,6 @@ function ContentDetailsPage() {
             </>
           )}
         </section>
-
-        <SetFavourite item={movie || []} />
 
         <section
           className={`w-full lg:absolute lg:hidden ${movieTrailer?.length === 0 && hasVideoFetched && "absolute hidden"}`}

@@ -1,7 +1,7 @@
-import LinkToId from "../../ui/LinkToId";
 import Paragraph from "../../ui/Paragraph";
-import TrailerPopover from "../popover/TrailerPopover";
+import SetFavourite from "../SetFavourite";
 
+import TrailerPopover from "../popover/TrailerPopover";
 function SeriesHighlight({ series }) {
   return (
     <div className="flex flex-col flex-wrap justify-between md:flex-wrap md:gap-1.5 lg:gap-y-0">
@@ -21,10 +21,13 @@ function SeriesHighlight({ series }) {
           {series?.original_language?.toUpperCase()}
         </Paragraph>
       </div>
-      <TrailerPopover
-        id={series?.id}
-        type={series?.release_date ? "movie" : "tv"}
-      />
+      <div className="flex gap-2">
+        <TrailerPopover
+          id={series?.id}
+          type={series?.release_date ? "movie" : "tv"}
+        />
+        <SetFavourite item={series || []} />
+      </div>
     </div>
   );
 }

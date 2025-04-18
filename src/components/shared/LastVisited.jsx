@@ -18,7 +18,7 @@ function LastVisited() {
           {lastVisited.length > 0 && (
             <button
               onClick={() => dispatch(clearLastVisited())}
-              className="cursor-pointer text-xs text-blue-500 hover:underline"
+              className="text-primary cursor-pointer text-xs hover:underline"
             >
               Clear all
             </button>

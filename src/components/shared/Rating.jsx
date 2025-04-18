@@ -4,7 +4,8 @@ import Title from "../../ui/Title";
 import { twMerge } from "tailwind-merge";
 
 function Rating({ rating, className }) {
-  if (!rating) return null;
+  if (!rating)
+    return <Icon path={mdiStar} size={0.7} className="text-grey-primary" />;
 
   return (
     <div className={twMerge("flex items-center", className)}>

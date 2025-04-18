@@ -3,9 +3,11 @@ import supabase from "./supabase";
 export async function createList(list) {
   const data = await supabase.auth.getUser();
   const userID = data.data.user.id;
+  const username = data.data.user.user_metadata.username;
 
   const { data: listData, error } = await supabase.rpc("create_list", {
     list_name: list,
+    username: username,
     user_id: userID,
   });
 
@@ -21,18 +23,55 @@ export async function deletelist(id) {
     throw new Error("There was something wrong with deleting the list");
 }
 
-export async function getLists() {
+export async function getLists(global = false) {
+  if (global) {
+    const { data: lists, error } = await supabase
+      .from("lists")
+      .select(
+        `
+      id,
+      listName,
+      username,
+      items(
+        *,
+        createdAt
+      )
+    `,
+      )
+      .neq("listName", "Watchlist")
+      .gt("items_count", 0)
+      .order("createdAt", { ascending: false })
+      .limit(20)
+      .limit(5, { foreignTable: "items" });
+
+    if (error)
+      throw new Error("There was something wrong with getting global lists");
+
+    return lists;
+  }
+
   const data = await supabase.auth.getUser();
   const userID = data.data.user.id;
-  const { data: lists, error } = await supabase
 
+  const { data: lists, error } = await supabase
     .from("lists")
-    .select("*")
+    .select("id, listName, items(*)")
     .eq("userID", userID);
 
   if (error) throw new Error("There was something wrong with getting lists");
 
   return lists;
+}
+
+export async function getSingleList(id) {
+  const { data: list, error } = await supabase
+    .from("lists")
+    .select("id, listName, username, userID, items(*)")
+    .eq("id", id);
+
+  if (error) throw new Error("There was something wrong with getting list");
+
+  return list;
 }
 
 export async function getListItems(listID) {
@@ -97,11 +136,22 @@ export async function updateRating(rating, id) {
   const { data, error } = await supabase
     .from("items")
     .update({ userRating: rating })
-    .eq("id", id)
+    .eq("uuid", id)
     .select();
 
   if (error)
     throw new Error("There was something wrong with updating the rating");
 
   return data;
+}
+
+export async function updateListName(id, newName) {
+  const { error } = await supabase
+    .from("lists")
+    .update({ listName: newName })
+    .eq("id", id);
+
+  if (error) {
+    throw new Error("Could not rename the list.");
+  }
 }

@@ -4,7 +4,8 @@ const initialState = {
   isLoginOpen: false,
   isSignupOpen: false,
   isAddItemOpen: false,
-  isRibbonOpen: false,
+  isListDeleteOpen: false,
+  isStarEditOpen: false,
   addItem: {},
 };
 
@@ -24,21 +25,27 @@ const popupSlice = createSlice({
     closeSignupPopup(state) {
       state.isSignupOpen = false;
     },
-    openRibbon(state, action) {
-      state.isRibbonOpen = true;
-      state.addItem = action.payload;
-    },
-    closeRibbon(state) {
-      state.isRibbonOpen = false;
-      state.addItem = {};
-    },
     openAddItemPopup(state, action) {
       state.isAddItemOpen = true;
       state.addItem = action.payload;
     },
     closeAddItemPopup(state) {
       state.isAddItemOpen = false;
-      state.addItem = null;
+      state.addItem = {};
+    },
+    openListDeletePopup(state) {
+      state.isListDeleteOpen = true;
+    },
+    closeListDeletePopup(state) {
+      state.isListDeleteOpen = false;
+    },
+    openStarEdit(state, action) {
+      state.isStarEditOpen = true;
+      state.addItem = action.payload;
+    },
+    closeStarEdit(state) {
+      state.isStarEditOpen = false;
+      state.addItem = {};
     },
   },
 });
@@ -50,7 +57,9 @@ export const {
   closeSignupPopup,
   openAddItemPopup,
   closeAddItemPopup,
-  openRibbon,
-  closeRibbon,
+  openListDeletePopup,
+  closeListDeletePopup,
+  openStarEdit,
+  closeStarEdit,
 } = popupSlice.actions;
 export default popupSlice.reducer;

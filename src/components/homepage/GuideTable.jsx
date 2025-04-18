@@ -17,7 +17,7 @@ function GuideTable() {
     },
     {
       icon: <Icon path={mdiStar} size={1.2} />,
-      text: "Like your favorite titles, curated lists, and community reviews",
+      text: "Like your favorite titles, and set favourite items up to 4 to display in your profile",
     },
     {
       icon: <Icon path={mdiShare} size={1.2} />,
@@ -29,7 +29,7 @@ function GuideTable() {
     },
     {
       icon: <Icon path={mdiInformation} size={1.2} />,
-      text: "Instantly access rich, in-depth details on any movie or show.",
+      text: "Instantly access rich, in-depth details on any movie or show",
     },
     {
       icon: <Icon path={mdiListBox} size={1.2} />,

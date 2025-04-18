@@ -18,8 +18,8 @@ import { useMovieDB } from "../hooks/moviedb/useMovieDB.js";
 import { mergeRandomAndShuffle } from "../utilities/mergeRandomAndShuffle.js";
 import AddItemPopover from "../components/popover/AddItemPopover.jsx";
 import { useGetLists } from "../hooks/lists/useGetLists.js";
-import { useGetListItems } from "../hooks/lists/useGetListItems.js";
-import RibbonModal from "../components/popover/RibbonModal.jsx";
+import FadeIn from "../ui/FadeIn.jsx";
+import ListCard from "../components/lists/ListCard.jsx";
 
 const adultKeywords =
   /adult|xxx|porn|erotic|av|idol|gravure|softcore|hardcore|nude|playboy|lingerie/i;
@@ -97,87 +97,128 @@ function Homepage() {
 
   const { data: userLists } = useGetLists();
   const watchlist = userLists?.find((list) => list.listName === "Watchlist");
-  const { data: watchlistItems } = useGetListItems(watchlist?.listID);
+
+  const { data: lists, isPending } = useGetLists(true);
 
   return (
     <>
       <HomePoster movies={popularMovies} />
       <ScrollToTopButton />
       <AddItemPopover />
-      <RibbonModal />
 
       <div className="flex flex-col gap-8 lg:gap-12">
-        <GreetingText />
+        <FadeIn duration={20}>
+          <GreetingText />
+        </FadeIn>
 
-        <Section mount={true}>
-          <News />
-        </Section>
+        <FadeIn duration={30}>
+          <Section>
+            <News />
+          </Section>
+        </FadeIn>
 
-        <Section mount={true} title="Trending Movies">
-          <PosterList
-            movies={popularMovies}
-            isPending={isPopularMoviesPending}
-          />
-        </Section>
+        <FadeIn duration={40}>
+          <Section title="Trending Movies">
+            <PosterList
+              movies={popularMovies}
+              isPending={isPopularMoviesPending}
+            />
+          </Section>
+        </FadeIn>
 
-        <Section mount={true} title="Trending People">
-          <PeopleList
-            people={filteredPeople}
-            isPending={isPeoplePending}
-            perItem={3}
-            maxItem={6}
-            space={10}
-          />
-        </Section>
+        <FadeIn duration={50}>
+          <Section title="Trending People">
+            <PeopleList
+              people={filteredPeople}
+              isPending={isPeoplePending}
+              perItem={3}
+              maxItem={6}
+              space={10}
+            />
+          </Section>
+        </FadeIn>
 
-        <Section title="list&watch lets you...">
-          <GuideTable />
-        </Section>
+        <FadeIn duration={60}>
+          <Section title="list&watch lets you...">
+            <GuideTable />
+          </Section>
+        </FadeIn>
 
-        <Section title="Trending Shows">
-          <PosterList
-            movies={popularSeries}
-            isPending={isPopularSeriesPending}
-          />
-        </Section>
+        <FadeIn duration={70}>
+          <Section title="Trending Shows">
+            <PosterList
+              movies={popularSeries}
+              isPending={isPopularSeriesPending}
+            />
+          </Section>
+        </FadeIn>
 
-        <Section title="From your Watchlist">
-          {token ? (
-            watchlistItems?.length > 0 ? (
-              <PosterList
-                movies={watchlistItems?.slice(0, 20)}
-                watchlist={true}
-              />
+        <FadeIn duration={80}>
+          <Section title="From your Watchlist">
+            {token ? (
+              watchlist?.items?.length > 0 ? (
+                <PosterList
+                  movies={watchlist?.items?.slice(0, 20)}
+                  watchlist={true}
+                />
+              ) : (
+                <Watchlist logged={true} />
+              )
             ) : (
-              <Watchlist logged={true} />
-            )
-          ) : (
-            <Watchlist />
-          )}
-        </Section>
+              <Watchlist />
+            )}
+          </Section>
+        </FadeIn>
 
-        <Section title="On the Air">
-          <PosterList movies={onTheAir} isPending={isAiringPending} />
-        </Section>
-        <Section title="In theaters" className="flex flex-col gap-2 2xl:gap-4">
-          <InTheatersList movies={nowPlaying} isPending={isNowPlayingPending} />
-        </Section>
+        <FadeIn duration={85}>
+          <Section title="Most recent lists" linkID="/lists" mount={true}>
+            <ul className="grid gap-2 sm:grid-cols-2 2xl:grid-cols-4">
+              {lists?.slice(0, 4)?.map((list) => (
+                <ListCard key={list?.id} list={list} homepage={true} />
+              ))}
+            </ul>
+          </Section>
+        </FadeIn>
 
-        <Section>
-          <BudgetAndRevenue
-            ids={nowPlayingIDs}
-            isPending={isNowPlayingPending}
-          />
-        </Section>
+        <FadeIn duration={90}>
+          <Section title="On the Air">
+            <PosterList movies={onTheAir} isPending={isAiringPending} />
+          </Section>
+        </FadeIn>
 
-        <Section title="Fan Favourites">
-          <PosterList
-            movies={mergedTopContent}
-            isPending={isTopContentPending}
-          />
-        </Section>
+        <FadeIn duration={100}>
+          <Section
+            title="In theaters"
+            className="flex flex-col gap-2 2xl:gap-4"
+          >
+            <InTheatersList
+              movies={nowPlaying}
+              isPending={isNowPlayingPending}
+            />
+          </Section>
+        </FadeIn>
 
-        <LastVisited />
+        <FadeIn duration={110}>
+          <Section>
+            <BudgetAndRevenue
+              ids={nowPlayingIDs}
+              isPending={isNowPlayingPending}
+            />
+          </Section>
+        </FadeIn>
+
+        <FadeIn duration={120}>
+          <Section title="Fan Favourites">
+            <PosterList
+              movies={mergedTopContent}
+              isPending={isTopContentPending}
+            />
+          </Section>
+        </FadeIn>
+
+        <FadeIn duration={130}>
+          <LastVisited />
+        </FadeIn>
       </div>
     </>
   );

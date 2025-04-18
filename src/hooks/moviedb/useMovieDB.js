@@ -13,6 +13,7 @@ export function useMovieDB(type, id, endpoint, options = {}) {
             if (endpoint === "release_dates") return !!type;
             return true;
           })(),
+    retry: false,
     staleTime: 60 * 1000 * 5,
     ...options,
   });

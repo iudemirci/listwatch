@@ -9,6 +9,7 @@ import ScrollToTopButton from "../ui/ScrollToTopButton";
 import { fetchMovies } from "../services/apiMoviedb";
 import { useFilters } from "../hooks/useFilters";
 import useDocumentTitle from "../hooks/useDocumentTitle";
+import AddItemPopover from "../components/popover/AddItemPopover";
 
 function Discover() {
   useDocumentTitle("Discover | list&watch", false);
@@ -52,14 +53,14 @@ function Discover() {
 
   return (
     <section className="pt-6">
-      {
-        <SortingBar
-          type={type}
-          setFilter={setFilter}
-          selectedDisplay={selectedDisplay}
-          setSelectedDisplay={setSelectedDisplay}
-        />
-      }
+      <AddItemPopover />
+      <SortingBar
+        type={type}
+        setFilter={setFilter}
+        selectedDisplay={selectedDisplay}
+        setSelectedDisplay={setSelectedDisplay}
+      />
+
       <DiscoverList
         movies={movies}
         isPending={isPending}

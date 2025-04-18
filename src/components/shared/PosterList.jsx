@@ -44,26 +44,23 @@ function PosterList({
                   : "tv");
               return (
                 <SwiperSlide key={index} virtualIndex={index}>
-                  <li className="relative flex size-full flex-col rounded-lg">
+                  <li className="bg-grey-secondary/50 relative flex size-full flex-col overflow-hidden rounded-lg">
                     <LinkToId item={movie} type={finalType}>
-                      <Poster
-                        path={movie?.poster_path}
-                        iconSize={2}
-                        className="!rounded-b-none"
-                      />
+                      <Poster path={movie?.poster_path} iconSize={2} />
                       {movie?.type !== "person" && !watchlist && (
                         <PosterRibbon size="small" poster={true} item={movie} />
                       )}
-                      <div className="bg-grey-secondary/50 relative flex flex-col gap-1 rounded-b-lg px-1.5 py-2">
+                      <div className="relative flex flex-col gap-1 rounded-b-lg px-1.5 py-2">
                         {!lastVisited &&
-                          (movie?.vote_average ? (
+                          (movie?.userRating || movie?.vote_average ? (
                             <span className="text-grey-primary-light flex text-xs">
                               <Icon
                                 path={mdiStar}
                                 size={0.6}
                                 className="text-primary"
                               />
-                              {movie?.vote_average?.toFixed(1)}
+                              {movie?.userRating ||
+                                movie?.vote_average?.toFixed(0) / 2}
                             </span>
                           ) : (
                             <Icon

@@ -41,14 +41,6 @@ export async function signup(info) {
   });
   if (error) throw new Error(error.message);
 
-  const { error: profileError } = await supabase.from("users").insert([
-    {
-      userID: user.user.id,
-      username: info.username,
-    },
-  ]);
-  if (profileError) throw new Error(profileError.message);
-
   if (user) {
     const { error: insertWatchlistError } = await supabase
       .from("lists")
@@ -57,7 +49,6 @@ export async function signup(info) {
           userID: user.user.id,
           listName: "Watchlist",
           username: info.username,
-          source: "user",
         },
       ]);
 

@@ -3,6 +3,7 @@ import { lazy } from "react";
 import ScrollToTop from "../components/ScrollToTop.jsx";
 import Signup from "../pages/Signup.jsx";
 import ListDetails from "../components/lists/ListDetails.jsx";
+import ListDetailsApp from "../components/lists/ListDetailsApp.jsx";
 
 const AppLayout = lazy(() => import("./../ui/AppLayout.jsx"));
 const Homepage = lazy(() => import("./../pages/Homepage"));
@@ -37,6 +38,7 @@ function Router() {
           <Route path="/person/:id/:name" element={<PersonDetailsPage />} />
           <Route path="lists" element={<Lists />} />
           <Route path="lists/:id" element={<ListDetails />} />
+          <Route path="lists/app/:id" element={<ListDetailsApp />} />
         </Route>
         <Route path="login" element={<Login />} />
         <Route path="signup" element={<Signup />} />

@@ -20,6 +20,7 @@ import NewsSlide from "./NewsSlide";
 
 import { useMovieDB } from "../../hooks/moviedb/useMovieDB";
 import { mergeRandomAndShuffle } from "../../utilities/mergeRandomAndShuffle";
+import Poster from "../Poster";
 
 const BASE_URL = import.meta.env.VITE_BASE_IMAGE_URL;
 
@@ -127,11 +128,7 @@ function News() {
                     className="group hover:bg-grey-secondary/50 !flex cursor-pointer overflow-hidden rounded-lg"
                   >
                     <div className="w-20 overflow-hidden rounded-lg">
-                      <img
-                        src={`${BASE_URL}/w300${movie?.poster_path}`}
-                        className="object-fit"
-                        loading="lazy"
-                      />
+                      <Poster path={movie?.poster_path} type="small"></Poster>
                     </div>
                     <div className="flex flex-1 flex-col justify-end gap-1 p-2">
                       <Title

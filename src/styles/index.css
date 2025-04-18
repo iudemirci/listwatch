@@ -23,6 +23,16 @@
     outline-color: var(--color-primary);
   }
 }
+.my-masonry-grid {
+  display: flex;
+  margin-left: -10px;
+  width: auto;
+}
+
+.my-masonry-grid_column {
+  padding-left: 10px;
+  background-clip: padding-box;
+}
 
 :root {
   text-rendering: optimizeLegibility;
@@ -77,7 +87,7 @@
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #2b2b2b;
+  background: #2f2f2f;
   border-radius: 10px;
 
   transition-duration: 300ms;

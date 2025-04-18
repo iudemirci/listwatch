@@ -35,13 +35,13 @@ function MovieDetailCard({ movie }) {
 
   return (
     <>
-      <LinkToId type={"movie"} item={movie} className="relative">
-        <div className="bg-grey-secondary/70 hover:bg-grey-secondary h-full cursor-pointer rounded-xl duration-300">
+      <div className="bg-grey-secondary/70 hover:bg-grey-secondary relative h-full cursor-pointer rounded-xl duration-300">
+        <PosterRibbon size="big" poster={true} item={movie} />
+        <LinkToId type={"movie"} item={movie}>
           <div
             className="group/slide relative h-40 w-full overflow-hidden rounded-lg sm:h-50 md:h-35 lg:h-40 2xl:h-45"
             onClick={(e) => {
               e.preventDefault();
-              e.stopPropagation();
               setIsOpen(true);
             }}
             onMouseEnter={() => setShouldFetch(true)}
@@ -58,7 +58,6 @@ function MovieDetailCard({ movie }) {
                 backgroundImage: `linear-gradient(to bottom, rgba(0,0,0,0) 0%, rgba(0,0,0,0) 60%, rgba(0,0,0,1) 100%)`,
               }}
             />
-            <PosterRibbon size="big" poster={true} />
             <Icon
               path={mdiPlayCircleOutline}
               size={1.4}
@@ -94,8 +93,8 @@ function MovieDetailCard({ movie }) {
               className="text-grey-primary group-hover:text-primary absolute right-3 bottom-3 duration-300"
             />
           </div>
-        </div>
-      </LinkToId>
+        </LinkToId>
+      </div>
 
       <AnimatePresence>
         {isOpen && (

@@ -62,15 +62,14 @@ function SetFavourite({ item }) {
 
   return (
     <>
-      <Button
-        type="secondary"
-        className={`flex items-center gap-0.5 ${isExisting && "border-grey-primary/50 hover:border-grey-primary/50 text-grey-primary hover:text-grey-primary"}`}
+      <button
+        className={`hover:bg-primary bg-grey-secondary text-grey-primary-light hover:text-text-default pointer-events-auto flex cursor-pointer items-center gap-0.5 self-start rounded-lg px-1.5 py-1 text-xs duration-300 md:px-1.5 ${isExisting && "border-grey-primary/50 hover:border-grey-primary/50 text-grey-primary-light/60 bg-grey-secondary/60 hover:text-grey-primary"}`}
         onClick={() => handleInsert(item)}
         disabled={isSettingPending || isExisting}
       >
-        <Icon path={mdiStar} size={0.89} />
+        <Icon path={mdiStar} size={0.7} />
         {isExisting ? "Already favourite" : "Set favourite"}
-      </Button>
+      </button>
 
       {createPortal(
         <AnimatePresence>

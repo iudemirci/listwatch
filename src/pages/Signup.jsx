@@ -138,15 +138,17 @@ function Signup() {
                     </span>
                   </Checkbox>
 
-                  <label className="text-grey-primary-light text-xs">
-                    I'm at least 16 years old.
-                  </label>
+                  <div className="flex flex-col">
+                    <label className="text-grey-primary-light text-xs">
+                      I'm at least 16 years old.
+                    </label>
+                    {errors["check"] && (
+                      <span className="text-text-default text-xs">
+                        {errors["check"]?.message}
+                      </span>
+                    )}
+                  </div>
                 </div>
-                {errors["check"] && (
-                  <span className="text-text-default pl-2 text-xs">
-                    {errors["check"]?.message}
-                  </span>
-                )}
               </div>
             )}
           />

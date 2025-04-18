@@ -14,7 +14,7 @@ function AccountIcon({ path, className }) {
   ) : (
     <div
       className={twMerge(
-        `bg-grey-secondary flex aspect-square size-9 max-h-fit cursor-pointer items-center justify-center rounded-full`,
+        `bg-grey-secondary hover:outline-grey-primary flex aspect-square size-9 max-h-fit cursor-pointer items-center justify-center rounded-full outline outline-transparent duration-100`,
         className,
       )}
     >

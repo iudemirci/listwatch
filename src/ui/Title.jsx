@@ -10,7 +10,7 @@ function Title({ level, type, children, className, ...props }) {
     return (
       <h1
         className={cn(
-          `align-center flex text-2xl font-extrabold 2xl:text-2xl ${colors[type]}`,
+          `align-center flex text-2xl font-extrabold 2xl:text-2xl ${type ? colors[type] : ""}`,
           className,
         )}
         {...props}
@@ -23,7 +23,7 @@ function Title({ level, type, children, className, ...props }) {
     return (
       <h2
         className={cn(
-          `text-3xl leading-6 font-extrabold lg:text-4xl lg:leading-8 2xl:text-5xl 2xl:leading-10 ${colors[type]}`,
+          `text-3xl leading-6 font-extrabold lg:text-4xl lg:leading-8 2xl:text-5xl 2xl:leading-10 ${type ? colors[type] : ""}`,
           className,
         )}
         {...props}
@@ -35,7 +35,7 @@ function Title({ level, type, children, className, ...props }) {
     return (
       <h3
         className={cn(
-          `text-base font-semibold tracking-wide uppercase lg:text-lg ${colors[type]}`,
+          `text-base font-semibold tracking-wide uppercase lg:text-lg ${type ? colors[type] : ""}`,
           className,
         )}
         {...props}
@@ -49,7 +49,7 @@ function Title({ level, type, children, className, ...props }) {
     return (
       <h4
         className={cn(
-          `align-center flex leading-4.5 font-semibold md:text-base lg:text-xl 2xl:pr-2 2xl:text-xl ${colors[type]}`,
+          `align-center flex leading-4.5 font-semibold md:text-base lg:text-xl 2xl:pr-2 2xl:text-xl ${type ? colors[type] : ""}`,
           className,
         )}
         {...props}
@@ -62,7 +62,7 @@ function Title({ level, type, children, className, ...props }) {
     return (
       <h5
         className={cn(
-          `text-grey-primary-light text-sm font-medium tracking-wider uppercase lg:text-base ${colors[type]}`,
+          `text-grey-primary-light text-sm font-medium tracking-wider uppercase lg:text-base ${type ? colors[type] : ""}`,
           className,
         )}
         {...props}
@@ -74,7 +74,7 @@ function Title({ level, type, children, className, ...props }) {
     return (
       <h6
         className={cn(
-          `text-sm font-medium lg:text-base ${colors[type]}`,
+          `text-sm font-medium lg:text-base ${type ? colors[type] : ""}`,
           className,
         )}
         {...props}
@@ -86,7 +86,7 @@ function Title({ level, type, children, className, ...props }) {
     return (
       <h6
         className={cn(
-          `text-[11px] font-bold tracking-widest uppercase lg:text-xs ${colors[type]}`,
+          `text-[11px] font-bold tracking-widest uppercase lg:text-xs ${type ? colors[type] : ""}`,
           className,
         )}
         {...props}

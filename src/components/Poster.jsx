@@ -13,9 +13,16 @@ import { cn } from "../utilities/cn";
 
 const BASE_URL = import.meta.env.VITE_BASE_IMAGE_URL;
 
+const types = {
+  small: "/w185",
+  normal: "/w342",
+  big: "/w780",
+};
+
 function Poster({
   path,
   preview = false,
+  type = "normal",
   title,
   year,
   iconSize = 1,
@@ -55,15 +62,15 @@ function Poster({
       onClick={() => setOpen(true)}
     >
       {!isLoaded && <Skeleton className={"aspect-2/3"} />}
-
       <img
-        src={`${BASE_URL}${preview ? "/w780" : "/w342"}${path}`}
+        src={`${BASE_URL}${types[type]}${path}`}
         className={`pointer-events-none size-full object-cover transition-opacity duration-500 ${isLoaded ? "opacity-100" : "opacity-0"}`}
         alt={`Movie Poster`}
         {...props}
         loading="lazy"
         onLoad={() => setIsLoaded(true)}
       />
+      <div className="absolute inset-x-0 top-0 box-border h-full overflow-hidden rounded-lg text-[110%] whitespace-nowrap shadow-[inset_0_0_0_1px_rgba(221,238,255,0.1)] transition-[box-shadow] duration-100 ease-in" />
       {preview && (
         <>
           <ImageHoverMask />

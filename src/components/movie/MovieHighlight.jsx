@@ -2,6 +2,7 @@ import LinkToId from "../../ui/LinkToId";
 import Paragraph from "../../ui/Paragraph";
 import { getYear } from "../../utilities/getYear";
 import TrailerPopover from "../popover/TrailerPopover";
+import SetFavourite from "../SetFavourite";
 
 function MovieHighlight({ movie, director }) {
   return (
@@ -37,10 +38,13 @@ function MovieHighlight({ movie, director }) {
           </Paragraph>
         </div>
       </div>
-      <TrailerPopover
-        id={movie?.id}
-        type={movie?.release_date ? "movie" : "tv"}
-      />
+      <div className="flex gap-2">
+        <TrailerPopover
+          id={movie?.id}
+          type={movie?.release_date ? "movie" : "tv"}
+        />
+        <SetFavourite item={movie || []} />
+      </div>
     </>
   );
 }

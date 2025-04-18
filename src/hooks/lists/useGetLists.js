@@ -1,15 +1,14 @@
 import { useQuery } from "@tanstack/react-query";
 import { getLists } from "../../services/apiList";
 
-export function useGetLists() {
+export function useGetLists(global = false) {
   const token = localStorage.getItem("token");
   const isLoggedIn = Boolean(token);
 
   const { isPending, data, isFetched } = useQuery({
-    queryKey: ["user", "lists"],
-    queryFn: getLists,
-    enabled: !!isLoggedIn,
-    placeholderData: [],
+    queryKey: ["user", "lists", global ? "global" : "personal"],
+    queryFn: () => getLists(global),
+    enabled: global ? true : !!isLoggedIn,
     staleTime: 10 * 60 * 1000,
   });
 

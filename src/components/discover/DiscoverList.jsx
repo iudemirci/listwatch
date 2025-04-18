@@ -5,6 +5,7 @@ import { getYear } from "../../utilities/getYear";
 import dayjs from "dayjs";
 import Paragraph from "../../ui/Paragraph";
 import Title from "../../ui/Title";
+import PosterRibbon from "../PosterRibbon";
 
 function DiscoverList({
   movies,
@@ -31,7 +32,7 @@ function DiscoverList({
                 return (
                   <li
                     key={i}
-                    className="hover:outline-primary rounded-lg outline-2 outline-transparent duration-300 hover:outline-2"
+                    className="hover:outline-primary relative overflow-hidden rounded-lg outline-2 outline-transparent duration-300 hover:outline-2"
                   >
                     <LinkToId
                       item={movie}
@@ -40,12 +41,14 @@ function DiscoverList({
                     >
                       <Poster
                         path={movie?.poster_path}
+                        type="small"
                         className="aspect-2/3"
                         title={movie?.title || movie?.name}
                         year={getYear(
                           movie?.release_date || movie?.first_air_date,
                         )}
                       />
+                      <PosterRibbon poster={true} size="small" item={movie} />
                     </LinkToId>
                   </li>
                 );
@@ -53,7 +56,7 @@ function DiscoverList({
                 return (
                   <li
                     key={movie?.id}
-                    className="hover:bg-grey-secondary px-1 py-2 duration-100"
+                    className="hover:bg-grey-secondary relative px-1 py-2 duration-100"
                   >
                     <LinkToId
                       item={movie}
@@ -64,8 +67,14 @@ function DiscoverList({
                       }
                     >
                       <div className="flex gap-2">
-                        <div className="w-10">
-                          <Poster path={movie?.poster_path} />
+                        <div className="max-w-10 min-w-10">
+                          <Poster path={movie?.poster_path} type="small" />
+                          <PosterRibbon
+                            poster={true}
+                            size="small"
+                            item={movie}
+                            className="right-0 left-full -translate-x-full"
+                          />
                         </div>
                         <div className="line-clamp-1 flex flex-col gap-0.5 2xl:pl-1">
                           <Title level={4}>{movie?.title || movie?.name}</Title>

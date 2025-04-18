@@ -3,7 +3,7 @@ import { twMerge } from "tailwind-merge";
 function InputField({ label, error, isPending, className, ...props }) {
   return (
     <label className={`text-grey-primary-light flex flex-col gap-1 text-xs`}>
-      <div className="flex justify-between">
+      <div className="flex flex-col justify-between">
         {label} <span className="text-text-default">{error}</span>
       </div>
       <input
