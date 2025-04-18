@@ -14,7 +14,9 @@ export function useMovieDB(type, id, endpoint, options = {}) {
             return true;
           })(),
     retry: false,
+    refetchOnWindowFocus: false,
     staleTime: 60 * 1000 * 5,
+    cacheTime: 1000 * 60 * 10,
     ...options,
   });
 }

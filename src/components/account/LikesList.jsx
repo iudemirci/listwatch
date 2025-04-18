@@ -36,7 +36,7 @@ function LikesList({ likes, isLikesPending }) {
     </div>
   ) : (
     <ul
-      className={`divide-grey-primary/50 line border-grey-primary/50 divide-y-1 ${showAll && "border-b-1"}`}
+      className={`divide-grey-primary/50 border-grey-primary/50 divide-y-1 pt-2 ${showAll && "border-b-1"}`}
     >
       {likes?.slice(0, !showAll ? MAX_ITEMS : likes?.length)?.map((like) => (
         <li

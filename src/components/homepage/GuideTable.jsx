@@ -17,7 +17,7 @@ function GuideTable() {
     },
     {
       icon: <Icon path={mdiStar} size={1.2} />,
-      text: "Like your favorite titles, and set favourite items up to 4 to display in your profile",
+      text: "Like your favorite titles, set items up to 4,and display in your profile",
     },
     {
       icon: <Icon path={mdiShare} size={1.2} />,
@@ -42,7 +42,7 @@ function GuideTable() {
       {content.map((item, i) => {
         return (
           <div
-            className="bg-grey-secondary/75 hover:bg-grey-secondary flex items-center gap-2 rounded-2xl p-4 duration-300 lg:gap-2 lg:p-5"
+            className="bg-grey-secondary/75 hover:bg-grey-secondary flex items-center gap-2 rounded-2xl p-4 duration-300 lg:gap-2 2xl:p-5"
             key={i}
           >
             <Paragraph>

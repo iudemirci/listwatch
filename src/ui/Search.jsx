@@ -81,7 +81,7 @@ function Search() {
           autoCorrect="off"
           spellCheck="false"
           value={inputValue}
-          className="bg-text-default text-grey-secondary h-6.5 w-40 rounded-2xl pr-8 pl-3 text-xs opacity-30 transition-opacity duration-300 group-hover/header:opacity-100 focus:opacity-100 2xl:h-7 2xl:w-50"
+          className="bg-text-default/25 text-grey-secondary focus:bg-text-default group-hover/header:bg-text-default h-6.5 w-40 rounded-2xl pr-8 pl-3 text-xs transition duration-300 2xl:h-7 2xl:w-50"
           onChange={handleSearchInputChange}
           onFocus={handleFocus}
         />

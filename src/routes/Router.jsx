@@ -2,8 +2,11 @@ import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import { lazy } from "react";
 import ScrollToTop from "../components/ScrollToTop.jsx";
 import Signup from "../pages/Signup.jsx";
+
 import ListDetails from "../components/lists/ListDetails.jsx";
 import ListDetailsApp from "../components/lists/ListDetailsApp.jsx";
+import TopLoadingBar from "../ui/TopLoadingBar.jsx";
+import NoMatch from "../pages/NoMatch.jsx";
 
 const AppLayout = lazy(() => import("./../ui/AppLayout.jsx"));
 const Homepage = lazy(() => import("./../pages/Homepage"));
@@ -17,13 +20,14 @@ const ContentDetailsPage = lazy(
 const PersonDetailsPage = lazy(
   () => import("./../pages/PersonDetailsPage.jsx"),
 );
-const TvDetailsPage = lazy(() => import("./../pages/TvDetailsPage.jsx"));
 const ProtectedRoute = lazy(() => import("./ProtectedRoute.jsx"));
 
 function Router() {
   return (
     <BrowserRouter>
       <ScrollToTop />
+      <TopLoadingBar />
+
       <Routes>
         <Route element={<AppLayout />}>
           <Route element={<ProtectedRoute />}>
@@ -42,6 +46,8 @@ function Router() {
         </Route>
         <Route path="login" element={<Login />} />
         <Route path="signup" element={<Signup />} />
+
+        <Route path="*" element={<NoMatch />} />
       </Routes>
     </BrowserRouter>
   );

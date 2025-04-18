@@ -112,8 +112,11 @@ function CustomSwiper({
             slidesPerView: perItem + 1,
           },
           768: {
-            slidesPerView: perItem + 2,
+            slidesPerView: perItem + 1,
             slidesPerGroup: perItem + 1,
+          },
+          1024: {
+            slidesPerView: perItem + 2,
           },
           1440: {
             slidesPerView: maxItem,

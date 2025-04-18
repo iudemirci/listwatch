@@ -23,7 +23,7 @@ function Title({ level, type, children, className, ...props }) {
     return (
       <h2
         className={cn(
-          `text-3xl leading-6 font-extrabold lg:text-4xl lg:leading-8 2xl:text-5xl 2xl:leading-10 ${type ? colors[type] : ""}`,
+          `text-3xl leading-6 font-extrabold tracking-tight lg:text-4xl lg:leading-8 2xl:text-5xl 2xl:leading-10 ${type ? colors[type] : ""}`,
           className,
         )}
         {...props}
@@ -49,7 +49,7 @@ function Title({ level, type, children, className, ...props }) {
     return (
       <h4
         className={cn(
-          `align-center flex leading-4.5 font-semibold md:text-base lg:text-xl 2xl:pr-2 2xl:text-xl ${type ? colors[type] : ""}`,
+          `align-center flex pb-0.5 leading-4.5 font-semibold md:text-base lg:text-xl 2xl:pr-2 2xl:text-xl ${type ? colors[type] : ""}`,
           className,
         )}
         {...props}

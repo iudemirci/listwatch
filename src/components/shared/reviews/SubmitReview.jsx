@@ -10,13 +10,14 @@ import { useInsertReviews } from "../../../hooks/reviews/useInsertReviews";
 import Spinner from "../../../ui/Spinner";
 import { useQueryClient } from "@tanstack/react-query";
 import { useGetUser } from "../../../hooks/auth/useGetUser";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useUpdateReview } from "../../../hooks/reviews/useUpdateReview";
+import { resetSelectedReview } from "../../../store/userSlice";
 
 const reviewID = uuidv4();
 
 function SubmitReview({ token, isReviewed, edit, setEdit }) {
-  const { selectedReviewID } = useSelector((state) => state.user);
+  const selectedReviewID = useSelector((state) => state.user.selectedReviewID);
   const [text, setText] = useState("");
   const [rating, setRating] = useState(0);
   const queryClient = useQueryClient();
@@ -25,8 +26,8 @@ function SubmitReview({ token, isReviewed, edit, setEdit }) {
   const { mutate: insertReview, isPending } = useInsertReviews();
   const { mutate: updateReview } = useUpdateReview();
   const { user } = useGetUser() || [];
+  const dispatch = useDispatch();
   const username = user?.user_metadata?.username || "";
-
   if (!token || (!isReviewed && !edit)) {
     return null;
   }
@@ -38,7 +39,6 @@ function SubmitReview({ token, isReviewed, edit, setEdit }) {
     const newReview = {
       movieID: id,
       createdAt: new Date().toISOString(),
-      reviewID: selectedReviewID || reviewID,
       username: username,
       rating: rating,
       review: info.review,
@@ -47,17 +47,21 @@ function SubmitReview({ token, isReviewed, edit, setEdit }) {
     };
 
     if (edit) {
-      return updateReview(newReview, {
-        onSuccess: () => {
-          setEdit(false);
-          queryClient.invalidateQueries(["reviews"]);
-          toast.dismiss();
-          toast.success("Review update!");
-          reset();
-          setRating(0);
-          setText("");
+      return updateReview(
+        { newReview, reviewID: selectedReviewID },
+        {
+          onSuccess: () => {
+            setEdit(false);
+            queryClient.invalidateQueries(["reviews"]);
+            toast.dismiss();
+            toast.success("Review update!");
+            reset();
+            setRating(0);
+            setText("");
+            dispatch(resetSelectedReview());
+          },
         },
-      });
+      );
     }
     return insertReview(newReview, {
       onSuccess: () => {

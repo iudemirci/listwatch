@@ -11,9 +11,10 @@ import SubmitReview from "./SubmitReview";
 import ReviewVotes from "./ReviewVotes";
 import ReviewsOptions from "./ReviewsOptions";
 import { useGetUser } from "../../../hooks/auth/useGetUser";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { openSignupPopup } from "../../../store/popupSlice";
+import { useLocation } from "react-router-dom";
 
 const sortReviews = (reviews, currentUserID) => {
   return reviews.sort((a, b) =>
@@ -33,6 +34,11 @@ function Reviews({ reviews, isPending }) {
       return new Date(b.createdAt) - new Date(a.createdAt);
     }) || [];
   sortReviews(dateSortedReviews, user?.id);
+  const location = useLocation();
+
+  useEffect(() => {
+    setEdit(false);
+  }, [location.pathname]);
 
   return (
     <>

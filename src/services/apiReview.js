@@ -20,11 +20,11 @@ export async function deleteReview(reviewID, userID) {
   }
   return;
 }
-export async function updateReview(info) {
+export async function updateReview(info, reviewID) {
   const { error } = await supabase
     .from("reviews")
     .update(info)
-    .eq("reviewID", info.reviewID);
+    .eq("reviewID", reviewID);
   if (error) {
     console.error("Error deleting review:", error);
   }

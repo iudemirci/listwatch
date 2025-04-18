@@ -9,7 +9,6 @@ import Videos from "../components/shared/Videos";
 import ImageGrid from "../components/shared/ImageGrid";
 import Title from "../ui/Title";
 import PeopleList from "../components/person/PeopleList";
-import SetFavourite from "../components/SetFavourite";
 import Rating from "../components/shared/Rating";
 import Paragraph from "../ui/Paragraph";
 import Skeleton from "../ui/Skeleton";
@@ -22,6 +21,9 @@ import EpisodeInfo from "../components/series/EpisodeInfo";
 import PosterRibbon from "../components/PosterRibbon";
 import WhereToWatch from "../components/shared/WhereToWatch";
 import ScrollToTopButton from "../ui/ScrollToTopButton";
+import NoMatch from "./NoMatch";
+import PosterLike from "../components/PosterLike";
+import AddItemPopover from "../components/popover/AddItemPopover";
 
 import useDocumentTitle from "../hooks/useDocumentTitle";
 import { getYear } from "../utilities/getYear";
@@ -30,9 +32,7 @@ import { useInsertReviews } from "../hooks/reviews/useInsertReviews";
 import { useReadReviews } from "../hooks/reviews/useReadReviews";
 import LastVisited from "../components/shared/LastVisited";
 import { addLastVisited } from "../store/lastVisitedSlice";
-import PosterLike from "../components/PosterLike";
-import AddItemPopover from "../components/popover/AddItemPopover";
-import { createPortal } from "react-dom";
+import TopLoadingBar from "../ui/TopLoadingBar";
 
 function ContentDetailsPage() {
   const location = useLocation();
@@ -99,16 +99,23 @@ function ContentDetailsPage() {
     "collection",
   );
 
-  const { data: userListsMovieDB } = useMovieDB(type, id, "lists");
-  const { data: reviewsMovieDB } = useMovieDB(type, id, "reviews");
+  const { data: userListsMovieDB, isPending: isListsPending } = useMovieDB(
+    type,
+    id,
+    "lists",
+  );
+  const { data: reviewsMovieDB, isPending: isReviewsPending } = useMovieDB(
+    type,
+    id,
+    "reviews",
+  );
 
-  const { data: reviews, isPending: isReviewsPending } = useReadReviews(id);
+  const { data: reviews, isPending: isReadPending } = useReadReviews(id);
   // sending reviews to supabase
   const { mutate: insertReviews } = useInsertReviews();
   useEffect(() => {
     if (reviewsMovieDB && reviewsMovieDB.length > 0) {
-      const formattedReview = reviewsMovieDB.map((review) => ({
-        reviewID: review.id,
+      const formattedReview = reviewsMovieDB?.slice(0, 10).map((review) => ({
         movieID: id,
         userID: null,
         username: review.author_details.username,
@@ -124,18 +131,23 @@ function ContentDetailsPage() {
     }
   }, [id, reviewsMovieDB, insertReviews, queryClient]);
 
-  if (isMovieError)
-    return createPortal(
-      <div className="absolute top-1/2 left-1/2 -translate-1/2">
-        Content not found :(
-      </div>,
-      document.body,
-    );
+  if (isMovieError) return <NoMatch type="app" />;
 
   return (
     <>
       <ScrollToTopButton threshold={2000} />
       <AddItemPopover />
+      <TopLoadingBar
+        isLoading={
+          isCreditsPending ||
+          isMoviePending ||
+          isReviewsPending ||
+          isSimilarPending ||
+          isVideoPending ||
+          isListsPending ||
+          isReadPending
+        }
+      />
       <div className="mt-[23rem] flex flex-col items-start gap-x-3 gap-y-6 pt-4 md:gap-x-4 md:gap-y-8 md:pt-8 lg:gap-x-6 lg:gap-y-10 2xl:gap-y-12">
         <HomePoster path={movie?.backdrop_path} className="pt-[40rem]" />
         <div className="2xl-grid-cols-4 grid w-full grid-cols-3 gap-x-3 sm:grid-cols-4 md:grid-cols-3 md:gap-x-4 lg:gap-x-8">
@@ -148,7 +160,7 @@ function ContentDetailsPage() {
                   path={movie.poster_path}
                   preview={true}
                   iconSize={2}
-                  type="big"
+                  type="normal"
                   className="outline-grey-secondary/75 shadow-grey-secondary/50 shadow-md outline-1"
                 />
                 <PosterRibbon size="big" poster={true} item={movie} />

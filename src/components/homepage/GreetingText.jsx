@@ -21,7 +21,7 @@ export default function GreetingText() {
           Sign up. For Free!
         </Button>
       ) : (
-        <Button>
+        <Button size="big_wide">
           <Link to="/discover">Discover now!</Link>
         </Button>
       )}

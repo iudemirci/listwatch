@@ -18,6 +18,7 @@ import useDocumentTitle from "../hooks/useDocumentTitle";
 import { useMovieDB } from "../hooks/moviedb/useMovieDB";
 import ReadMoreLess from "../utilities/ReadMore";
 import { addLastVisited } from "../store/lastVisitedSlice";
+import TopLoadingBar from "../ui/TopLoadingBar";
 
 function PersonDetailsPage() {
   const { id } = useParams("id");
@@ -51,9 +52,12 @@ function PersonDetailsPage() {
     }
   }, [dispatch, type, person]);
 
+  const isPendingAll = isCreditsPending || isPersonPending;
+
   return (
     <div className="flex flex-col items-start gap-x-3 gap-y-6 pt-4 md:gap-x-4 md:gap-y-8 md:pt-8 lg:gap-x-6 lg:gap-y-10 2xl:gap-y-12">
       <ScrollToTopButton />
+      <TopLoadingBar isLoading={isPendingAll} />
 
       <section className="2xl-grid-cols-4 grid w-full grid-cols-3 gap-x-3 sm:grid-cols-4 md:grid-cols-3 md:gap-x-4 lg:gap-x-8">
         {isPersonPending ? (

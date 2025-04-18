@@ -14,8 +14,8 @@ function CastTab({ credits, expanded, setExpanded }) {
         <Paragraph type="tertiary">No cast information found</Paragraph>
       ) : (
         <>
-          {visibleNames?.map((credit) => (
-            <DetailedInfoButton key={credit.id}>
+          {visibleNames?.map((credit, idx) => (
+            <DetailedInfoButton key={idx}>
               <LinkToId type="person" item={credit}>
                 {credit.name}
               </LinkToId>

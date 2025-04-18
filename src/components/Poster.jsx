@@ -31,7 +31,6 @@ function Poster({
 }) {
   const [isLoaded, setIsLoaded] = useState(false);
   const [open, setOpen] = useState(false);
-
   if (!path)
     return (
       <div
@@ -63,14 +62,20 @@ function Poster({
     >
       {!isLoaded && <Skeleton className={"aspect-2/3"} />}
       <img
+        rel="preload"
         src={`${BASE_URL}${types[type]}${path}`}
         className={`pointer-events-none size-full object-cover transition-opacity duration-500 ${isLoaded ? "opacity-100" : "opacity-0"}`}
         alt={`Movie Poster`}
         {...props}
         loading="lazy"
         onLoad={() => setIsLoaded(true)}
+        onError={(e) => {
+          e.currentTarget.onerror = null;
+          e.currentTarget.src =
+            "https://placehold.co/342x513/27272a/9f9fa9?text=Poster&font=open-sans";
+        }}
       />
-      <div className="absolute inset-x-0 top-0 box-border h-full overflow-hidden rounded-lg text-[110%] whitespace-nowrap shadow-[inset_0_0_0_1px_rgba(221,238,255,0.1)] transition-[box-shadow] duration-100 ease-in" />
+      <div className="absolute inset-x-0 top-0 box-border h-full overflow-hidden rounded-lg text-[110%] whitespace-nowrap shadow-[inset_0_0_0_2px_rgba(221,238,255,0.1)] transition-[box-shadow] duration-100 ease-in" />
       {preview && (
         <>
           <ImageHoverMask />

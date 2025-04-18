@@ -37,7 +37,7 @@ function ListCard({ list, homepage = false }) {
                   key={index}
                   src={`https://image.tmdb.org/t/p/w185${item}`}
                   alt={item.title}
-                  className="border-grey-secondary aspect-[2/3] min-w-0 flex-1 rounded-md border-2 object-cover"
+                  className="border-grey-secondary/50 aspect-[2/3] min-w-0 flex-1 rounded-md border-2 object-cover"
                   style={{
                     marginLeft: index === 0 ? "0" : "-25%",
                     zIndex: items?.length - index,

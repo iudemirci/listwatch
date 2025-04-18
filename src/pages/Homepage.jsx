@@ -20,6 +20,7 @@ import AddItemPopover from "../components/popover/AddItemPopover.jsx";
 import { useGetLists } from "../hooks/lists/useGetLists.js";
 import FadeIn from "../ui/FadeIn.jsx";
 import ListCard from "../components/lists/ListCard.jsx";
+import TopLoadingBar from "../ui/TopLoadingBar.jsx";
 
 const adultKeywords =
   /adult|xxx|porn|erotic|av|idol|gravure|softcore|hardcore|nude|playboy|lingerie/i;
@@ -95,16 +96,27 @@ function Homepage() {
     return nowPlaying?.slice(0, 6)?.map((movie) => movie.id) || [];
   }, [nowPlaying]);
 
-  const { data: userLists } = useGetLists();
+  const { data: userLists, isPending: isListsPending } = useGetLists();
   const watchlist = userLists?.find((list) => list.listName === "Watchlist");
 
   const { data: lists, isPending } = useGetLists(true);
+
+  const isPendingAll =
+    isPending ||
+    isListsPending ||
+    isNowPlayingPending ||
+    isAiringPending ||
+    isTopContentPending ||
+    isPeoplePending ||
+    isPopularMoviesPending ||
+    isPopularSeriesPending;
 
   return (
     <>
       <HomePoster movies={popularMovies} />
       <ScrollToTopButton />
       <AddItemPopover />
+      <TopLoadingBar isLoading={isPendingAll} />
 
       <div className="flex flex-col gap-8 lg:gap-12">
         <FadeIn duration={20}>

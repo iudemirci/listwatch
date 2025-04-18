@@ -67,7 +67,7 @@ function Account() {
         )}
       </Section>
 
-      <Section title="Likes" mount={true}>
+      <Section title="Likes" mount={true} className="divide-y-0">
         <LikesList likes={likes} isLikesPending={isLikesPending} />
       </Section>
 

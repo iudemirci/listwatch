@@ -79,10 +79,16 @@ function ImageGrid({ type }) {
                 <img
                   src={img.src}
                   className={`size-full object-cover duration-500`}
+                  loading="lazy"
                   onClick={() => {
                     setIndex(i);
                     setOpen(true);
                     setSearchParams({ img: i }, { replace: true });
+                  }}
+                  onError={(e) => {
+                    e.currentTarget.onerror = null;
+                    e.currentTarget.src =
+                      "https://placehold.co/600x400/27272a/9f9fa9?text=Backdrop&font=open-sans";
                   }}
                 />
                 <ImageHoverMask />
@@ -106,10 +112,16 @@ function ImageGrid({ type }) {
                 <img
                   src={img.src}
                   className={`size-full object-cover duration-500`}
+                  loading="lazy"
                   onClick={() => {
                     setIndex(i + 3);
                     setOpen(true);
                     setSearchParams({ img: i + 3 }, { replace: true });
+                  }}
+                  onError={(e) => {
+                    e.currentTarget.onerror = null;
+                    e.currentTarget.src =
+                      "https://placehold.co/600x400/27272a/9f9fa9?text=Backdrop&font=open-sans";
                   }}
                 />
                 <ImageHoverMask />
@@ -138,6 +150,12 @@ function ImageGrid({ type }) {
                 <img
                   src={backdropImages?.[5]?.src}
                   className={`size-full object-cover duration-500`}
+                  loading="lazy"
+                  onError={(e) => {
+                    e.currentTarget.onerror = null;
+                    e.currentTarget.src =
+                      "https://placehold.co/600x400/27272a/9f9fa9?text=Backdrop&font=open-sans";
+                  }}
                 />
               )
             )}

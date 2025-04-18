@@ -41,8 +41,8 @@ function PeopleList({
             <SwiperSlide key={index}>{skeleton}</SwiperSlide>
           ))}
         {!isPending &&
-          people?.slice(0, 20).map((person, i) => (
-            <SwiperSlide key={person.id}>
+          people?.slice(0, 20).map((person, idx) => (
+            <SwiperSlide key={idx}>
               <li>
                 <LinkToId type="person" item={person}>
                   <div className="bg-grey-secondary hover:border-primary flex aspect-square items-center justify-center overflow-hidden rounded-full border-2 border-transparent duration-300">
@@ -61,7 +61,7 @@ function PeopleList({
                   </div>
                   <div className="mt-1.5 items-center justify-center">
                     <div className="flex place-content-center gap-1">
-                      <Paragraph type="tertiary">{i + 1}</Paragraph>
+                      <Paragraph type="tertiary">{idx + 1}</Paragraph>
                       <Paragraph type="secondary">
                         ({person?.popularity})
                       </Paragraph>

@@ -3,17 +3,16 @@ import { useState } from "react";
 import { mdiStar } from "@mdi/js";
 import Icon from "@mdi/react";
 import toast from "react-hot-toast";
+import { AnimatePresence, motion } from "motion/react";
+import { createPortal } from "react-dom";
 
-import Button from "../ui/Button";
-
-import { useSetFavouriteItem } from "../hooks/user/useSetFavouriteItem";
-import { useGetFavouriteItems } from "../hooks/user/useGetFavouriteItems";
-import { Dialog, DialogPanel, DialogTitle } from "@headlessui/react";
 import Title from "../ui/Title";
 import Paragraph from "../ui/Paragraph";
 import Poster from "./Poster";
-import { createPortal } from "react-dom";
-import { AnimatePresence, motion } from "motion/react";
+import PopupBlur from "../ui/PopupBlur";
+
+import { useSetFavouriteItem } from "../hooks/user/useSetFavouriteItem";
+import { useGetFavouriteItems } from "../hooks/user/useGetFavouriteItems";
 
 function SetFavourite({ item }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -74,31 +73,23 @@ function SetFavourite({ item }) {
       {createPortal(
         <AnimatePresence>
           {isModalOpen && (
-            <Dialog
-              open={isModalOpen}
-              onClose={() => setIsModalOpen(false)}
-              className="relative z-50"
+            <PopupBlur
+              setIsOpen={() => {
+                setIsModalOpen(false);
+              }}
+              isOpen={isModalOpen}
             >
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                exit={{ opacity: 0 }}
-                className="fixed inset-0 bg-black/50"
-                aria-hidden="true"
-              />
               <div className="fixed inset-0 flex items-center justify-center p-4">
-                <DialogPanel
+                <motion.div
                   as={motion.div}
                   initial={{ opacity: 0, scale: 0.95 }}
                   animate={{ opacity: 1, scale: 1 }}
                   exit={{ opacity: 0, scale: 0.95 }}
                   className="bg-grey-secondary w-full max-w-md space-y-4 rounded-xl p-6"
                 >
-                  <DialogTitle>
-                    <Title as="h1" level={5} type="white">
-                      Replace a Favourite
-                    </Title>
-                  </DialogTitle>
+                  <Title as="h1" level={5} type="white">
+                    Replace a Favourite
+                  </Title>
                   <Paragraph type="secondary">
                     You already have 4 favourites. Choose one to replace:
                   </Paragraph>
@@ -128,9 +119,9 @@ function SetFavourite({ item }) {
                       Cancel
                     </button>
                   </div>
-                </DialogPanel>
+                </motion.div>
               </div>
-            </Dialog>
+            </PopupBlur>
           )}
         </AnimatePresence>,
         document.body,
