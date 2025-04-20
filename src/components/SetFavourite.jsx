@@ -13,10 +13,14 @@ import PopupBlur from "../ui/PopupBlur";
 
 import { useSetFavouriteItem } from "../hooks/user/useSetFavouriteItem";
 import { useGetFavouriteItems } from "../hooks/user/useGetFavouriteItems";
+import { useDispatch } from "react-redux";
+import { openSignupPopup } from "../store/popupSlice";
 
 function SetFavourite({ item }) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const queryClient = useQueryClient();
+  const token = localStorage.getItem("token");
+  const dispatch = useDispatch();
 
   const { favouriteItems, isPending: isGettingPending } =
     useGetFavouriteItems();
@@ -25,6 +29,10 @@ function SetFavourite({ item }) {
   const isExisting = favouriteItems?.find((fav) => fav.id === item.id);
 
   function handleInsert(item) {
+    if (!token) {
+      return dispatch(openSignupPopup());
+    }
+
     if (isExisting) {
       toast.dismiss();
       toast.error(

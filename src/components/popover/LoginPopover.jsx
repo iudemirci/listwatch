@@ -55,6 +55,7 @@ function LoginPopover() {
               type="email"
               className="w-43 px-1.5 py-1"
               isPending={isPending}
+              value="jack3@example.com"
             />
 
             <Input
@@ -66,6 +67,7 @@ function LoginPopover() {
               type="password"
               className="w-43 px-1.5 py-1"
               isPending={isPending}
+              value="test123"
             />
             <div className="flex flex-col gap-2">
               {isPending && <Spinner />}

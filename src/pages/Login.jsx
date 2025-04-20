@@ -55,6 +55,7 @@ function Login() {
               id="email"
               type="email"
               isPending={isPending}
+              value="jack3@example.com"
             />
             <InputField
               {...register("password", { required: "Password is required" })}
@@ -62,6 +63,7 @@ function Login() {
               id="password"
               type="password"
               isPending={isPending}
+              value="test123"
             />
           </div>
           <div className="flex justify-end gap-1.5 pt-4 pb-6">
